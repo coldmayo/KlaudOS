@@ -18,5 +18,4 @@ void abort(void);
 void changeColor(const uint8_t color);
 void klaud_ascii(void);
 void flowers(void);
-int pow(int one, int two);
 void haikuu(void);

@@ -69,8 +69,7 @@ end:
     for (;;);
 }
 
-// user input function. This could rank in my top 10 ugliest pieces of code to date. I'm
-// sure as hell not fixing it lmao
+// look at all these if statements. very disgusting 
 
 void user_input(char *input) {
     int len = strlen(input);
@@ -155,7 +154,7 @@ void user_input(char *input) {
                 printf("%d\n> ", calc(equ));
             }
         } else if (strcmp(input,"klaud fun-fact")==0) {
-            char factList[11][256] = {
+            char factList[12][256] = {
                 "Klaud was a mechanic that fought for the Resistance",
                 "Klaud belongs to a species called 'Trodatome'",
                 "Klaud is 6'2 (Klaud could ball???)",
@@ -170,6 +169,7 @@ void user_input(char *input) {
             };
             int arrMax = *(&factList + 1) - factList;
             int randNum = rand(32)%((arrMax+1)-0) + 0;
+            if (randNum == 12) {randNum = 11;}   // im not sure why this works but oh well
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             graph(slice_str(input,buffer,11,len),22);
