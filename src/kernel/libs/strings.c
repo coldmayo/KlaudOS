@@ -61,10 +61,26 @@ int convert(char s[])
     return num;
 }
 
-char * itoa (int val, int base) {
-	static char buf[32] = {0};
-    int i = 30;
-    for(; val && i ; --i, val /= base)
-        buf[i] = "0123456789abcdef"[val % base];
-    return &buf[i+1];
+char *itoa(int nbr, int base)
+{
+    static char rep[] = "0123456789";
+    static char buff[65];
+    char        *ptr;
+    int         neg;
+
+    ptr = &buff[64];
+    *ptr = '\0';
+    neg = nbr;
+    if (nbr < 0)
+        nbr *= -1;
+    if (nbr == 0)
+        *--ptr = rep[nbr % 10];
+    while (nbr != 0)
+    {
+        *--ptr = rep[nbr % 10];
+        nbr /= 10;
+    }
+    if (neg < 0)
+        *--ptr = '-';
+    return (ptr);
 }

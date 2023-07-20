@@ -350,7 +350,7 @@ void append(char s[], char n) {
     s[len+1] = '\0';
 }
 
-// random number from 1 to 10
+// random number
 
 int rand(uint32_t *state) {
     	// Precomputed parameters for Schrage's method
@@ -368,6 +368,10 @@ int rand(uint32_t *state) {
 	int32_t result = s - t;
     //int res = result%((nMax+1)-nMin) + nMin;
 	return *state = result;
+}
+
+int randint(int hi, int lo) {
+    return rand(32)%((hi+1)-lo) + lo;
 }
 
 char * slice_str(const char * str, char * buffer, int start, int end)

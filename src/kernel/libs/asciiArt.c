@@ -38,6 +38,8 @@ void help() {
         "Commands:\r\n"
         "klaud: Everything starts with Klaud.\r\n"
         "klaud ascii: prints ascii picture of Klaud.\r\n"
+        "klaud echo <phrase>: returns whatever you say back\r\n"
+        "klaud dice <bet value (int)>: gamble all your money away by playing dice with klaud\r\n"
         "klaud live-slug-reaction: ascii art of the 'live slug reaction' meme\r\n"
         "klaud shrine: Klaud shrine in ascii art for your Klaud worshiping needs\r\n"
         "klaud rizz: rizz up Klaud and see what he says\r\n"

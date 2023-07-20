@@ -69,13 +69,16 @@ end:
     for (;;);
 }
 
-// look at all these if statements. very disgusting 
+// user input function. This could rank in my top 10 ugliest pieces of code to date. I'm
+// sure as hell not fixing it lmao
 
 void user_input(char *input) {
     int len = strlen(input);
     char buffer[len + 1];
     static char rizz[6];
     static char dice[6];
+    static char umoney[6];
+    static char kmoney[6];
     if (strcmp(rizz,"True") == 0) {
         int score = rizzScore(input);
         printf("\n");
@@ -89,6 +92,29 @@ void user_input(char *input) {
         printf(" he said in his native language\n");
         memcpy(rizz,"False",strlen("False")+1);
         printf("> ");
+    } else if (strcmp(dice,"True") == 0) {
+        if (strcmp(input,"exit") != 0) {
+            int score = convert(umoney);
+            int bscore = convert(kmoney);
+            int mroll = randint(6,1) + randint(6,1);
+            int kroll = randint(6,1) + randint(6,1);
+            if (mroll >= kroll) {
+                score = score + convert(input);
+                bscore = bscore - convert(input);
+            } else {
+                score = score - convert(input);
+                bscore = bscore + convert(input);
+            }
+            memcpy(umoney,itoa(score,10),6);
+            memcpy(kmoney,itoa(bscore,10),6);
+            printf("your roll: %d, klaud roll: %d\n",mroll,kroll);
+            printf("your money: %s, klaud money: %s\n",umoney,kmoney);
+            printf("Type 'exit' to leave the game\nPlace bet>");
+        } else {
+            memcpy(dice,"False",strlen("False")+1);
+            clrscr();
+            printf("> ");
+        }
     } else if (strlen(input) <= 4) {
         printf("Every command starts with klaud, try again");
         printf("\n> ");
@@ -168,12 +194,23 @@ void user_input(char *input) {
                 "Chewbacca was the person who convinced Klaud to join the Resistance"
             };
             int arrMax = *(&factList + 1) - factList;
-            int randNum = rand(32)%((arrMax+1)-0) + 0;
+            int randNum = randint(arrMax,0);
             if (randNum == 12) {randNum = 11;}   // im not sure why this works but oh well
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             graph(slice_str(input,buffer,11,len),22);
             printf("> ");
+        } else if (strcmp(slice_str(input,buffer,0,9),"klaud echo")==0) {
+            printf("'%s' Klaud said in his native language",slice_str(input,buffer,11,len));
+            printf("\n> ");
+        } else if (strcmp(slice_str(input,buffer,0,9),"klaud dice")==0) {
+            memcpy(dice,"True",strlen("True")+1);
+            memcpy(umoney,"500",strlen("500")+1);
+            memcpy(kmoney,"500",strlen("500")+1);
+            clrscr();
+            klaud_ascii();
+            printf("your money:%s, klaud money: %s",umoney,kmoney);
+            printf("\nPlace bet>");
         } else {
             printf("You said: %s, which is not a certified Klaud command. Use the klaud --help command.",input);
             printf("\n> ");

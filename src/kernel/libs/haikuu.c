@@ -17,7 +17,7 @@ void makeLine(int numSyl,int * struc) {
     int syl = numSyl;
     int i;
     for (i=0;syl!=0;i++) {
-        int newWord = rand(33)%(((syl)+1)-1) + 1;
+        int newWord = randint(syl,1);
         if (newWord != 0) {
             syl = syl-newWord;
             struc[i] = abs(newWord);
@@ -48,7 +48,7 @@ void makeLine(int numSyl,int * struc) {
                 }
             }
             //printf("\n");
-            int randNum = abs(rand(32)%((2+1)-0) + 0);
+            int randNum = abs(randint(2,0));
             //printf("%d",randNum);
             if (j%2==0) {printf("%s ",noun[ops[randNum]]);}
             else {printf("%s ",verb[ops[randNum]]);}
@@ -63,7 +63,7 @@ void makeLine(int numSyl,int * struc) {
                     l++;
                 }
             }
-            int randNum = abs(rand(32)%((2+1)-0) + 0);
+            int randNum = abs(randint(2,0));
             //printf("%d",randNum);
             printf("%s ",noun[ops[randNum]]);
         }

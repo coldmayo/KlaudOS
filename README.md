@@ -20,11 +20,11 @@ I watched Star Wars Episode 9 opening night in theaters and Klaud was the main c
 * nasm
 * qemu-system-x86
 
-### From Release
+### Download From Release
 * download disk image and sh file from release
 * run run.sh
 
-### From Source
+### Download From Source
 * run make toolchain
 * run make 
 * run run.sh
