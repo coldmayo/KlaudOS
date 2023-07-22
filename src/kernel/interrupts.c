@@ -10,10 +10,12 @@
 #include "libs/strings.h"
 #include "arch/i686/serial_port.h"
 #include "keyboard.h"
+#include "libs/disp.h"
 
 #define INTERRUPTS_DESCRIPTOR_COUNT 256 
 #define INTERRUPTS_KEYBOARD 33
 #define INTERRUPTS_TIMER 0 
+unsigned int BUFFER_COUNT;
 
 struct IDTDescriptor idt_descriptors[INTERRUPTS_DESCRIPTOR_COUNT];
 struct IDT idt;
@@ -68,34 +70,50 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 	switch (interrupt){
 		case INTERRUPTS_KEYBOARD:
 			scan_code = keyboard_read_scan_code();
+			//printf("%d",scan_code);
 			if (scan_code == 28) {
 				printf("\n");
+				fb_write('\n',BUFFER_COUNT);
 				user_input(key_buffer);
 				memcpy(prevComm,key_buffer,strlen(key_buffer)+1);
 				key_buffer[0] = '\0';
 			} else if (scan_code == 1) {
 				printf("\n> ");
 				key_buffer[0] = '\0';
+				scroll(1);
 			} else if (scan_code == 72) {
 				memcpy(key_buffer,prevComm,strlen(key_buffer)+1);
+				move_curs(strlen(key_buffer));
 				printf("%s",key_buffer);
 			} else if (shift == 1) {
 				if (scan_code==13) {scan_code = 78;}
 				else if (scan_code==6) {scan_code = 84;}
 				else if (scan_code==7) {scan_code = 85;}
 				else if (scan_code==9) {scan_code = 86;}
+				else if (scan_code==2) {scan_code = 87;}
+				else if (scan_code==43) {scan_code = 88;}
 				ascii = keyboard_scan_code_to_ascii(scan_code);
 				append(key_buffer, ascii);
-				printf("%c",ascii);
+				fb_write(ascii,BUFFER_COUNT);
+				//printf("%c",ascii);
 				shift = 0;
 			} else if (scan_code == 14) {
 				backspace(key_buffer);
+				BUFFER_COUNT--;
+				fb_clear(BUFFER_COUNT);
 			} else if (scan_code == 42) {
 				shift = 1;
+			} else if (scan_code == 77) {
+				
+			} else if (scan_code == 75) {
+				
 			} else if (scan_code <= KEYBOARD_MAX_ASCII) {
 				ascii = keyboard_scan_code_to_ascii(scan_code);
 				append(key_buffer, ascii);
-				printf("%c",ascii);
+				fb_write(ascii,BUFFER_COUNT);
+				//putc(ascii);
+				BUFFER_COUNT++;
+				//printf("%c",ascii);
 			}
 			pic_acknowledge(interrupt);
 

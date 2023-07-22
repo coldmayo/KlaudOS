@@ -55,6 +55,7 @@ void clrscr()
     g_ScreenX = 0;
     g_ScreenY = 0;
     setcursor(g_ScreenX, g_ScreenY);
+    reset();
 }
 
 void changeColor(const uint8_t color) {

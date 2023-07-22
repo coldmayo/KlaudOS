@@ -22,7 +22,7 @@ char keyboard_scan_code_to_ascii(unsigned char scan_code)
 		0x0, ' ', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,		// 56 - 63
 		0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, '7',		// 64 - 71
 		'8', '9', '-', '4', '5', '6', '+', '1',		// 72 - 79
-		'2', '3', '0', '.', '%','^','*',				// 80 - 83 plus extras
+		'2', '3', '0', '.', '%','^','*','!'				// 80 - 83 plus extras
 	};
 
 	return ascii[scan_code];

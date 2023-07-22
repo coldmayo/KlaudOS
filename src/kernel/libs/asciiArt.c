@@ -1,4 +1,5 @@
 #include "stdio.h"
+#include "libs/disp.h"
 
 void klaud_ascii() {
     puts(                                                                               
@@ -16,6 +17,7 @@ void klaud_ascii() {
     "                             *,*,**#**,,**((#&&#(        \r\n"              
     "                            ,*,*,.....,**/#((//#(        \r\n"               
     );
+    scroll(14);
 }
 
 void flowers() {
@@ -29,8 +31,8 @@ void flowers() {
     "                     |       |/       | /   | /   |/        \r\n"
     "                     |//     |///     |//   |///  |///      \r\n"
     "                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  \r\n"
-
     );
+    scroll(8);
 }
 
 void help() {
@@ -57,4 +59,5 @@ void help() {
         "Up arrow: prints the previous command into current line\r\n"
         "Shift: same usage as normal (uppercase not supported yet)"
     );
+    scroll(20);
 }

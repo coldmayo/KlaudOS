@@ -9,6 +9,7 @@
 #include "arch/i686/io.h"
 #include "sound.h"
 #include "libs/math.h"
+#include "libs/disp.h"
 
 extern uint8_t __bss_start;
 extern uint8_t __end;
@@ -59,12 +60,13 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive)
     memset(&__bss_start, 0, (&__end) - (&__bss_start));
 
     HAL_Initialize();
-    interrupts_install_idt();
     clrscr();
     klaud_ascii();
-    printf("\n                         Version -- 0.0.0: July 2023\n");
+    printf("\n                         Version -- 0.0.2: July 2023\n");
     printf("                             Welcome to KlaudOS\n");
-    printf("Insert command...> ");
+    printf("> ");
+    scroll(2);
+    interrupts_install_idt();
 end:
     for (;;);
 }
@@ -84,10 +86,12 @@ void user_input(char *input) {
         printf("\n");
         if (score < 0) {
             printf("'Get off my Operating System, I do not consent to this'");
+            scroll(3);
         } else if (score == 0) {
             printf("'Whatever you say, I guess.'");
         } else if (score > 0) {
             printf("'Finally, someone worth talking to! Some other people I've spoken to have been a huge pain!'");
+            scroll(3);
         }
         printf(" he said in his native language\n");
         memcpy(rizz,"False",strlen("False")+1);
@@ -109,6 +113,8 @@ void user_input(char *input) {
             memcpy(kmoney,itoa(bscore,10),6);
             printf("your roll: %d, klaud roll: %d\n",mroll,kroll);
             printf("your money: %s, klaud money: %s\n",umoney,kmoney);
+            scroll(3);
+            move_curs(9);
             printf("Type 'exit' to leave the game\nPlace bet>");
         } else {
             memcpy(dice,"False",strlen("False")+1);
@@ -117,29 +123,35 @@ void user_input(char *input) {
         }
     } else if (strlen(input) <= 4) {
         printf("Every command starts with klaud, try again");
+        scroll(1);
         printf("\n> ");
     } else {
         if (strcmp(slice_str(input,buffer,0,4),"klaud")) {
             printf("Every command starts with klaud, try again");
+            scroll(1);
             printf("\n> ");
         } else if (strcmp(input, "klaud --help") == 0) {
             help();
             printf("\n> ");
         } else if (strcmp(input, "klaud") == 0) {
             printf("That's the guy. I'm personally a big fan");
+            scroll(1);
             printf("\n> ");
         } else if (strcmp(input, "klaud beep") == 0) {
             //beep(950,18);
             printf("will do something soon\n");
+            scroll(1);
             printf("> ");
         } else if (strcmp(input, "klaud rizz") == 0) {
             memcpy(rizz,"True",strlen("True")+1);
             clrscr();
             klaud_ascii();
+            move_curs(13);
             printf("\nRizz up Klaud>");
         } else if (strcmp(input, "klaud haiku") == 0) {
             printf("Haikuu:\n");
             haikuu();
+            scroll(5);
             printf("\n> ");
         } else if (strcmp(input,"klaud ascii") == 0) {
             klaud_ascii();
@@ -149,6 +161,7 @@ void user_input(char *input) {
             klaud_ascii();
             puts("                   ========================================\r\n");
             printf("                      L i v e  S l u g  R e a c t i o n");
+            scroll(3);
             printf("\n>");
         } else if (strcmp(input,"klaud shrine") == 0) {
             klaud_ascii();
@@ -177,6 +190,7 @@ void user_input(char *input) {
             } else {
                 char * equ = slice_str(input,buffer,11,len);
                 int i;
+                scroll(1);
                 printf("%d\n> ", calc(equ));
             }
         } else if (strcmp(input,"klaud fun-fact")==0) {
@@ -187,21 +201,24 @@ void user_input(char *input) {
                 "The language Klaud speaks is unknown",
                 "Klaud has blue eyes",
                 "Klaud is a playable character in Lego Star Wars: The Skywalker Saga", "Klaud was widely believed to be homophobic, but that was disproven recently",
-                "A Trodatome (species that Klaud is) is a character iklaud mathn Star Wars: Jedi Survivor",
-                "Klaud has his own subreddit called r/SaltierThanKlaud (This was just a fun fact use Lemmy instead of Reddit please + plus the dudes over the sub might have a discord now)",
+                "A Trodatome (species that Klaud is) is a character in klaud math Star Wars: Jedi Survivor",
+                "Klaud has his own subreddit called r/SaltierThanKlaud (This was just a fun fact please don't use reddit)",
                 "According to babycenter.com the name Klaud tripled in popularity since the year Episode 9 came out (2019) in theaters and is still growing",
                 "Nick Kellington played Klaud in Episode 9",
                 "Chewbacca was the person who convinced Klaud to join the Resistance"
             };
             int arrMax = *(&factList + 1) - factList;
             int randNum = randint(arrMax,0);
+            if (randNum == 9 || randNum == 8) {scroll(2);}
             if (randNum == 12) {randNum = 11;}   // im not sure why this works but oh well
-            printf("%s\n> ",factList[randNum]);
+            printf("%d%s\n> ",randNum,factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
-            graph(slice_str(input,buffer,11,len),22);
+            graph(slice_str(input,buffer,11,len),23);
+            scroll(22);
             printf("> ");
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud echo")==0) {
             printf("'%s' Klaud said in his native language",slice_str(input,buffer,11,len));
+            scroll(1);
             printf("\n> ");
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud dice")==0) {
             memcpy(dice,"True",strlen("True")+1);
@@ -210,9 +227,11 @@ void user_input(char *input) {
             clrscr();
             klaud_ascii();
             printf("your money:%s, klaud money: %s",umoney,kmoney);
+            move_curs(9);
             printf("\nPlace bet>");
         } else {
             printf("You said: %s, which is not a certified Klaud command. Use the klaud --help command.",input);
+            scroll(2);
             printf("\n> ");
         }
     }

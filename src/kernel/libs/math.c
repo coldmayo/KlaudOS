@@ -19,24 +19,35 @@ int pow(int one, int two) {
 }
 
 // function for 4 function calculator
+int factorial(int x) {
+    int ans = 1;
+    for (int i=1;i<=x;i++)
+        ans *= i;
+    return ans;
+}
+
+// function for 4 function calculator
 
 int calc(char * str) {
     char *start = str;
     int ans = 0;
     char lastOp;
-    char opList[7] = {'+','-','/','*','%','^'};
+    char opList[7] = {'+','-','/','*','%','^','!'};
     int i=0;   // makes sure the first number doesn't do an operation on the number before that (0)
     for(;*str;str++) { 
         // I hate continuous if/else if statements TODO fix this shit
         if(*str == '+') {
             *str = '\0';
             ans = ans + convert(start);
+            if (i == 0) {ans = convert(start);}
+            //printf("%d\n%d\n",ans,convert(start));
             *str = '+';
             start = str + 1;
             lastOp = *str;
+            i++;
         } else if (*str == '-') {
             *str = '\0';
-            ans = ans - convert(start);
+            ans = ans-convert(start);
             if (i == 0) {ans = convert(start);}
             *str = '-';
             start = str + 1;
@@ -44,8 +55,8 @@ int calc(char * str) {
             i++;
         } else if (*str == '*') {
             *str = '\0';
-            if (i == 0) {ans = 1;}
             ans = convert(start) * ans;
+            if (i == 0) {ans = convert(start);}
             *str = '*';
             start = str + 1;
             lastOp = *str;
@@ -75,15 +86,28 @@ int calc(char * str) {
             start = str + 1;
             lastOp = *str;
             i++;
+        } else if (*str == '!') {
+            *str = '\0';
+            ans = factorial(convert(start));
+            *str = '!';
+            start = str + 1;
+            lastOp = *str;
+            i++;
         }
     }
     // catches last numbers
+    //printf("%d\n",ans);
     if (lastOp == '+') {ans = ans + convert(start);}
     else if (lastOp == '-') {ans = ans - convert(start);}
     else if (lastOp == '*') {ans = ans * convert(start);}
     else if (lastOp == '/') {ans = ans / convert(start);}
     else if (lastOp == '%') {ans = ans % convert(start);}
     else if (lastOp == '^') {ans = pow(ans,convert(start));}
+    if (lastOp == '!') {
+        if (i > 1) {
+            ans = factorial(ans);
+        }
+    }
     return ans;
 }
 
