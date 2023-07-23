@@ -1,14 +1,14 @@
 #include <libs/stdio.h>
 #include <arch/i686/io.h>
-
 #include <stdarg.h>
 #include <stdbool.h>
+#include "disp.h"
 
 const char g_HexChars[] = "0123456789abcdef";
 
 const unsigned SCREEN_WIDTH = 80;
 const unsigned SCREEN_HEIGHT = 25;
-const uint8_t DEFAULT_COLOR = 0x7;
+uint8_t DEFAULT_COLOR = 0x7;
 
 uint8_t* g_ScreenBuffer = (uint8_t*)0xB8000;
 int g_ScreenX = 0, g_ScreenY = 0;
@@ -63,12 +63,16 @@ void changeColor(const uint8_t color) {
         for (int x = 0; x < SCREEN_WIDTH; x++)
         {
             putchr(x, y, '\0');
-            putcolor(x, y, color);
+            DEFAULT_COLOR = color;
+            putcolor(x, y, DEFAULT_COLOR);
         }
 
     g_ScreenX = 0;
     g_ScreenY = 0;
     setcursor(g_ScreenX, g_ScreenY);
+    textColorChange(DEFAULT_COLOR);
+    reset();
+    scroll(1);
 }
 
 void scrollback(int lines)
@@ -385,11 +389,9 @@ char * slice_str(const char * str, char * buffer, int start, int end)
     return buffer;
 }
 
-void reboot()
-{
+void reboot() {
     uint8_t good = 0x02;
     while (good & 0x02)
         good = i686_inb(0x64);
     i686_outb(0x64, 0xFE);
-    //halt();
 }

@@ -11,7 +11,7 @@ I watched Star Wars Episode 9 opening night in theaters and Klaud was the main c
 * FAT file system (shawty got a fatty)
 * gdt, interrupt handler
 * keyboard input and printed output
-* kernel with commands
+* interactive shell
 * built in x86 assembly and C with gcc as compiler
 
 ## How to use

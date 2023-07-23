@@ -16,6 +16,8 @@
 #define INTERRUPTS_KEYBOARD 33
 #define INTERRUPTS_TIMER 0 
 unsigned int BUFFER_COUNT;
+int lim = 0;
+int cursPos = 0;
 
 struct IDTDescriptor idt_descriptors[INTERRUPTS_DESCRIPTOR_COUNT];
 struct IDT idt;
@@ -55,13 +57,7 @@ void interrupts_install_idt()
 
 /* Interrupt handlers ********************************************************/
 
-void backspace(char s[]) {
-    int len = strlen(s);
-    s[len-1] = '\0';
-}
-
-void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned int interrupt, __attribute__((unused)) struct stack_state stack)
-{
+void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned int interrupt, __attribute__((unused)) struct stack_state stack) {
 	unsigned char scan_code;
 	unsigned char ascii;
 	static char key_buffer[256];
@@ -75,16 +71,28 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				printf("\n");
 				fb_write('\n',BUFFER_COUNT);
 				user_input(key_buffer);
-				memcpy(prevComm,key_buffer,strlen(key_buffer)+1);
-				key_buffer[0] = '\0';
+				memcpy(prevComm,key_buffer,lim+1);
+				// clearing input
+				int i;
+				for (i=0;i<256;i++) {
+					key_buffer[i] = '\0';
+				}
+				lim = 0;
+				cursPos = 0;
 			} else if (scan_code == 1) {
 				printf("\n> ");
-				key_buffer[0] = '\0';
+				// clearing input
+				int i;
+				for (i=0;i<256;i++) {
+					key_buffer[i] = '\0';
+				}
 				scroll(1);
 			} else if (scan_code == 72) {
-				memcpy(key_buffer,prevComm,strlen(key_buffer)+1);
-				move_curs(strlen(key_buffer));
+				memcpy(key_buffer,prevComm,256);
 				printf("%s",key_buffer);
+				move_curs(strlen(key_buffer));
+				lim += strlen(key_buffer);
+				cursPos += strlen(key_buffer);
 			} else if (shift == 1) {
 				if (scan_code==13) {scan_code = 78;}
 				else if (scan_code==6) {scan_code = 84;}
@@ -93,33 +101,46 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				else if (scan_code==2) {scan_code = 87;}
 				else if (scan_code==43) {scan_code = 88;}
 				ascii = keyboard_scan_code_to_ascii(scan_code);
-				append(key_buffer, ascii);
+				key_buffer[cursPos] = ascii;
 				fb_write(ascii,BUFFER_COUNT);
-				//printf("%c",ascii);
 				shift = 0;
+				lim++;
+				cursPos++;
 			} else if (scan_code == 14) {
-				backspace(key_buffer);
-				BUFFER_COUNT--;
-				fb_clear(BUFFER_COUNT);
+				if (lim > 0) {
+					//backspace(key_buffer);
+					BUFFER_COUNT--;
+					fb_clear(BUFFER_COUNT);
+					key_buffer[cursPos-1] = '\0';
+					lim--;
+					cursPos--;
+				}
 			} else if (scan_code == 42) {
 				shift = 1;
 			} else if (scan_code == 77) {
-				
+				if (lim > cursPos+1) {
+					move_curs(1);
+					fb_move_cursor(1);
+					cursPos++;
+				}
 			} else if (scan_code == 75) {
-				
+				if (0 < cursPos) {
+					move_curs(-1);
+					fb_move_cursor(-1);
+					cursPos--;
+				}
 			} else if (scan_code <= KEYBOARD_MAX_ASCII) {
 				ascii = keyboard_scan_code_to_ascii(scan_code);
-				append(key_buffer, ascii);
+				key_buffer[cursPos] = ascii;
 				fb_write(ascii,BUFFER_COUNT);
-				//putc(ascii);
 				BUFFER_COUNT++;
-				//printf("%c",ascii);
+				lim++;
+				cursPos++;
 			}
 			pic_acknowledge(interrupt);
 
 			break;
 		case INTERRUPTS_TIMER:
-			printf("penis");
 			pic_acknowledge(interrupt);
 			break;
 		default:

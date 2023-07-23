@@ -73,8 +73,6 @@ void makeLine(int numSyl,int * struc) {
 void haikuu(void) {
     int struc[7];
     makeLine(5,struc);
-    printf("\n");
     makeLine(7,struc);
-    printf("\n");
     makeLine(5,struc);
 }

@@ -61,7 +61,7 @@ int convert(char s[])
     return num;
 }
 
-char *itoa(int nbr, int base)
+char *itoa(int nbr)
 {
     static char rep[] = "0123456789";
     static char buff[65];

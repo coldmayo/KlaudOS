@@ -18,7 +18,6 @@ int pow(int one, int two) {
     return ans;
 }
 
-// function for 4 function calculator
 int factorial(int x) {
     int ans = 1;
     for (int i=1;i<=x;i++)
@@ -103,11 +102,12 @@ int calc(char * str) {
     else if (lastOp == '/') {ans = ans / convert(start);}
     else if (lastOp == '%') {ans = ans % convert(start);}
     else if (lastOp == '^') {ans = pow(ans,convert(start));}
-    if (lastOp == '!') {
+    else if (lastOp == '!') {
         if (i > 1) {
             ans = factorial(ans);
         }
     }
+    else {ans = convert(start);}
     return ans;
 }
 
@@ -151,12 +151,14 @@ int eval(char *input,int k) {
         char buff[strlen(input)+1];
         slice_str(buffer,buffer,0,strlen(input)-1);
     }
+    
     return calc(buffer);
 }
 
 // make text based plots
 
 void graph(char *input,int yhi) {
+    clrscr();
     int x;
     int y;
     for (y=yhi;y>=1;y--) {

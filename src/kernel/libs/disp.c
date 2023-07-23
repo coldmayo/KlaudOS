@@ -1,7 +1,15 @@
-#include "disp.h"	
+#include "disp.h"
+#include "memory.h"	
+#include "strings.h"
+#include "stdio.h"
 
 static char *fb = (char *)0x000B8000;
 char curr_x[6];
+uint8_t def_col = WHITE;
+
+void textColorChange(uint8_t newCol) {
+    def_col = newCol;
+}
 
 void fb_move_cursor(unsigned short pos) {
 	i686_outb(FB_COMMAND_PORT, FB_HIGH_BYTE_COMMAND);
@@ -21,9 +29,7 @@ void move_curs(int x) {
 void scroll(int x) {
     int c_x = convert(curr_x);
     c_x = (c_x + (80*x) - c_x%80)+2;
-    //printf("%d",c_x);
-    if (c_x >= 1842) {
-        //printf("peen");
+    if (c_x >= 1843) {
         memcpy(curr_x,itoa(1842+80),strlen(itoa(c_x))+1);
     } else {
         memcpy(curr_x,itoa(c_x),strlen(itoa(c_x))+1);
@@ -33,11 +39,9 @@ void scroll(int x) {
 void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg) {
 	int c_x = convert(curr_x);
     if (c == '\n') {
-        //c_x = c_x + 80 - c_x%80;
         scroll(1);
-        //printf("%d",i);
     } else if (c == '$') {
-        fb[i-2] = ' ';
+        fb[i-2] = '\0';
 	    fb[i] = ((fg & 0x0F) << 4) | (bg & 0x0F);
         c_x--;
         memcpy(curr_x,itoa(c_x),strlen(itoa(c_x))+1);
@@ -51,8 +55,7 @@ void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg) {
 
 void fb_write(char c, unsigned int i){
     int c_x = convert(curr_x);
-    //printf("%d",c_x);
-	fb_write_cell(c_x*2, c, BLACK, LIGHT_GREY);
+	fb_write_cell(c_x*2, c, BLACK, def_col);
 	fb_move_cursor(c_x+1);
 }
 

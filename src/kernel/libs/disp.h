@@ -15,7 +15,13 @@
 /* Frame buffer supported color value */
 #define BLACK      0
 #define BLUE       1
-#define LIGHT_GREY 7
+#define GREEN      2
+#define CYAN       3
+#define RED        4
+#define PURPLE     5
+#define ORANGE     6
+#define WHITE      7
+#define GREY       8
 
 // Make a pixel(2 bytes), background is always black, a is a char, b is foreground color
 #define LOAD_MEMORY_ADDRESS 0xC0000000
@@ -23,11 +29,6 @@
 #define WIDTH 80
 #define HEIGHT 25
 #define DEFAULT_COLOR LIGHT_GREY
-#define PAINT(a,b) (((b & 0xF) << 8) | (a & 0xFF))
-
-// Get pixel
-#define PIXEL(x, y) SCREEN[y * 80 + x]
-
 /** fb_move_cursor:
  *  Moves the cursor of the framebuffer to the given position
  *
@@ -60,5 +61,11 @@ void fb_write(char c, unsigned int i);
  *  @param i    number of total characters written on the framebuffer
  */
 void fb_clear(unsigned int i);
+
+void scroll(int x);
+
+void textColorChange(uint8_t newCol);
+
+void move_curs(int x);
 
 #endif

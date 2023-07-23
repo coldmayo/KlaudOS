@@ -62,7 +62,7 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive)
     HAL_Initialize();
     clrscr();
     klaud_ascii();
-    printf("\n                         Version -- 0.0.2: July 2023\n");
+    printf("\n                         Version -- 0.0.3: July 2023\n");
     printf("                             Welcome to KlaudOS\n");
     printf("> ");
     scroll(2);
@@ -89,6 +89,7 @@ void user_input(char *input) {
             scroll(3);
         } else if (score == 0) {
             printf("'Whatever you say, I guess.'");
+            scroll(2);
         } else if (score > 0) {
             printf("'Finally, someone worth talking to! Some other people I've spoken to have been a huge pain!'");
             scroll(3);
@@ -106,11 +107,17 @@ void user_input(char *input) {
                 score = score + convert(input);
                 bscore = bscore - convert(input);
             } else {
+                scroll(1);
+                char shitTalk[30][30] = {
+                    "couldn't be me tho",
+                    "me personally idk",
+                };
+                printf("'couldn't be me' he said in his native language\n");
                 score = score - convert(input);
                 bscore = bscore + convert(input);
             }
-            memcpy(umoney,itoa(score,10),6);
-            memcpy(kmoney,itoa(bscore,10),6);
+            memcpy(umoney,itoa(score),6);
+            memcpy(kmoney,itoa(bscore),6);
             printf("your roll: %d, klaud roll: %d\n",mroll,kroll);
             printf("your money: %s, klaud money: %s\n",umoney,kmoney);
             scroll(3);
@@ -172,11 +179,16 @@ void user_input(char *input) {
             char clrLst[8][12] = {"blue","green","cyan","red","purple","orange","white","grey"};
             uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8};
             int i = 0;
-            for (int i = 0; i<8; i++) {
-                if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
-                    changeColor(numLst[i]);
-                    printf("> Color changed to %s",clrLst[i]);
-                    printf("\n> ");
+            if (strcmp(slice_str(input,buffer,17,len),"--help")==0) {
+                scroll(1);
+                printf("klaud text-color supports blue, green, red, purple, orange, white, and grey\n> ");
+            } else {
+                for (int i = 0; i<8; i++) {
+                    if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
+                        changeColor(numLst[i]);
+                        printf("> Color changed to %s",clrLst[i]);
+                        printf("\n> ");
+                    }
                 }
             }
         } else if (strcmp(input,"klaud clear") == 0) {
@@ -186,7 +198,8 @@ void user_input(char *input) {
             reboot();
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud math") == 0) {
             if (strcmp(slice_str(input,buffer,11,len),"--help")==0) {
-                printf("klaud 4 function calculator that supports +,-,/,*,%,^\n> ");
+                printf("klaud 4 function calculator that supports +,-,/,*,%,^,!\n> ");
+                scroll(1);
             } else {
                 char * equ = slice_str(input,buffer,11,len);
                 int i;
@@ -201,7 +214,7 @@ void user_input(char *input) {
                 "The language Klaud speaks is unknown",
                 "Klaud has blue eyes",
                 "Klaud is a playable character in Lego Star Wars: The Skywalker Saga", "Klaud was widely believed to be homophobic, but that was disproven recently",
-                "A Trodatome (species that Klaud is) is a character in klaud math Star Wars: Jedi Survivor",
+                "A Trodatome (species that Klaud is) is a character in Star Wars: Jedi Survivor",
                 "Klaud has his own subreddit called r/SaltierThanKlaud (This was just a fun fact please don't use reddit)",
                 "According to babycenter.com the name Klaud tripled in popularity since the year Episode 9 came out (2019) in theaters and is still growing",
                 "Nick Kellington played Klaud in Episode 9",
@@ -211,10 +224,10 @@ void user_input(char *input) {
             int randNum = randint(arrMax,0);
             if (randNum == 9 || randNum == 8) {scroll(2);}
             if (randNum == 12) {randNum = 11;}   // im not sure why this works but oh well
-            printf("%d%s\n> ",randNum,factList[randNum]);
+            printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             graph(slice_str(input,buffer,11,len),23);
-            scroll(22);
+            scroll(23);
             printf("> ");
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud echo")==0) {
             printf("'%s' Klaud said in his native language",slice_str(input,buffer,11,len));
