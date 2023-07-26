@@ -1,6 +1,6 @@
-#include "stdio.h"
-#include "strings.h"
-#include "math.h"
+#include "include/stdio.h"
+#include "include/strings.h"
+#include "include/math.h"
 
 // did i spell haiku wrong? yes. will i change it? no
 
@@ -9,7 +9,7 @@
 // I'll fix this bullshit later
 
 void makeLine(int numSyl,int * struc) {
-    char noun[30][30] = {"klaud", "mechanic", "trodatome","star wars","penis","troglodyte","cat","automobile","america","subterranean","teleportation","Venezuela","sky","virgin","Dominican Republic","seven syllables typed here","communism and femboys","Saudi Arabia","Avtomat Kalashnikova 1947","Czechoslovakia","Hippopotamus"};
+    char noun[30][30] = {"klaud", "mechanic", "trodatome","star wars","booty","troglodyte","cat","automobile","america","subterranean","teleportation","Venezuela","sky","virgin","Dominican Republic","seven syllables typed here","communism and femboys","Saudi Arabia","Avtomat Kalashnikova 1947","Czechoslovakia","Hippopotamus"};
     int nsyl[] = {1,3,3,2,2,3,1,4,4,5,5,4,1,2,7,7,7,6,6,6,5};
     char verb[30][30] = {"is","loves","talks about","begs for","pees on","sees","celebrates","imagines","exchanges"};
     int vsyl[] = {1,1,2,2,2,1,3,3,3};

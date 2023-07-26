@@ -4,6 +4,10 @@ bits 16
 
 %define ENDL 0x0D, 0x0A
 
+
+;
+; FAT12 header
+; 
 jmp short start
 nop
 
@@ -21,6 +25,7 @@ bdb_heads:                  dw 2
 bdb_hidden_sectors:         dd 0
 bdb_large_sector_count:     dd 0
 
+; extended boot record
 ebr_drive_number:           db 0                    ; 0x00 floppy, 0x80 hdd, useless
                             db 0                    ; reserved
 ebr_signature:              db 29h
@@ -194,6 +199,10 @@ start:
     hlt
 
 
+;
+; Error handlers
+;
+
 floppy_error:
     mov si, msg_read_failed
     call puts
@@ -213,6 +222,12 @@ wait_key_and_reboot:
     cli                         ; disable interrupts, this way CPU can't get out of "halt" state
     hlt
 
+
+;
+; Prints a string to the screen
+; Params:
+;   - ds:si points to string
+;
 puts:
     ; save registers we will modify
     push si
@@ -235,6 +250,20 @@ puts:
     pop ax
     pop si    
     ret
+
+;
+; Disk routines
+;
+
+;
+; Converts an LBA address to a CHS address
+; Parameters:
+;   - ax: LBA address
+; Returns:
+;   - cx [bits 0-5]: sector number
+;   - cx [bits 6-15]: cylinder
+;   - dh: head
+;
 
 lba_to_chs:
 
@@ -261,6 +290,15 @@ lba_to_chs:
     pop ax
     ret
 
+
+;
+; Reads sectors from a disk
+; Parameters:
+;   - ax: LBA address
+;   - cl: number of sectors to read (up to 128)
+;   - dl: drive number
+;   - es:bx: memory address where to store read data
+;
 disk_read:
 
     push ax                             ; save registers we will modify

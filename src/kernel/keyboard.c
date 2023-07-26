@@ -1,5 +1,5 @@
-#include "arch/i686/io.h"
-#include "libs/stdio.h"
+#include "include/io.h"
+#include "include/stdio.h"
 
 #define KEYBOARD_DATA_PORT 0x60
 

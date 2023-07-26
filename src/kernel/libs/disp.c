@@ -1,7 +1,7 @@
-#include "disp.h"
-#include "memory.h"	
-#include "strings.h"
-#include "stdio.h"
+#include "include/disp.h"
+#include "include/memory.h"	
+#include "include/strings.h"
+#include "include/stdio.h"
 
 static char *fb = (char *)0x000B8000;
 char curr_x[6];
@@ -19,20 +19,20 @@ void fb_move_cursor(unsigned short pos) {
 }
 
 void reset() {
-    memcpy(curr_x,itoa(3),strlen(itoa(100))+1);
+    memcpy(curr_x,itoa(3),strlen(itoa(100))+3);
 }
 
 void move_curs(int x) {
-    memcpy(curr_x,itoa(convert(curr_x)+x),strlen(itoa(curr_x+x))+1);
+    memcpy(curr_x,itoa(convert(curr_x)+x),8);
 }
 
 void scroll(int x) {
     int c_x = convert(curr_x);
     c_x = (c_x + (80*x) - c_x%80)+2;
     if (c_x >= 1843) {
-        memcpy(curr_x,itoa(1842+80),strlen(itoa(c_x))+1);
+        memcpy(curr_x,itoa(1842+80),8);
     } else {
-        memcpy(curr_x,itoa(c_x),strlen(itoa(c_x))+1);
+        memcpy(curr_x,itoa(c_x),8);
     }
 }
 
@@ -50,6 +50,15 @@ void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg) {
 	    fb[i + 1] = ((fg & 0x0F) << 4) | (bg & 0x0F);
         c_x++;
         memcpy(curr_x,itoa(c_x),strlen(itoa(c_x))+1);
+    }
+}
+
+void fb_string(unsigned int i, char * s, unsigned char fg, unsigned char bg) {
+    int j = 0;
+    while(*s != '\0') {
+        fb_write_cell(+j, *s, fg, bg);
+        s++;
+        j++;
     }
 }
 

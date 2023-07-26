@@ -1,6 +1,6 @@
-#include "hal.h"
-#include <arch/i686/gdt.h>
-#include <arch/i686/idt.h>
+#include "include/hal.h"
+#include <include/gdt.h>
+#include <include/idt.h>
 
 void HAL_Initialize()
 {

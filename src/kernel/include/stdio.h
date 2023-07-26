@@ -22,3 +22,6 @@ void flowers(void);
 void haikuu(void);
 void help(void);
 void reboot(void);
+void user_input(char *input);
+int wordCheck(char * str);
+int rizzScore(char *str);

@@ -1,6 +1,6 @@
-#include "arch/i686/serial_port.h"
-#include "libs/stdio.h"
-#include "arch/i686/io.h"
+#include "include/serial_port.h"
+#include "include/stdio.h"
+#include "include/io.h"
 
 static void PlaySound(uint32_t nFrequence) {
     uint32_t x;

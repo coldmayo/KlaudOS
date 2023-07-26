@@ -1,6 +1,6 @@
-#include "math.h"
-#include "strings.h"
-#include "stdio.h"
+#include "include/math.h"
+#include "include/strings.h"
+#include "include/stdio.h"
 
 int abs(int i) {
     if (i < 0) {
@@ -46,7 +46,7 @@ int calc(char * str) {
             i++;
         } else if (*str == '-') {
             *str = '\0';
-            ans = ans-convert(start);
+            ans = ans+(-1*convert(start));
             if (i == 0) {ans = convert(start);}
             *str = '-';
             start = str + 1;
@@ -95,7 +95,6 @@ int calc(char * str) {
         }
     }
     // catches last numbers
-    //printf("%d\n",ans);
     if (lastOp == '+') {ans = ans + convert(start);}
     else if (lastOp == '-') {ans = ans - convert(start);}
     else if (lastOp == '*') {ans = ans * convert(start);}

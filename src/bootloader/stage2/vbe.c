@@ -1,6 +1,6 @@
-#include "vbe.h"
-#include "x86.h"
-#include "memory.h"
+#include "include/vbe.h"
+#include "include/x86.h"
+#include "include/memory.h"
 
 bool VBE_GetControllerInfo(VbeInfoBlock* info)
 {

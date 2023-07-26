@@ -1,16 +1,16 @@
 // keyboard interupts
 
-#include "interrupts.h"
-#include "pic.h"
-#include "arch/i686/io.h"
-#include "arch/i686/idt.h"
-#include "libs/stdio.h"
-#include "libs/memory.h"
-#include "arch/i686/idt.h"
-#include "libs/strings.h"
-#include "arch/i686/serial_port.h"
-#include "keyboard.h"
-#include "libs/disp.h"
+#include "include/interrupts.h"
+#include "include/pic.h"
+#include "include/io.h"
+#include "include/idt.h"
+#include "include/stdio.h"
+#include "include/memory.h"
+#include "include/idt.h"
+#include "include/strings.h"
+#include "include/serial_port.h"
+#include "include/keyboard.h"
+#include "include/disp.h"
 
 #define INTERRUPTS_DESCRIPTOR_COUNT 256 
 #define INTERRUPTS_KEYBOARD 33

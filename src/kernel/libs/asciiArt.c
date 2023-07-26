@@ -1,5 +1,5 @@
-#include "stdio.h"
-#include "libs/disp.h"
+#include "include/stdio.h"
+#include "include/disp.h"
 
 void klaud_ascii() {
     puts(                                                                               
@@ -53,10 +53,10 @@ void help() {
         "klaud plot <expression>: plots given function (i.e. x^2, x+1)\r\n"
         "klaud fun-fact: get fun facts about Klaud!\r\n"
         "Keys:\r\n"
-        "Backspace: does nothing, i have not figured out backspace. sorry\r\n"
+        "Backspace: works like normal. not sure what else you would expect\r\n"
         "Esc: makes new line without running the previous\r\n"
         "Enter: makes a new line while running the previous\r\n"
-        "Up arrow: prints the previous command into current line\r\n"
+        "Up arrow: returns the previous command into current line\r\n"
         "Shift: same usage as normal (uppercase not supported yet)"
     );
     scroll(21);

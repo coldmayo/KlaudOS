@@ -1,4 +1,5 @@
-#include "strings.h"
+#include "include/strings.h"
+#include "include/stdio.h"
 
 char *strcpy(char *s1, const char *s2)
 {

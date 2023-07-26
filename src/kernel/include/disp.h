@@ -2,7 +2,7 @@
 #define INCLUDE_FRAMEBUFFER_H
 
 #pragma once
-#include "arch/i686/io.h"
+#include "include/io.h"
 
 /* The I/O ports */
 #define FB_COMMAND_PORT 0x3D4
@@ -67,5 +67,7 @@ void scroll(int x);
 void textColorChange(uint8_t newCol);
 
 void move_curs(int x);
+
+void reset(void);
 
 #endif

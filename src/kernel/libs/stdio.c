@@ -1,11 +1,10 @@
-#include <libs/stdio.h>
-#include <arch/i686/io.h>
+#include <include/stdio.h>
+#include <include/io.h>
 #include <stdarg.h>
 #include <stdbool.h>
-#include "disp.h"
+#include "include/disp.h"
 
 const char g_HexChars[] = "0123456789abcdef";
-
 const unsigned SCREEN_WIDTH = 80;
 const unsigned SCREEN_HEIGHT = 25;
 uint8_t DEFAULT_COLOR = 0x7;
@@ -13,28 +12,23 @@ uint8_t DEFAULT_COLOR = 0x7;
 uint8_t* g_ScreenBuffer = (uint8_t*)0xB8000;
 int g_ScreenX = 0, g_ScreenY = 0;
 
-void putchr(int x, int y, char c)
-{
+void putchr(int x, int y, char c) {
     g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x)] = c;
 }
 
-void putcolor(int x, int y, uint8_t color)
-{
+void putcolor(int x, int y, uint8_t color) {
     g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x) + 1] = color;
 }
 
-char getchr(int x, int y)
-{
+char getchr(int x, int y) {
     return g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x)];
 }
 
-uint8_t getcolor(int x, int y)
-{
+uint8_t getcolor(int x, int y) {
     return g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x) + 1];
 }
 
-void setcursor(int x, int y)
-{
+void setcursor(int x, int y) {
     int pos = y * SCREEN_WIDTH + x;
 
     i686_outb(0x3D4, 0x0F);
@@ -43,8 +37,7 @@ void setcursor(int x, int y)
     i686_outb(0x3D5, (uint8_t)((pos >> 8) & 0xFF));
 }
 
-void clrscr()
-{
+void clrscr() {
     for (int y = 0; y < SCREEN_HEIGHT; y++)
         for (int x = 0; x < SCREEN_WIDTH; x++)
         {
@@ -75,8 +68,7 @@ void changeColor(const uint8_t color) {
     scroll(1);
 }
 
-void scrollback(int lines)
-{
+void scrollback(int lines) {
     for (int y = lines; y < SCREEN_HEIGHT; y++)
         for (int x = 0; x < SCREEN_WIDTH; x++)
         {
@@ -94,8 +86,7 @@ void scrollback(int lines)
     g_ScreenY -= lines;
 }
 
-void putc(char c)
-{
+void putc(char c) {
     switch (c)
     {
         case '\n':
@@ -355,7 +346,7 @@ void append(char s[], char n) {
     s[len+1] = '\0';
 }
 
-// random number
+// Lehmer random number generator
 
 int rand(uint32_t *state) {
     	// Precomputed parameters for Schrage's method

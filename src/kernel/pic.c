@@ -1,5 +1,5 @@
-#include "arch/i686/io.h"
-#include "pic.h"
+#include "include/io.h"
+#include "include/pic.h"
 
 void pic_acknowledge(unsigned int interrupt)
 {
