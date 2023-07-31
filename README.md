@@ -7,12 +7,15 @@ I watched Star Wars Episode 9 opening night in theaters and Klaud was the main c
 ## Features
 
 * double stage bootloader
+* 32 bit protected mode + gdt
 * BIOS boot
 * FAT file system (shawty got a fatty)
-* gdt, interrupt handler
+* interrupt handler
 * keyboard input and printed output
+* working frame buffer/video driver
+* fun games/shenanigans
 * interactive shell
-* built in x86 assembly and C with gcc as compiler
+* built in x86 assembly and C with gcc as the compiler
 
 ## How to use
 
