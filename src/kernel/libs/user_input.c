@@ -10,6 +10,7 @@
 #include "include/sound.h"
 #include "include/math.h"
 #include "include/disp.h"
+#include "include/strings.h"
 
 // user input function. This could rank in my top 10 ugliest pieces of code to date. I'm
 // sure as hell not fixing it lmao
@@ -22,7 +23,8 @@ void user_input(char *input) {
     static char umoney[6];
     static char kmoney[6];
     static char art[6];
-    uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8};
+    uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
+    char clrLst[8][12] = {"blue","green","cyan","red","purple","orange","white","grey","black"};
     if (strcmp(rizz,"True") == 0) {
         int score = rizzScore(input);
         printf("\n");
@@ -40,14 +42,24 @@ void user_input(char *input) {
         memcpy(rizz,"False",strlen("False")+1);
         printf("> ");
     } else if (strcmp(dice,"True") == 0) {
-        if (strcmp(input,"exit") != 0) {
+        if (strcmp(input,"random") == 0) {
             int score = convert(umoney);
             int bscore = convert(kmoney);
             int mroll = randint(6,1) + randint(6,1);
             int kroll = randint(6,1) + randint(6,1);
+            int bet;
+            if (score > 1) {
+                bet = randint(score,1);
+            } else {
+                printf("'damn u broke ash' he said in his native language\n");
+                scroll(1);
+                bet = randint(bscore+200,0);
+            }
+            //int bet = 200;
+            printf("Bet placed: %d\n",bet);
             if (mroll >= kroll) {
-                score = score + convert(input);
-                bscore = bscore - convert(input);
+                score = score + bet;
+                bscore = bscore - bet;
             } else {
                 scroll(1);
                 char shitTalk[30][30] = {
@@ -58,8 +70,38 @@ void user_input(char *input) {
                     "who's mans is this?"
                 };
                 printf("'%s' he said in his native language\n",shitTalk[randint(4,0)]);
-                score = score - convert(input);
-                bscore = bscore + convert(input);
+                score = score - bet;
+                bscore = bscore + bet;
+            }
+            memcpy(umoney,itoa(score),6);
+            memcpy(kmoney,itoa(bscore),6);
+            printf("your roll: %d, klaud roll: %d\n",mroll,kroll);
+            printf("your money: %s, klaud money: %s\n",umoney,kmoney);
+            scroll(4);
+            move_curs(9);
+            printf("Type 'exit' to leave the game\nPlace bet>");
+            bet = 0;
+        } else if (strcmp(input,"exit") != 0) {
+            int score = convert(umoney);
+            int bscore = convert(kmoney);
+            int bet = convert(input);
+            int mroll = randint(6,1) + randint(6,1);
+            int kroll = randint(6,1) + randint(6,1);
+            if (mroll >= kroll) {
+                score = score + bet;
+                bscore = bscore - bet;
+            } else {
+                scroll(1);
+                char shitTalk[30][30] = {
+                    "couldn't be me tho",
+                    "me personally idk",
+                    "DAMN",
+                    "hell nah",
+                    "who's mans is this?"
+                };
+                printf("'%s' he said in his native language\n",shitTalk[randint(4,0)]);
+                score = score - bet;
+                bscore = bscore + bet;
             }
             memcpy(umoney,itoa(score),6);
             memcpy(kmoney,itoa(bscore),6);
@@ -68,6 +110,7 @@ void user_input(char *input) {
             scroll(3);
             move_curs(9);
             printf("Type 'exit' to leave the game\nPlace bet>");
+            bet = 0;
         } else {
             memcpy(dice,"False",strlen("False")+1);
             clrscr();
@@ -126,11 +169,30 @@ void user_input(char *input) {
             printf("\n>");
         // This used to just be a bunch of if statements but now that fixed (thankfully)
         } else if (strcmp(slice_str(input,buffer,0,15),"klaud text-color") == 0) {
-            char clrLst[8][12] = {"blue","green","cyan","red","purple","orange","white","grey"};
             int i = 0;
             if (strcmp(slice_str(input,buffer,17,len),"--help")==0) {
                 scroll(1);
-                printf("klaud text-color supports blue, green, red, purple, orange, white, and grey\n> ");
+                printf("klaud text-color supports ");
+                // haven't done a while loop in a while wanted to try it out
+                // decided to make printing the colors easier in that just adding a color to the clrLst will add it to the colors printed out with the --help command
+                i = 0;
+                char * col = clrLst[i];
+                while (* col != '\0') {
+                    if (* clrLst[i+1] == '\0') {
+                        printf("and %s",col);
+                    } else {
+                        printf("%s ",col);
+                    }
+                    i++;
+                    col = clrLst[i];
+                }
+                printf("\n> ");
+            } else if (strcmp(input,"klaud text-color random") == 0) {
+                int arrMax = *(&numLst + 1) - numLst - 1;
+                int randCol = randint(arrMax,0);
+                changeColor(numLst[randCol]);
+                printf("> Color changed to %s",clrLst[randCol]);
+                printf("\n> ");
             } else if (strlen(input) < 19) {
                 scroll(1);
                 printf("use klaud text-color --help to see available colors\n>");
@@ -184,9 +246,13 @@ void user_input(char *input) {
             if (randNum == 12) {randNum = 11;}   // im not sure why this works but oh well
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
-            graph(slice_str(input,buffer,11,len),23);
-            scroll(23);
-            printf("> ");
+            if (strcmp(slice_str(input,buffer,11,16),"points") == 0) {
+                printf("something will happen soon\n");
+            } else {
+                graph(slice_str(input,buffer,11,len),23);
+                scroll(23);
+                printf("> ");
+            }
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud echo")==0) {
             printf("'%s' Klaud said in his native language",slice_str(input,buffer,11,len));
             scroll(1);
@@ -204,6 +270,34 @@ void user_input(char *input) {
             clrscr();
             memcpy(art,"True",strlen("True")+1);
             printf("Click enter to escape (coming soon)");
+        } else if (strcmp(slice_str(input,buffer,0,11),"klaud random") == 0) {
+            char comm[13][30] = {
+                "klaud",
+                "klaud ascii",
+                "klaud plot x",
+                "klaud echo hello world",
+                "klaud fun-fact",
+                "klaud clear",
+                "klaud rizz",
+                "klaud dice",
+                "klaud text-color ",
+                "klaud haiku",
+                "klaud --help",
+                "klaud live-slug-reaction",
+                "klaud shrine"
+            };
+            int arrMax = *(&comm + 1) - comm - 1;
+            int clrMax = *(&clrLst + 1) - clrLst - 1;
+            int randCom = randint(arrMax,0);
+            // makes text-color random
+            if (strcmp(comm[randCom],"klaud text-color ") == 0 || strcmp(comm[randCom],"klaud text-color") == 0) {
+                int randCol = randint(clrMax,0);
+                strcat(comm[randCom], clrLst[randCol]);
+                printf("%d",randCol);
+            }
+            printf("> %s\n",comm[randCom]);
+            scroll(1);
+            user_input(comm[randCom]);
         } else {
             printf("You said: %s, which is not a certified Klaud command. Use the klaud --help command.",input);
             scroll(2);

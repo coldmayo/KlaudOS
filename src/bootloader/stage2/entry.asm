@@ -21,19 +21,19 @@ entry:
     mov bp, sp
 
     ; switch to protected mode
-    call EnableA20          ; 2 - Enable A20 gate
-    call LoadGDT            ; 3 - Load GDT
+    call EnableA20          ; Enable A20 gate
+    call LoadGDT            ; Load GDT
 
-    ; 4 - set protection enable flag in CR0
+    ; set protection enable flag in CR0
     mov eax, cr0
     or al, 1
     mov cr0, eax
 
-    ; 5 - far jump into protected mode
+    ; jump into protected mode
     jmp dword 08h:.pmode
 
 .pmode:
-    ; we are now in protected mode!
+    ; we are now in 32 bit protected mode! RAAAAAAAAAAAAAAAA!!!
     [bits 32]
     
     ; 6 - setup segment registers

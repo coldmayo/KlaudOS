@@ -346,28 +346,28 @@ void append(char s[], char n) {
     s[len+1] = '\0';
 }
 
-// Lehmer random number generator
+// Lehmer random number generator (stolen from wiki)
 
 int rand(uint32_t *state) {
     	// Precomputed parameters for Schrage's method
     
 	const uint32_t M = 0x7fffffff;
 	const uint32_t A = 48271;
-	const uint32_t Q = M / A;    // 44488
-	const uint32_t R = M % A;    //  3399
+	const uint32_t Q = M / A;
+	const uint32_t R = M % A; 
 
-	uint32_t div = *state / Q;	// max: M / Q = A = 48,271
-	uint32_t rem = *state % Q;	// max: Q - 1     = 44,487
+	uint32_t div = *state / Q;
+	uint32_t rem = *state % Q;
 
-	int32_t s = rem * A;	// max: 44,487 * 48,271 = 2,147,431,977 = 0x7fff3629
-	int32_t t = div * R;	// max: 48,271 *  3,399 =   164,073,129
+	int32_t s = rem * A;
+	int32_t t = div * R;
 	int32_t result = s - t;
-    //int res = result%((nMax+1)-nMin) + nMin;
 	return *state = result;
 }
 
 int randint(int hi, int lo) {
-    return rand(32)%((hi+1)-lo) + lo;
+    uint32_t seed;
+    return rand(seed)%((hi+1)-lo) + lo;
 }
 
 char * slice_str(const char * str, char * buffer, int start, int end)
@@ -381,8 +381,21 @@ char * slice_str(const char * str, char * buffer, int start, int end)
 }
 
 void reboot() {
-    uint8_t good = 0x02;
-    while (good & 0x02)
-        good = i686_inb(0x64);
+    uint8_t shawtylikeamelodyinmyhead = 0x02;   // not changing this its too silly
+    while (shawtylikeamelodyinmyhead & 0x02)
+        shawtylikeamelodyinmyhead = i686_inb(0x64);
     i686_outb(0x64, 0xFE);
+}
+
+int isNum(char num) {
+    char arr[30] = "1234567890+=/*^-%!";
+    int i = 0;
+    for (i=0;i < strlen(arr);i++) {
+        //printf("%c%c",arr[i],num);
+        if (arr[i] == num) {
+            //printf("%c%c",num,arr[i]);
+            return 1;
+        }
+    }
+    return 0;
 }

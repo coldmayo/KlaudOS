@@ -1,15 +1,13 @@
 #include "include/strings.h"
 #include "include/stdio.h"
 
-char *strcpy(char *s1, const char *s2)
-{
+char *strcpy(char *s1, const char *s2) {
 	strncpy(s1, s2, strlen(s2) + 1);
 	s1[strlen(s2)] = '\0'; //tack on the null terminating character if it wasn't already done
 	return s1;
 }
 
-char *strncpy(char *s1, const char *s2, size_t n)
-{
+char *strncpy(char *s1, const char *s2, size_t n) {
 	unsigned int extern_iter = 0; //when s2's length is shorter than n, this allows the function to continue padding null characters
 
 	unsigned int iterator = 0;
@@ -34,8 +32,7 @@ char *strncpy(char *s1, const char *s2, size_t n)
 	return s1;
 }
 
-int strncmp(const char *s1, const char *s2, size_t n)
-{
+int strncmp(const char *s1, const char *s2, size_t n) {
 	unsigned int count = 0;
 	while (count < n)
 	{
@@ -53,8 +50,7 @@ int strncmp(const char *s1, const char *s2, size_t n)
 	return 0;
 }
 
-int convert(char s[])
-{
+int convert(char s[]) {
     int num = 0;
     int n = strlen(s);
     for (int i = 0; i < n; i++)
@@ -62,8 +58,7 @@ int convert(char s[])
     return num;
 }
 
-char *itoa(int nbr)
-{
+char *itoa(int nbr) {
     static char rep[] = "0123456789";
     static char buff[65];
     char        *ptr;
@@ -84,4 +79,8 @@ char *itoa(int nbr)
     if (neg < 0)
         *--ptr = '-';
     return (ptr);
+}
+
+char * strcat(char *dst, const char *src) {
+    return strcpy(dst + strlen(dst), src);
 }

@@ -92,6 +92,14 @@ int calc(char * str) {
             start = str + 1;
             lastOp = *str;
             i++;
+        } else if (*str == '(' || *str == ')') {
+            start = str + 1;
+            ans = ans;
+        } else if (isNum(*str) == 0) {
+                //printf("%s",str);
+            printf("'thats not a number dumbass' he said in his native language\n");
+            scroll(1);
+            return 0;
         }
     }
     // catches last numbers
@@ -124,31 +132,33 @@ void removeChar(char *str, char garbage) {
 
 int eval(char *input,int k) {
     int i;
-    int j=0;
+    int j = 0;
     char buffer[256];
-    if (k > 9) {
-        for (i=0;input[i]!='\0';i++) {
-            if (input[i]=='x') {
-                int dig1 = k/10;
-                int dig2 = k%10;
-                buffer[j] = dig1+'0';
-                buffer[j+1] = dig2 +'0';
+    for (i=0;i<strlen(input)+2;i++) {
+        if (input[i]=='x') {
+            if (k == 10) {
+                j = i;
+                buffer[j] = '1';
+                buffer[j+1] = '0';
                 j++;
-            } else {
-                buffer[j] = input[i];
+                //printf("%s ",buffer);
+            } else if (k < 10) {
+                j = i;
+                char * num = itoa(k);
+                buffer[j] = num[0];
+                //printf("%s ",buffer);
+            } else if (k > 10) {
+                j = i;
+                char * num = itoa(k);
+                buffer[j] = num[0];
+                buffer[j+1] = num[1];
+                j++;
+                //printf("%s ",buffer);
             }
-            j++;
+        } else {
+            buffer[j] = input[i];
         }
-    } else if (k < 10) {
-        for (i=0;i<strlen(input);i++) {
-            if (input[i]=='x') {
-                buffer[i] = k+'0';
-            } else {
-                buffer[i] = input[i];
-            }
-        }
-        char buff[strlen(input)+1];
-        slice_str(buffer,buffer,0,strlen(input)-1);
+        j++;
     }
     
     return calc(buffer);
@@ -163,6 +173,7 @@ void graph(char *input,int yhi) {
     for (y=yhi;y>=1;y--) {
         for (x=1;x<=80;x++) {
             int f = eval(input,x);
+            //printf("%d ",f);
             if (y == f) {
                 printf("o");
             } else if (x == 1 && y == 1 && y != f) {
@@ -170,6 +181,33 @@ void graph(char *input,int yhi) {
             } else if (x == 1 && y != f) {
                 printf("|");
             } else if (y == 1 && y != f) {
+                printf("-");
+            } else {
+                printf(" ");
+            }
+        }
+    }
+}
+
+int linReg(int * x, int * y) {
+    // linear regression stuff here
+}
+
+void plotPoint(char * points, int yhi) {
+    clrscr();
+    int xi;
+    int yi;
+    int x,y,f;
+    int i = 0;
+    for (y=yhi;yi>=1;yi--) {
+        for (xi=1;xi<=80;xi++) {
+            if (yi == f && xi == x) {
+                printf("o");
+            } else if (xi == 1 && yi == 1 && yi != f) {
+                printf("+");
+            } else if (xi == 1 && yi != f) {
+                printf("|");
+            } else if (yi == 1 && yi != f) {
                 printf("-");
             } else {
                 printf(" ");

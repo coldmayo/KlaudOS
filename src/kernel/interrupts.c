@@ -62,6 +62,7 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 	unsigned char ascii;
 	static char key_buffer[256];
 	static char prevComm[256];
+	//char prevComm[256][256];   make this array of prev commands
 	int shift;
 	switch (interrupt){
 		case INTERRUPTS_KEYBOARD:
@@ -74,18 +75,13 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				memcpy(prevComm,key_buffer,lim+1);
 				// clearing input
 				int i;
-				for (i=0;i<256;i++) {
-					key_buffer[i] = '\0';
-				}
+				memset(key_buffer, '\0', sizeof(key_buffer));
 				lim = 0;
 				cursPos = 0;
 			} else if (scan_code == 1) {
 				printf("\n> ");
 				// clearing input
-				int i;
-				for (i=0;i<256;i++) {
-					key_buffer[i] = '\0';
-				}
+				memset(key_buffer, '\0', sizeof(key_buffer));
 				scroll(1);
 			} else if (scan_code == 72) {
 				memcpy(key_buffer,prevComm,256);
@@ -100,6 +96,8 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				else if (scan_code==9) {scan_code = 86;}
 				else if (scan_code==2) {scan_code = 87;}
 				else if (scan_code==43) {scan_code = 88;}
+				else if (scan_code==10) {scan_code = 89;}
+				else if (scan_code==11) {scan_code = 90;}
 				ascii = keyboard_scan_code_to_ascii(scan_code);
 				key_buffer[cursPos] = ascii;
 				fb_write(ascii,BUFFER_COUNT);
@@ -108,7 +106,6 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				cursPos++;
 			} else if (scan_code == 14) {
 				if (lim > 0) {
-					//backspace(key_buffer);
 					BUFFER_COUNT--;
 					fb_clear(BUFFER_COUNT);
 					key_buffer[cursPos-1] = '\0';

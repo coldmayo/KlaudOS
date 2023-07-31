@@ -37,8 +37,6 @@ typedef struct
     uint8_t VolumeLabel[11];    // 11 bytes, padded with spaces
     uint8_t SystemId[8];
 
-    // ... we don't care about code ...
-
 } __attribute__((packed)) FAT_BootSector;
 
 
@@ -89,7 +87,7 @@ bool FAT_Initialize(DISK* disk)
     // read boot sector
     if (!FAT_ReadBootSector(disk))
     {
-        printf("FAT: read boot sector failed\r\n");
+        printf("FAT: shawty does NOT have a fatty\r\n");
         return false;
     }
 
@@ -98,13 +96,13 @@ bool FAT_Initialize(DISK* disk)
     uint32_t fatSize = g_Data->BS.BootSector.BytesPerSector * g_Data->BS.BootSector.SectorsPerFat;
     if (sizeof(FAT_Data) + fatSize >= MEMORY_FAT_SIZE)
     {
-        printf("FAT: not enough memory to read FAT! Required %lu, only have %u\r\n", sizeof(FAT_Data) + fatSize, MEMORY_FAT_SIZE);
+        printf("FAT: not enough memory to read FAT! Required %lu, only have %u, therefore: shawty does NOT have a fatty\r\n", sizeof(FAT_Data) + fatSize, MEMORY_FAT_SIZE);
         return false;
     }
 
     if (!FAT_ReadFat(disk))
     {
-        printf("FAT: read FAT failed\r\n");
+        printf("FAT: shawty does NOT have a fatty\r\n");
         return false;
     }
 
@@ -123,7 +121,7 @@ bool FAT_Initialize(DISK* disk)
 
     if (!DISK_ReadSectors(disk, rootDirLba, 1, g_Data->RootDirectory.Buffer))
     {
-        printf("FAT: read root directory failed\r\n");
+        printf("FAT: read root directory failed, therefore: shawty does NOT have a fatty\r\n");
         return false;
     }
 
@@ -156,7 +154,7 @@ FAT_File* FAT_OpenEntry(DISK* disk, FAT_DirectoryEntry* entry)
     // out of handles
     if (handle < 0)
     {
-        printf("FAT: out of file handles\r\n");
+        printf("FAT: out of file handles, therefore: shawty does NOT have a fatty\r\n");
         return false;
     }
 
@@ -172,7 +170,7 @@ FAT_File* FAT_OpenEntry(DISK* disk, FAT_DirectoryEntry* entry)
 
     if (!DISK_ReadSectors(disk, FAT_ClusterToLba(fd->CurrentCluster), 1, fd->Buffer))
     {
-        printf("FAT: open entry failed - read error cluster=%u lba=%u\n", fd->CurrentCluster, FAT_ClusterToLba(fd->CurrentCluster));
+        printf("FAT: shawty does NOT have a fatty - read error cluster=%u lba=%u\n", fd->CurrentCluster, FAT_ClusterToLba(fd->CurrentCluster));
         for (int i = 0; i < 11; i++)
             printf("%c", entry->Name[i]);
         printf("\n");
@@ -228,7 +226,7 @@ uint32_t FAT_Read(DISK* disk, FAT_File* file, uint32_t byteCount, void* dataOut)
                 // read next sector
                 if (!DISK_ReadSectors(disk, fd->CurrentCluster, 1, fd->Buffer))
                 {
-                    printf("FAT: read error!\r\n");
+                    printf("FAT: shawty does NOT have a fatty\r\n");
                     break;
                 }
             }
@@ -251,7 +249,7 @@ uint32_t FAT_Read(DISK* disk, FAT_File* file, uint32_t byteCount, void* dataOut)
                 // read next sector
                 if (!DISK_ReadSectors(disk, FAT_ClusterToLba(fd->CurrentCluster) + fd->CurrentSectorInCluster, 1, fd->Buffer))
                 {
-                    printf("FAT: read error!\r\n");
+                    printf("FAT: shawty does NOT have a fatty\r\n");
                     break;
                 }
             }
@@ -351,7 +349,7 @@ FAT_File* FAT_Open(DISK* disk, const char* path)
             // check if directory
             if (!isLast && entry.Attributes & FAT_ATTRIBUTE_DIRECTORY == 0)
             {
-                printf("FAT: %s not a directory\r\n", name);
+                printf("FAT: %s not a directory, therefore: shawty does NOT have a fatty\r\n", name);
                 return NULL;
             }
 
@@ -362,7 +360,7 @@ FAT_File* FAT_Open(DISK* disk, const char* path)
         {
             FAT_Close(current);
 
-            printf("FAT: %s not found\r\n", name);
+            printf("FAT: %s not found, therefore: shawty does NOT have a fatty\r\n", name);
             return NULL;
         }
     }

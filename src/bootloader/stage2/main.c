@@ -76,7 +76,7 @@ void __attribute__((cdecl)) start(uint16_t bootDrive)
             int h = modeInfo->height;
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
-                    fb[y * modeInfo->pitch / 4 + x] = COLOR(100, 0, 0);  // add color 
+                    fb[y * modeInfo->pitch / 4 + x] = COLOR(100, 0, 0);  // add color r g b
                 }
             }
         }

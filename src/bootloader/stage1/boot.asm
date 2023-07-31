@@ -1,3 +1,5 @@
+; bootloader taken from nanobyte youtube channel. Check his channel out hes awesome
+
 org 0x7C00
 bits 16
 
@@ -5,9 +7,9 @@ bits 16
 %define ENDL 0x0D, 0x0A
 
 
-;
+
 ; FAT12 header
-; 
+
 jmp short start
 nop
 
@@ -30,7 +32,7 @@ ebr_drive_number:           db 0                    ; 0x00 floppy, 0x80 hdd, use
                             db 0                    ; reserved
 ebr_signature:              db 29h
 ebr_volume_id:              db 12h, 34h, 56h, 78h   ; serial number, value doesn't matter
-ebr_volume_label:           db 'NANOBYTE OS'        ; 11 bytes, padded with spaces
+ebr_volume_label:           db 'KLAUDOS'        ; OS label
 ebr_system_id:              db 'FAT12   '           ; 8 bytes
 
 start:
@@ -41,7 +43,7 @@ start:
     
     ; setup stack
     mov ss, ax
-    mov sp, 0x7C00              ; stack grows downwards from where we are loaded in memory
+    mov sp, 0x7C00      ; first sector saved at this address
 
     ; some BIOSes might start us at 07C0:0000 instead of 0000:7C00, make sure we are in the
     ; expected location
@@ -145,7 +147,6 @@ start:
     ; Read next cluster
     mov ax, [stage2_cluster]
     
-    ; not nice :( hardcoded value
     add ax, 31                          ; first cluster = (stage2_cluster - 2) * sectors_per_cluster + start_sector
                                         ; start sector = reserved + fats + root directory size = 1 + 18 + 134 = 33
     mov cl, 1
@@ -196,7 +197,7 @@ start:
     jmp wait_key_and_reboot             ; should never happen
 
     cli                                 ; disable interrupts, this way CPU can't get out of "halt" state
-    hlt
+    hlt                                 ; will be re-enabled in kernel
 
 
 ;
@@ -220,7 +221,7 @@ wait_key_and_reboot:
 
 .halt:
     cli                         ; disable interrupts, this way CPU can't get out of "halt" state
-    hlt
+    hlt                         ; will be re-enabled in kernel
 
 
 ;
@@ -357,7 +358,7 @@ disk_reset:
     popa
     ret
 
-
+; load sector 2
 msg_loading:            db 'Loading...', ENDL, 0
 msg_read_failed:        db 'Read from disk failed!', ENDL, 0
 msg_stage2_not_found:   db 'STAGE2.BIN file not found!', ENDL, 0
@@ -367,8 +368,9 @@ stage2_cluster:         dw 0
 STAGE2_LOAD_SEGMENT     equ 0x0
 STAGE2_LOAD_OFFSET      equ 0x500
 
-
+; 
 times 510-($-$$) db 0
-dw 0AA55h
+; magic numba (last two bytes that tell the computer to boot the system)
+dw 0AA55h   ; computer sees this 
 
 buffer:
