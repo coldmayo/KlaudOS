@@ -52,6 +52,7 @@ void help() {
         "klaud math <expression>: the operating system's 4 function calculator\r\n"
         "klaud plot <expression>: plots given function (i.e. x^2, x+1)\r\n"
         "klaud fun-fact: get fun facts about Klaud!\r\n"
+        "klaud random: klaud chooses a command for you!\r\n"
         "Keys:\r\n"
         "Backspace: works like normal. not sure what else you would expect\r\n"
         "Esc: makes new line without running the previous\r\n"
@@ -59,5 +60,5 @@ void help() {
         "Up arrow: returns the previous command into current line\r\n"
         "Shift: same usage as normal (uppercase not supported yet)"
     );
-    scroll(21);
+    scroll(22);
 }
