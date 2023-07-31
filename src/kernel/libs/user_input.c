@@ -23,8 +23,8 @@ void user_input(char *input) {
     static char umoney[6];
     static char kmoney[6];
     static char art[6];
-    uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
-    char clrLst[8][12] = {"blue","green","cyan","red","purple","orange","white","grey","black"};
+    uint8_t numLst[9] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
+    char clrLst[9][12] = {"blue","green","cyan","red","purple","orange","white","grey","black"};
     if (strcmp(rizz,"True") == 0) {
         int score = rizzScore(input);
         printf("\n");
@@ -288,7 +288,7 @@ void user_input(char *input) {
             };
             int arrMax = *(&comm + 1) - comm - 1;
             int clrMax = *(&clrLst + 1) - clrLst - 1;
-            int randCom = randint(arrMax,0);
+            int randCom = abs(randint(arrMax,0));
             // makes text-color random
             if (strcmp(comm[randCom],"klaud text-color ") == 0 || strcmp(comm[randCom],"klaud text-color") == 0) {
                 int randCol = randint(clrMax,0);
