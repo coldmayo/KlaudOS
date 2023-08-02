@@ -252,7 +252,10 @@ void user_input(char *input) {
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             if (strcmp(slice_str(input,buffer,11,16),"points") == 0) {
-                printf("something will happen soon\n");
+                //printf("something will happen soon\n");
+                plotPoint(slice_str(input,buffer,18,len),23);
+                scroll(23);
+                printf("> ");
             } else {
                 graph(slice_str(input,buffer,11,len),23);
                 scroll(23);

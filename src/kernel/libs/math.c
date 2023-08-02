@@ -197,15 +197,39 @@ void plotPoint(char * points, int yhi) {
     clrscr();
     int xi;
     int yi;
-    int x,y,f;
     int i = 0;
-    for (y=yhi;yi>=1;yi--) {
-        for (xi=1;xi<=80;xi++) {
+    int j = 0;
+    int k;
+    char numxdum[2];
+    char numydum[2];
+    char * thing = numxdum;
+    char buffer[2];
+    while (points[i] != '\0') {
+        if (isNum(points[i]) == 1) {
+            //printf("%c",points[i]);
+            thing[j] = points[i];
+            j++;
+        } else if (isNum(points[i]) == 0) {
+            k = j;
+            j = 0;
+            //printf("%s",thing);
+            thing = numydum;
+        }
+        i++;
+    }
+    //char * numx = slice_str(numxdum,buffer,0,k-1);
+    char * numx = slice_str(numydum,buffer,0,3);
+    char * numy = slice_str(numydum,buffer,0,3);
+    //printf("%s\n%s",numx,numy);
+    int x = convert(numx);
+    int f = convert(numy);
+    for (yi=yhi;yi>=1;yi--) {
+        for (xi = 1;xi<=80;xi++) {
             if (yi == f && xi == x) {
                 printf("o");
             } else if (xi == 1 && yi == 1 && yi != f) {
                 printf("+");
-            } else if (xi == 1 && yi != f) {
+            } else if (xi == 1 && xi != x) {
                 printf("|");
             } else if (yi == 1 && yi != f) {
                 printf("-");
