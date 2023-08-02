@@ -20,8 +20,12 @@ void makeLine(int numSyl,int * struc) {
         int newWord = randint(syl,1);
         if (newWord != 0) {
             syl = syl-newWord;
-            struc[i] = abs(newWord);
-            //printf("%d",newWord);
+            if (syl >= 0 && newWord > 0) {
+                struc[i] = newWord;
+                // printf("%d",newWord);
+            } else {
+                syl += newWord;
+            }
         }
     }
     printf("\n");

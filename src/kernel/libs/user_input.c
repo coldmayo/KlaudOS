@@ -23,8 +23,8 @@ void user_input(char *input) {
     static char umoney[6];
     static char kmoney[6];
     static char art[6];
-    uint8_t numLst[9] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
-    char clrLst[9][12] = {"blue","green","cyan","red","purple","orange","white","grey","black"};
+    uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8};
+    char clrLst[8][12] = {"blue","green","cyan","red","purple","orange","white","grey"};
     if (strcmp(rizz,"True") == 0) {
         int score = rizzScore(input);
         printf("\n");
@@ -169,6 +169,8 @@ void user_input(char *input) {
             printf("\n>");
         // This used to just be a bunch of if statements but now that fixed (thankfully)
         } else if (strcmp(slice_str(input,buffer,0,15),"klaud text-color") == 0) {
+            uint8_t numLst[9] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,'\0'};
+            char clrLst[9][12] = {"blue","green","cyan","red","purple","orange","white","grey",'\0'};
             int i = 0;
             if (strcmp(slice_str(input,buffer,17,len),"--help")==0) {
                 scroll(1);
@@ -180,6 +182,8 @@ void user_input(char *input) {
                 while (* col != '\0') {
                     if (* clrLst[i+1] == '\0') {
                         printf("and %s",col);
+                    } else if (i == 0) {
+                        printf("blue ");
                     } else {
                         printf("%s ",col);
                     }
@@ -243,6 +247,7 @@ void user_input(char *input) {
             int arrMax = *(&factList + 1) - factList;
             int randNum = randint(arrMax,0);
             if (randNum == 9 || randNum == 8) {scroll(2);}
+            else {scroll(1);}
             if (randNum == 12) {randNum = 11;}   // im not sure why this works but oh well
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
