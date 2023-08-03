@@ -251,11 +251,15 @@ void user_input(char *input) {
             if (randNum == 12) {randNum = 11;}   // im not sure why this works but oh well
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
-            if (strcmp(slice_str(input,buffer,11,16),"points") == 0) {
+            if (strcmp(slice_str(input,buffer,11,15),"point") == 0) {
                 //printf("something will happen soon\n");
-                plotPoint(slice_str(input,buffer,18,len),22);
+                plotPoint(slice_str(input,buffer,17,len),22);
                 scroll(22);
                 printf("> ");
+            } else if (strcmp(slice_str(input,buffer,11,15),"clear") == 0) {
+                clearPoints();
+                scroll(1);
+                printf("points cleared\n> ");
             } else {
                 graph(slice_str(input,buffer,11,len),23);
                 scroll(23);

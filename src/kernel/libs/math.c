@@ -3,6 +3,8 @@
 #include "include/stdio.h"
 #include "include/memory.h"
 
+char allPoints[256] = "\0";
+
 int abs(int i) {
     if (i < 0) {
         i = -1*i;
@@ -190,6 +192,10 @@ void graph(char *input,int yhi) {
     }
 }
 
+void clearPoints() {
+    memset(allPoints, '\0', sizeof(allPoints));
+}
+
 int linReg(int * x, int * y) {
     // linear regression stuff here
 }
@@ -251,11 +257,46 @@ void plotPoint(char * points, int yhi) {
 
     plot[f][x] = 'o';
 
+    int n = 0;
+    int o = 0;
+    int p = 0;
+    int arr[256] = {0,0};
+    char buff[2] = {'\0','\0'};
+    while (allPoints[n] != '\0') {
+        if (isNum(allPoints[n])==1) {
+            buff[o] = allPoints[n];
+            o++;
+        } else {
+            o = 0;
+            arr[p] = convert(buff)+1;
+            p++;
+            memset(buff, '\0', sizeof(buff));
+        }
+        n++;
+    }
+    arr[n+1] = 0;
+
+    n = 0;
+    while (arr[n] != 0) {
+        plot[arr[n]+1][arr[n+1]+1] = 'o';
+        //printf("%d %d",arr[n],arr[n+1]);
+        n+=2;
+    }
+
     for (j = yhi; j > 0; j--) {
         for (i = 0; i < 80; i++) {
             putc(plot[j][i]);
         }
     }
 
-    //printf("%d %d",x,f);
+    //printf("\n%d %d",arr[0],arr[1]);
+
+    // not sure why but when I do the strcat's above the for loops it doesn't work. probs a memory thing idk
+
+    strcat(allPoints,itoa(f-1));
+    strcat(allPoints,",");
+    strcat(allPoints,itoa(x-1));
+    strcat(allPoints,",");
+    //printf("%s",allPoints);
+    //printf("%d",arr[1]);
 }
