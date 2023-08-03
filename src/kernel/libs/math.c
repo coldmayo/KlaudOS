@@ -235,8 +235,8 @@ void plotPoint(char * points, int yhi) {
     }
     //printf("%s",numxdum);
     //printf("%s",slice_str(numydum,buffer,0,k-1));
-    int f = convert(slice_str(numydum,buffer,0,1)) + 1;
-    int x = convert(slice_str(numxdum,buffer,0,1)) + 1;
+    int f = convert(slice_str(numydum,buffer,0,1));
+    int x = convert(slice_str(numxdum,buffer,0,1));
     //yhi--;
     char plot[yhi][80];
 
@@ -261,21 +261,20 @@ void plotPoint(char * points, int yhi) {
     int o = 0;
     int p = 0;
     int arr[256] = {0,0};
-    char buff[2] = {'\0','\0'};
+    char buff[256] = {'\0','\0'};
     while (allPoints[n] != '\0') {
         if (isNum(allPoints[n])==1) {
             buff[o] = allPoints[n];
             o++;
         } else {
             o = 0;
-            arr[p] = convert(buff)+1;
+            arr[p] = convert(slice_str(buff,buffer,0,1));
             p++;
             memset(buff, '\0', sizeof(buff));
         }
         n++;
     }
     arr[n+1] = 0;
-
     n = 0;
     while (arr[n] != 0) {
         plot[arr[n]+1][arr[n+1]+1] = 'o';
@@ -293,9 +292,9 @@ void plotPoint(char * points, int yhi) {
 
     // not sure why but when I do the strcat's above the for loops it doesn't work. probs a memory thing idk
 
-    strcat(allPoints,itoa(f-1));
+    strcat(allPoints,itoa(f));
     strcat(allPoints,",");
-    strcat(allPoints,itoa(x-1));
+    strcat(allPoints,itoa(x));
     strcat(allPoints,",");
     //printf("%s",allPoints);
     //printf("%d",arr[1]);
