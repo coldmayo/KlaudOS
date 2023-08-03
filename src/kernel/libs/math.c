@@ -224,25 +224,27 @@ void plotPoint(char * points, int yhi) {
     }
     //printf("%s",numxdum);
     //printf("%s",slice_str(numydum,buffer,0,k-1));
-    int f = convert(slice_str(numydum,buffer,0,k));
-    int x = convert(slice_str(numxdum,buffer,0,j));
+    int f = convert(slice_str(numydum,buffer,0,1)) + 1;
+    int x = convert(slice_str(numxdum,buffer,0,1)) + 1;
     //printf("%d %d",x,f);
-    //printf("%d%d",f,x);
+    
     for (yi=yhi;yi>=1;yi--) {
         for (xi = 1;xi<=80;xi++) {
             if (yi == f && xi == x) {
                 printf("o");
             } else if (xi == 1 && yi == 1 && yi != f) {
                 printf("+");
-            } else if (xi == 1 && xi != x) {
+            } else if (xi == 1) {
                 printf("|");
-            } else if (yi == 1 && yi != f) {
+            } else if (yi == 1) {
                 printf("-");
             } else {
                 printf(" ");
             }
         }
     }
+
+    // just making sure everything is ACTUALLY set to 0. I have trust issues with this function now
     j = 0;
     i = 0;
     memset(numxdum, '\0', sizeof(numxdum));
