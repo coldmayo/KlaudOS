@@ -194,6 +194,11 @@ int linReg(int * x, int * y) {
     // linear regression stuff here
 }
 
+// I had to refactor this once I realized I wanted to plot multiple points
+// It's a lot easier if I make a matrix (basically string array) and save points to that
+// instead of printing straight away
+// also nice since no if statements :)
+
 void plotPoint(char * points, int yhi) {
     clrscr();
     int xi;
@@ -226,29 +231,31 @@ void plotPoint(char * points, int yhi) {
     //printf("%s",slice_str(numydum,buffer,0,k-1));
     int f = convert(slice_str(numydum,buffer,0,1)) + 1;
     int x = convert(slice_str(numxdum,buffer,0,1)) + 1;
+    //yhi--;
+    char plot[yhi][80];
+
     //printf("%d %d",x,f);
-    
-    for (yi=yhi;yi>=1;yi--) {
+
+    for (yi=1;yi<=yhi;yi++) {
         for (xi = 1;xi<=80;xi++) {
-            if (yi == f && xi == x) {
-                printf("o");
-            } else if (xi == 1 && yi == 1 && yi != f) {
-                printf("+");
-            } else if (xi == 1) {
-                printf("|");
-            } else if (yi == 1) {
-                printf("-");
-            } else {
-                printf(" ");
-            }
+            plot[yi][xi] = ' ';
+        }
+    }
+    for(j=1;j<yhi;j++) {
+        plot[j][1] = '|';
+    }
+    for(i=1;i<80;i++) {
+        plot[1][i] = '-';
+    }
+    plot[1][1] = '+';
+
+    plot[f][x] = 'o';
+
+    for (j = yhi; j > 0; j--) {
+        for (i = 0; i < 80; i++) {
+            putc(plot[j][i]);
         }
     }
 
-    // just making sure everything is ACTUALLY set to 0. I have trust issues with this function now
-    j = 0;
-    i = 0;
-    memset(numxdum, '\0', sizeof(numxdum));
-    memset(numydum, '\0', sizeof(numydum));
-    memset(points, '\0', sizeof(points));
     //printf("%d %d",x,f);
 }
