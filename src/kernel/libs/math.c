@@ -1,6 +1,7 @@
 #include "include/math.h"
 #include "include/strings.h"
 #include "include/stdio.h"
+#include "include/memory.h"
 
 int abs(int i) {
     if (i < 0) {
@@ -199,9 +200,9 @@ void plotPoint(char * points, int yhi) {
     int yi;
     int i = 0;
     int j = 0;
-    int k;
-    char numxdum[2];
-    char numydum[2];
+    int k = 0;
+    char numxdum[2] = {'\0','\0'};
+    char numydum[2] = {'\0','\0'};
     char * thing = numxdum;
     char buffer[2];
     while (points[i] != '\0') {
@@ -209,7 +210,11 @@ void plotPoint(char * points, int yhi) {
             //printf("%c",points[i]);
             thing[j] = points[i];
             j++;
-        } else if (isNum(points[i]) == 0) {
+        } else if (points[i] == '(') {
+            j = 0;
+        } else if (points[i] == ')') {
+            j = 0;
+        } else if (isNum(points[i]) != 1) {
             k = j;
             j = 0;
             //printf("%s",thing);
@@ -217,12 +222,12 @@ void plotPoint(char * points, int yhi) {
         }
         i++;
     }
-    //char * numx = slice_str(numxdum,buffer,0,k-1);
-    char * numx = slice_str(numydum,buffer,0,3);
-    char * numy = slice_str(numydum,buffer,0,3);
-    //printf("%s\n%s",numx,numy);
-    int x = convert(numx);
-    int f = convert(numy);
+    //printf("%s",numxdum);
+    //printf("%s",slice_str(numydum,buffer,0,k-1));
+    int f = convert(slice_str(numydum,buffer,0,k));
+    int x = convert(slice_str(numxdum,buffer,0,j));
+    //printf("%d %d",x,f);
+    //printf("%d%d",f,x);
     for (yi=yhi;yi>=1;yi--) {
         for (xi = 1;xi<=80;xi++) {
             if (yi == f && xi == x) {
@@ -238,4 +243,10 @@ void plotPoint(char * points, int yhi) {
             }
         }
     }
+    j = 0;
+    i = 0;
+    memset(numxdum, '\0', sizeof(numxdum));
+    memset(numydum, '\0', sizeof(numydum));
+    memset(points, '\0', sizeof(points));
+    //printf("%d %d",x,f);
 }
