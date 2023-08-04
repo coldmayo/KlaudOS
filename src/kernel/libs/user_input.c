@@ -260,6 +260,9 @@ void user_input(char *input) {
                 clearPoints();
                 scroll(1);
                 printf("points cleared\n> ");
+            } else if (strcmp(slice_str(input,buffer,11,16),"--help") == 0) {
+                printf("The klaud plotting system.\nExample commands:\nklaud plot x (plots y = x)\nklaud plot point 2 3 (plots point at (2,3))\nklaud plot clear (clears plot)\nNOTE: the max y value for the plots is 21 and 80 for x\n> ");
+                scroll(6);
             } else {
                 graph(slice_str(input,buffer,11,len),23);
                 scroll(23);

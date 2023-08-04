@@ -203,7 +203,7 @@ int linReg(int * x, int * y) {
 // I had to refactor this once I realized I wanted to plot multiple points
 // It's a lot easier if I make a matrix (basically string array) and save points to that
 // instead of printing straight away
-// also nice since no if statements :)
+// also nice since no if statements :) but code is still fucking gross
 
 void plotPoint(char * points, int yhi) {
     clrscr();
@@ -235,8 +235,8 @@ void plotPoint(char * points, int yhi) {
     }
     //printf("%s",numxdum);
     //printf("%s",slice_str(numydum,buffer,0,k-1));
-    int f = convert(slice_str(numydum,buffer,0,1));
-    int x = convert(slice_str(numxdum,buffer,0,1));
+    int f = convert(slice_str(numydum,buffer,0,1)) + 1;
+    int x = convert(slice_str(numxdum,buffer,0,1)) + 1;
     //yhi--;
     char plot[yhi][80];
 
@@ -255,12 +255,13 @@ void plotPoint(char * points, int yhi) {
     }
     plot[1][1] = '+';
 
-    plot[f][x] = 'o';
+    plot[f][x] = 'X';
 
     int n = 0;
     int o = 0;
     int p = 0;
     int arr[256] = {0,0};
+    memset(arr, '\0', sizeof(arr));
     char buff[256] = {'\0','\0'};
     while (allPoints[n] != '\0') {
         if (isNum(allPoints[n])==1) {
@@ -277,7 +278,7 @@ void plotPoint(char * points, int yhi) {
     arr[n+1] = 0;
     n = 0;
     while (arr[n] != 0) {
-        plot[arr[n]+1][arr[n+1]+1] = 'o';
+        plot[arr[n]][arr[n+1]] = 'O';
         //printf("%d %d",arr[n],arr[n+1]);
         n+=2;
     }

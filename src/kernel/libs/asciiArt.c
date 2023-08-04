@@ -51,7 +51,6 @@ void help() {
         "klaud restart: restarts kernel\r\n"
         "klaud math <expression>: the operating system's 4 function calculator\r\n"
         "klaud plot <expression>: plots given function (i.e. x^2, x+1)\r\n"
-        "klaud plot points x y: plots given points\r\n"
         "klaud fun-fact: get fun facts about Klaud!\r\n"
         "klaud random: klaud chooses a command for you!\r\n"
         "Keys:\r\n"
@@ -61,5 +60,5 @@ void help() {
         "Up arrow: returns the previous command into current line\r\n"
         "Shift: same usage as normal (uppercase not supported yet)"
     );
-    scroll(23);
+    scroll(22);
 }
