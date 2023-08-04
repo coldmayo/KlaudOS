@@ -208,6 +208,11 @@ void user_input(char *input) {
                         used++;
                         printf("> Color changed to %s",clrLst[i]);
                         printf("\n> ");
+                    } else if (strcmp(slice_str(input,buffer,17,len),"default") == 0) {
+                        changeColor(numLst[6]);
+                        used++;
+                        printf("> Color changed to default");
+                        printf("\n> ");
                     }
                 }
                 if (used == 0) {
