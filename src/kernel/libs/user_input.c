@@ -55,7 +55,6 @@ void user_input(char *input) {
                 scroll(1);
                 bet = randint(bscore+200,0);
             }
-            //int bet = 200;
             printf("Bet placed: %d\n",bet);
             if (mroll >= kroll) {
                 score = score + bet;
@@ -257,7 +256,6 @@ void user_input(char *input) {
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             if (strcmp(slice_str(input,buffer,11,15),"point") == 0) {
-                //printf("something will happen soon\n");
                 plotPoint(slice_str(input,buffer,17,len),22);
                 scroll(22);
                 printf("> ");
@@ -285,7 +283,7 @@ void user_input(char *input) {
             klaud_ascii();
             printf("your money:%s, klaud money: %s",umoney,kmoney);
             move_curs(9);
-            printf("\nPlace bet>");
+            printf("\nPlace bet> ");
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud art") == 0){
             clrscr();
             memcpy(art,"True",strlen("True")+1);
