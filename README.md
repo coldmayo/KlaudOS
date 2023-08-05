@@ -16,6 +16,8 @@ I watched Star Wars Episode 9 opening night in theaters and Klaud was the main c
 * fun games/shenanigans
 * interactive shell
 * built in x86 assembly and C with gcc as the compiler
+* About 1.4 MegaBytes
+* check commands.md for the available commands
 
 ## How to use
 
@@ -30,8 +32,9 @@ I watched Star Wars Episode 9 opening night in theaters and Klaud was the main c
 * run run.sh
 
 ### Download From Source
+* clone this repo to your computer
 * run make toolchain
-* run make 
+* run make
 * run run.sh
 
 ### Commands
