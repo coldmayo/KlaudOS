@@ -256,9 +256,25 @@ void user_input(char *input) {
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             if (strcmp(slice_str(input,buffer,11,15),"point") == 0) {
-                plotPoint(slice_str(input,buffer,17,len),22);
-                scroll(22);
-                printf("> ");
+                if (strcmp(slice_str(input,buffer,11,len),"point random") == 0) {
+                    char coords[9] = "\0";
+                    int randX = randint(79,0);
+                    int randY = randint(19,0);
+                    strcat(coords, itoa(randX));
+                    strcat(coords, " ");
+                    strcat(coords, itoa(randY));
+                    printf("%s",coords);
+                    plotPoint(coords,22);
+                    scroll(22);
+                    printf("> ");
+                } else if (isNum(input[17]) == 1) {
+                    plotPoint(slice_str(input,buffer,17,len),22);
+                    scroll(22);
+                    printf("> ");
+                } else {
+                    scroll(1);
+                    printf("Use klaud plot --help for proper syntax\n> ");
+                }
             } else if (strcmp(slice_str(input,buffer,11,15),"clear") == 0) {
                 clearPoints();
                 scroll(1);
@@ -289,7 +305,7 @@ void user_input(char *input) {
             memcpy(art,"True",strlen("True")+1);
             printf("Click enter to escape (coming soon)");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud random") == 0) {
-            char comm[13][30] = {
+            char comm[15][30] = {
                 "klaud",
                 "klaud ascii",
                 "klaud plot x",
@@ -302,16 +318,27 @@ void user_input(char *input) {
                 "klaud haiku",
                 "klaud --help",
                 "klaud live-slug-reaction",
-                "klaud shrine"
+                "klaud shrine",
+                "klaud plot point ",
+                "klaud plot clear"
             };
             int arrMax = *(&comm + 1) - comm - 1;
             int clrMax = *(&clrLst + 1) - clrLst - 1;
             int randCom = abs(randint(arrMax,0));
+            
             // makes text-color random
             if (strcmp(comm[randCom],"klaud text-color ") == 0 || strcmp(comm[randCom],"klaud text-color") == 0) {
                 int randCol = randint(clrMax,0);
                 strcat(comm[randCom], clrLst[randCol]);
                 printf("%d",randCol);
+            // makes plot point random
+            } else if (strcmp(comm[randCom],"klaud plot point ") == 0) {
+                int randY = randint(19,0);
+                int randX = randint(79,0);
+                strcat(comm[randCom], itoa(randX));
+                strcat(comm[randCom], " ");
+                strcat(comm[randCom], itoa(randY));
+                printf("%s",comm[randCom]);
             }
             printf("> %s\n",comm[randCom]);
             scroll(1);

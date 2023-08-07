@@ -233,7 +233,7 @@ void plotPoint(char * points, int yhi) {
         }
         i++;
     }
-    //printf("%s",numxdum);
+    //printf("%s",numydum);
     //printf("%s",slice_str(numydum,buffer,0,k-1));
     int f = convert(slice_str(numydum,buffer,0,1)) + 1;
     int x = convert(slice_str(numxdum,buffer,0,1)) + 1;
@@ -254,7 +254,7 @@ void plotPoint(char * points, int yhi) {
         plot[1][i] = '-';
     }
     plot[1][1] = '+';
-
+    
     plot[f][x] = 'X';
 
     int n = 0;
