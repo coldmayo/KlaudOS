@@ -1,6 +1,6 @@
 # KlaudOS
 
-The first Klaud themed Operating system!
+The first Klaud based Operating system!
 
 I watched Star Wars Episode 9 opening night in theaters and Klaud was the main character that stuck with me. Years later I was introduced to Operating System development and TempleOS which inspired me further. So, I decided I would give back to Klaud by creating this hobby operating system years later. 
 
@@ -38,4 +38,4 @@ I watched Star Wars Episode 9 opening night in theaters and Klaud was the main c
 * run run.sh
 
 ### Commands
-* run klaud --help in the operating system kernel to see the available commands
+* run klaud --help in the operating system kernel OR check commands.md in this repo to see the available commands
