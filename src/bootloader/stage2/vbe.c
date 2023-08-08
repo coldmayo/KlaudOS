@@ -2,8 +2,7 @@
 #include "include/x86.h"
 #include "include/memory.h"
 
-bool VBE_GetControllerInfo(VbeInfoBlock* info)
-{
+bool VBE_GetControllerInfo(VbeInfoBlock* info) {
     if (x86_Video_GetVbeInfo(info) == 0)
     {
         // convert from seg:off to a linear address
@@ -12,8 +11,7 @@ bool VBE_GetControllerInfo(VbeInfoBlock* info)
     }
     return false;
 }
-bool VBE_GetModeInfo(uint16_t mode, VbeModeInfo* info)
-{
+bool VBE_GetModeInfo(uint16_t mode, VbeModeInfo* info) {
     if (x86_Video_GetModeInfo(mode, info) == 0)
     {
         // convert from seg:off to a linear address
@@ -22,7 +20,6 @@ bool VBE_GetModeInfo(uint16_t mode, VbeModeInfo* info)
     return false;
 }
 
-bool VBE_SetMode(uint16_t mode)
-{
+bool VBE_SetMode(uint16_t mode) {
     return x86_Video_SetMode(mode) == 0;
 }

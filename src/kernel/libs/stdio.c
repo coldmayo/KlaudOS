@@ -366,7 +366,7 @@ int rand(uint32_t *state) {
 }
 
 int randint(int hi, int lo) {
-    uint32_t seed;
+    uint32_t seed = 69;
     return rand(seed)%((hi+1)-lo) + lo;
 }
 

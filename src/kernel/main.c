@@ -13,10 +13,8 @@ extern uint8_t __end;
 
 // inital kernel boot function, welcomes user to greatest experience of their life
 
-void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
-    
+void __attribute__((section(".entry"))) start(uint16_t bootDrive) {    
     memset(&__bss_start, 0, (&__end) - (&__bss_start));
-
     HAL_Initialize();
     clrscr();
     klaud_ascii();
