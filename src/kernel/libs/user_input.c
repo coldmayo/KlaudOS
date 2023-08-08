@@ -230,7 +230,6 @@ void user_input(char *input) {
                 scroll(1);
             } else {
                 char * equ = slice_str(input,buffer,11,len);
-                int i;
                 scroll(1);
                 printf("%d\n> ", calc(equ));
             }
@@ -238,7 +237,7 @@ void user_input(char *input) {
             char factList[12][256] = {
                 "Klaud was a mechanic that fought for the Resistance",
                 "Klaud belongs to a species called 'Trodatome'",
-                "Klaud is 6'2 (Klaud could ball???)",
+                "Klaud is 6'2 (1.89 meters) (Klaud could ball???)",
                 "The language Klaud speaks is unknown",
                 "Klaud has blue eyes",
                 "Klaud is a playable character in Lego Star Wars: The Skywalker Saga", "Klaud was widely believed to be homophobic, but that was disproven recently",
@@ -257,18 +256,18 @@ void user_input(char *input) {
             if (strcmp(slice_str(input,buffer,11,15),"point") == 0) {
                 if (strcmp(slice_str(input,buffer,11,len),"point random") == 0) {
                     char coords[9] = "\0";
-                    int randX = randint(79,0);
-                    int randY = randint(19,0);
+                    int randX = abs(randint(78,0));
+                    int randY = abs(randint(20,0));
                     strcat(coords, itoa(randX));
                     strcat(coords, " ");
                     strcat(coords, itoa(randY));
                     printf("%s",coords);
                     plotPoint(coords,22);
-                    scroll(22);
+                    scroll(23);
                     printf("> ");
-                } else if (isNum(input[17]) == 1) {
+                } else if (isNum(input[17]) == 1 || input[17] == '(' && isNum(input[18]) == 1) {
                     plotPoint(slice_str(input,buffer,17,len),22);
-                    scroll(22);
+                    scroll(23);
                     printf("> ");
                 } else {
                     scroll(1);

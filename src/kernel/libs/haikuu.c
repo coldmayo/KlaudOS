@@ -14,15 +14,19 @@ void makeLine(int numSyl,int * struc) {
     char verb[30][30] = {"is","loves","talks about","begs for","pees on","sees","celebrates","imagines","exchanges"};
     int vsyl[] = {1,1,2,2,2,1,3,3,3};
 
+    // makes syllable structure for sentience 
+
     int syl = numSyl;
     int i;
+    int numLet = 0;
     for (i=0;syl!=0;i++) {
         int newWord = randint(syl,1);
         if (newWord != 0) {
             syl = syl-newWord;
             if (syl >= 0 && newWord > 0) {
                 struc[i] = newWord;
-                // printf("%d",newWord);
+                //printf("%d",newWord);
+                numLet++;
             } else {
                 syl += newWord;
             }
@@ -30,8 +34,12 @@ void makeLine(int numSyl,int * struc) {
     }
     printf("\n");
 
+    // using the created structure we can make the sentience
+    // for 3+ words: noun, verb, noun, ...
+    // for 2 >= words: noun, noun, ...
+
     int j=0;
-    for (j=0;j<i;j++) {
+    for (j=0;j<numLet;j++) {
         if (i>=3) {
             int k;
             int ops[3];

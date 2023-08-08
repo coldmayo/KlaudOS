@@ -203,7 +203,6 @@ int linReg(int * x, int * y) {
 // I had to refactor this once I realized I wanted to plot multiple points
 // It's a lot easier if I make a matrix (basically string array) and save points to that
 // instead of printing straight away
-// also nice since no if statements :) but code is still fucking gross
 
 void plotPoint(char * points, int yhi) {
     clrscr();
@@ -289,9 +288,7 @@ void plotPoint(char * points, int yhi) {
         }
     }
 
-    //printf("\n%d %d",arr[0],arr[1]);
-
-    // not sure why but when I do the strcat's above the for loops it doesn't work. probs a memory thing idk
+    printf("(%d,%d)\n",x-1,f-1);
 
     strcat(allPoints,itoa(f));
     strcat(allPoints,",");
