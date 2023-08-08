@@ -169,8 +169,7 @@ void printf_signed(long long number, int radix)
 #define PRINTF_LENGTH_LONG          3
 #define PRINTF_LENGTH_LONG_LONG     4
 
-void printf(const char* fmt, ...)
-{
+void printf(const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
@@ -346,10 +345,10 @@ void append(char s[], char n) {
     s[len+1] = '\0';
 }
 
-// Lehmer random number generator (stolen from wiki)
+// Lehmer random number generator (stolen from wikipedia)
 
 int rand(uint32_t *state) {
-    	// Precomputed parameters for Schrage's method
+    // Precomputed parameters for Schrage's method
     
 	const uint32_t M = 0x7fffffff;
 	const uint32_t A = 48271;
@@ -367,7 +366,7 @@ int rand(uint32_t *state) {
 
 int randint(int hi, int lo) {
     uint32_t seed = 69;
-    return rand(seed)%((hi+1)-lo) + lo;
+    return (rand(seed)%((hi+1)-lo) + lo);
 }
 
 char * slice_str(const char * str, char * buffer, int start, int end)

@@ -249,10 +249,9 @@ void user_input(char *input) {
                 "Chewbacca was the person who convinced Klaud to join the Resistance"
             };
             int arrMax = *(&factList + 1) - factList;
-            int randNum = randint(arrMax,0);
+            int randNum = abs(randint(arrMax-1,0));
             if (randNum == 9 || randNum == 8) {scroll(2);}
             else {scroll(1);}
-            if (randNum == 12) {randNum = 11;}   // im not sure why this works but oh well
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             if (strcmp(slice_str(input,buffer,11,15),"point") == 0) {
