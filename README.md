@@ -1,41 +1,81 @@
-# KlaudOS
+<h1 align="center">
+  <br>
+  <br>
+  KlaudOS
+  <br>
+</h1>
 
-The first Klaud based Operating system!
+<h4 align="center">The first Klaud themed Operating System</h4>
 
-I watched Star Wars Episode 9 opening night in theaters and Klaud was the main character that stuck with me. Years later I was introduced to Operating System development and TempleOS which inspired me further. So, I decided I would give back to Klaud by creating this hobby operating system years later. 
+<p align="center">
+  <a href="#features">Features</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#build-from-source">Build From Source</a> •
+  <a href="#download-from-release">Download from Release</a> •
+  <a href="#credits">Credits</a> •
+  <a href="#license">License</a>
+</p>
+
+![screenshot](assets/klaudInit.png)
 
 ## Features
 
-* double stage bootloader
+* Double Stage Bootloader
 * 32 bit protected mode + gdt
-* BIOS boot
-* FAT file system (shawty got a fatty)
-* interrupt handler
-* keyboard input and printed output
-* working frame buffer/video driver
-* fun games/shenanigans
-* interactive shell
-* built in x86 assembly and C with gcc as the compiler
+* FAT12 file system
+* Interrupt handler
+* Responsive Kernel with commands 
+    * visit commands.md to see all possible commands
+* Built in x86 assembly and C
 * About 1.4 MegaBytes
-* check commands.md for the available commands
 
-## How to use
+## How To Use
 
-### Required Packages
+### Build from Source
+
+Make sure you have the following software installed before proceeding:
 * gcc
 * make
 * nasm
 * qemu-system-x86
+From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/coldmayo/KlaudOS
+
+# Go into the repository
+$ cd KlaudOS
+
+# install gcc and binutils
+$ make toolchain
+
+# conjure a disk image
+$ make
+
+# Open OS in qemu
+$ ./run.sh
+```
 
 ### Download From Release
-* download disk image and sh file from release
-* run run.sh
 
-### Download From Source
-* clone this repo to your computer
-* run make toolchain
-* run make
-* run run.sh
+You can download the latest version of KlaudOS <a href="https://github.com/coldmayo/KlaudOS/releases">here</a>.
 
-### Commands
-* run klaud --help in the operating system kernel OR check commands.md in this repo to see the available commands
+## Contact Me!
+
+If you liked KlaudOS, it would be cool if you emailed me at <wallachmayas@gmail.com> about anything.
+
+## Credits
+
+This software would not be possible without the following people/tools:
+
+- [OSDev Forum](https://www.osdev.org/)
+- [Nanobyte](https://www.youtube.com/@nanobyte-dev)
+- [JamesM's kernel development tutorials](https://web.archive.org/web/20160412174753/http://www.jamesmolloy.co.uk/tutorial_html/index.html)
+- [The little book about OS development](https://littleosbook.github.io/)
+
+## License
+
+MIT
+
+---
