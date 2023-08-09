@@ -36,17 +36,17 @@ kernel: $(BUILD_DIR)/kernel.bin
 
 $(BUILD_DIR)/kernel.bin: $(OBJECTS_ASM) $(OBJECTS_C)
 	@$(TARGET_LD) $(TARGET_LINKFLAGS) -Wl,-Map=$(BUILD_DIR)/kernel.map -o $@ $^ $(TARGET_LIBS)
-	@echo "--> Created:  kernel.bin"
+	@echo "--> Conjured:  kernel.bin"
 
 $(BUILD_DIR)/kernel/c/%.obj: %.c $(HEADERS_C)
 	@mkdir -p $(@D)
 	@$(TARGET_CC) $(TARGET_CFLAGS) -c -o $@ $<
-	@echo "--> Compiled: " $<
+	@echo "--> Conjured: " $<
 
 $(BUILD_DIR)/kernel/asm/%.obj: %.asm $(HEADERS_ASM)
 	@mkdir -p $(@D)
 	@$(TARGET_ASM) $(TARGET_ASMFLAGS) -o $@ $<
-	@echo "--> Compiled: " $<
+	@echo "--> Conjured: " $<
 
 clean:
 	rm -f $(BUILD_DIR)/kernel.bin
