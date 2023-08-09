@@ -65,7 +65,7 @@ You can download the latest version of KlaudOS <a href="https://github.com/coldm
 
 ## Contact Me!
 
-If you liked KlaudOS, it would be cool if you emailed me at <wallachmayas@gmail.com> about anything.
+If you liked KlaudOS, it would be cool if you emailed me at <wallachmayas@gmail.com> and tell me anything.
 
 ## Credits
 
