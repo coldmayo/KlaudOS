@@ -148,15 +148,14 @@ void user_input(char *input) {
             move_curs(13);
             printf("\nRizz up Klaud>");
         } else if (strcmp(input, "klaud haiku") == 0) {
-            printf("Haikuu:\n");
             haikuu();
             scroll(5);
-            printf("\n> ");
+            printf("\n\n> ");
         } else if (strcmp(input,"klaud ascii") == 0) {
             klaud_ascii();
             printf("\n> ");
         } else if (strcmp(input,"klaud live-slug-reaction") == 0) {
-            puts("                   ========================================\r\n");
+            puts("\n                   ========================================\r\n");
             klaud_ascii();
             puts("                   ========================================\r\n");
             printf("                      L i v e  S l u g  R e a c t i o n");
@@ -192,7 +191,7 @@ void user_input(char *input) {
                 int arrMax = *(&numLst + 1) - numLst - 1;
                 int randCol = abs(randint(arrMax-1,0));
                 changeColor(numLst[randCol]);
-                printf("> Color changed to %s %d",clrLst[randCol],randCol);
+                printf("> Color changed to %s",clrLst[randCol]);
                 printf("\n> ");
             } else if (strlen(input) < 19) {
                 scroll(1);
@@ -274,7 +273,7 @@ void user_input(char *input) {
                         strcat(coords, " ");
                         strcat(coords, itoa(randY));
                         plotPoint(coords,22,1);
-                        scroll(23);
+                        scroll(22);
                     }
                     printf("> ");
                 } else if (isNum(input[17]) == 1 || input[17] == '(' && isNum(input[18]) == 1) {
@@ -287,7 +286,7 @@ void user_input(char *input) {
                 }
             } else if (strcmp(slice_str(input,buffer,11,15),"clear") == 0) {
                 clearPoints();
-                scroll(1);
+                scroll(23);
                 printf("points cleared\n> ");
             } else if (strcmp(slice_str(input,buffer,11,16),"--help") == 0) {
                 printf("The klaud plotting system.\nExample commands:\nklaud plot x (plots y = x)\nklaud plot point 2 3 (plots point at (2,3))\nklaud plot clear (clears plot)\nNOTE: the max y value for the plots is 21 and 80 for x\n> ");

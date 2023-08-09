@@ -95,7 +95,7 @@ A text-based plotting system. Used for plotting simple functions like y = x or y
 
 ![echo](assets/plot.png)
 
-input command: being klaud plot x
+input command: klaud plot x
 
 ### klaud plot point
 Plots a point at a specified location. To add more points to plot run the command again. The point just plotted will be in the form of a 'X' while the previous points are in the form of a 'O'. To clear the plot run the klaud plot clear command
@@ -118,7 +118,18 @@ You can also add more than one random point at a time by adding a number at the 
 
 input commands:
 
-klaud plot random 2
+klaud plot point random
+
+### klaud plot clear
+
+Clears the plot of saved points. 
+
+![echo](assets/plotClear.png)
+
+input commands: 
+
+klaud plot clear
+
 ### klaud math --help
 Help function for klaud math
 

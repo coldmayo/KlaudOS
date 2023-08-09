@@ -2,6 +2,7 @@
 #include "include/strings.h"
 #include "include/stdio.h"
 #include "include/memory.h"
+#include "include/disp.h"
 
 char allPoints[400] = "\0";
 
@@ -193,7 +194,39 @@ void graph(char *input,int yhi) {
 }
 
 void clearPoints() {
+    clrscr();
+
+    // clear the points saved
+
     memset(allPoints, '\0', sizeof(allPoints));
+
+    // displays blank plot
+
+    int yhi = 22;
+    int i;
+    int j;
+    int xi;
+    int yi;
+    char plot[yhi][80];
+    
+    for (yi=1;yi<=yhi;yi++) {
+        for (xi = 1;xi<=80;xi++) {
+            plot[yi][xi] = ' ';
+        }
+    }
+    for(j=1;j<yhi;j++) {
+        plot[j][1] = '|';
+    }
+    for(i=1;i<80;i++) {
+        plot[1][i] = '-';
+    }
+    plot[1][1] = '+';
+
+    for (j = yhi; j > 0; j--) {
+        for (i = 0; i < 80; i++) {
+            putc(plot[j][i]);
+        }
+    }
 }
 
 int linReg(int * x, int * y) {
@@ -206,6 +239,7 @@ int linReg(int * x, int * y) {
 
 void plotPoint(char * points, int yhi, int pltN) {
     clrscr();
+
     int xi;
     int yi;
     int i = 0;
@@ -215,6 +249,9 @@ void plotPoint(char * points, int yhi, int pltN) {
     char numydum[2] = {'\0','\0'};
     char * thing = numxdum;
     char buffer[2];
+    
+    // extracting given x and y coordinate for plotting
+
     while (points[i] != '\0') {
         if (isNum(points[i]) == 1) {
             //printf("%c",points[i]);
@@ -232,14 +269,13 @@ void plotPoint(char * points, int yhi, int pltN) {
         }
         i++;
     }
-    //printf("%s",numydum);
-    //printf("%s",slice_str(numydum,buffer,0,k-1));
     int f = convert(slice_str(numydum,buffer,0,1)) + 1;
     int x = convert(slice_str(numxdum,buffer,0,1)) + 1;
-    //yhi--;
-    char plot[yhi][80];
 
-    //printf("%d %d",x,f);
+    // plot is saved into a 80 (width of screen by cells) by yhi matrix
+    // this is to make it easier to plot more than one point
+
+    char plot[yhi][80];
 
     for (yi=1;yi<=yhi;yi++) {
         for (xi = 1;xi<=80;xi++) {
@@ -259,6 +295,8 @@ void plotPoint(char * points, int yhi, int pltN) {
     } else {
         plot[f][x] = 'O';
     }
+
+    // gets saved points and plots them
 
     int n = 0;
     int o = 0;
@@ -286,6 +324,8 @@ void plotPoint(char * points, int yhi, int pltN) {
         n+=2;
     }
 
+    // displays plot
+
     for (j = yhi; j > 0; j--) {
         for (i = 0; i < 80; i++) {
             putc(plot[j][i]);
@@ -294,7 +334,10 @@ void plotPoint(char * points, int yhi, int pltN) {
 
     if (pltN == 1) {
         printf("(%d,%d)\n",x-1,f-1);
+        scroll(1);
     }
+
+    // saves given point into allPoints
 
     strcat(allPoints,itoa(f));
     strcat(allPoints,",");
