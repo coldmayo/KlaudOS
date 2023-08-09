@@ -112,11 +112,13 @@ klaud plot point 4,4
 ### klaud plot point random
 Plots a point in a random place on the grid. This command operates the same as the klaud plot point command, so adding more points to the plot can be achieved with either this command or klaud plot point and clearing the plot is done with klaud plot clear.
 
+You can also add more than one random point at a time by adding a number at the end of the command (i.e. 10 random points: klaud plot point random 10)
+
 ![echo](assets/plotRand.png)
 
 input commands:
 
-klaud plot random (twice)
+klaud plot random 2
 ### klaud math --help
 Help function for klaud math
 

@@ -3,7 +3,7 @@
 #include "include/stdio.h"
 #include "include/memory.h"
 
-char allPoints[256] = "\0";
+char allPoints[400] = "\0";
 
 int abs(int i) {
     if (i < 0) {
@@ -204,7 +204,7 @@ int linReg(int * x, int * y) {
 // It's a lot easier if I make a matrix (basically string array) and save points to that
 // instead of printing straight away
 
-void plotPoint(char * points, int yhi) {
+void plotPoint(char * points, int yhi, int pltN) {
     clrscr();
     int xi;
     int yi;
@@ -254,7 +254,11 @@ void plotPoint(char * points, int yhi) {
     }
     plot[1][1] = '+';
     
-    plot[f][x] = 'X';
+    if (pltN == 1) {
+        plot[f][x] = 'X';
+    } else {
+        plot[f][x] = 'O';
+    }
 
     int n = 0;
     int o = 0;
@@ -288,12 +292,16 @@ void plotPoint(char * points, int yhi) {
         }
     }
 
-    printf("(%d,%d)\n",x-1,f-1);
+    if (pltN == 1) {
+        printf("(%d,%d)\n",x-1,f-1);
+    }
 
     strcat(allPoints,itoa(f));
     strcat(allPoints,",");
     strcat(allPoints,itoa(x));
     strcat(allPoints,",");
+
+    memset(plot, '\0', sizeof(plot));
     //printf("%s",allPoints);
     //printf("%d",arr[1]);
 }

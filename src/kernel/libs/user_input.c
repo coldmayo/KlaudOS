@@ -181,8 +181,6 @@ void user_input(char *input) {
                 while (* col != '\0') {
                     if (* clrLst[i+1] == '\0') {
                         printf("and %s",col);
-                    } else if (i == 0) {
-                        printf("blue ");
                     } else {
                         printf("%s ",col);
                     }
@@ -192,9 +190,9 @@ void user_input(char *input) {
                 printf("\n> ");
             } else if (strcmp(input,"klaud text-color random") == 0) {
                 int arrMax = *(&numLst + 1) - numLst - 1;
-                int randCol = randint(arrMax,0);
+                int randCol = abs(randint(arrMax-1,0));
                 changeColor(numLst[randCol]);
-                printf("> Color changed to %s",clrLst[randCol]);
+                printf("> Color changed to %s %d",clrLst[randCol],randCol);
                 printf("\n> ");
             } else if (strlen(input) < 19) {
                 scroll(1);
@@ -254,19 +252,33 @@ void user_input(char *input) {
             printf("%s\n> ",factList[randNum]);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             if (strcmp(slice_str(input,buffer,11,15),"point") == 0) {
-                if (strcmp(slice_str(input,buffer,11,len),"point random") == 0) {
-                    char coords[9] = "\0";
-                    int randX = abs(randint(78,0));
-                    int randY = abs(randint(20,0));
-                    strcat(coords, itoa(randX));
-                    strcat(coords, " ");
-                    strcat(coords, itoa(randY));
-                    printf("%s",coords);
-                    plotPoint(coords,22);
-                    scroll(23);
+                if (strcmp(slice_str(input,buffer,11,22),"point random") == 0) {
+                    if (isNum(input[24]) == 1) {
+                        int iter = convert(slice_str(input,buffer,24,len));
+                        int i;
+                        for (i = 0;iter > i;i++) {
+                            char coords[9] = "\0";
+                            int randX = abs(randint(78,0));
+                            int randY = abs(randint(20,0));
+                            strcat(coords, itoa(randX));
+                            strcat(coords, " ");
+                            strcat(coords, itoa(randY));
+                            plotPoint(coords,22,iter);
+                            scroll(22);
+                        }
+                    } else {
+                        char coords[9] = "\0";
+                        int randX = abs(randint(78,0));
+                        int randY = abs(randint(20,0));
+                        strcat(coords, itoa(randX));
+                        strcat(coords, " ");
+                        strcat(coords, itoa(randY));
+                        plotPoint(coords,22,1);
+                        scroll(23);
+                    }
                     printf("> ");
                 } else if (isNum(input[17]) == 1 || input[17] == '(' && isNum(input[18]) == 1) {
-                    plotPoint(slice_str(input,buffer,17,len),22);
+                    plotPoint(slice_str(input,buffer,17,len),22,1);
                     scroll(23);
                     printf("> ");
                 } else {
