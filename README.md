@@ -16,7 +16,9 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](assets/klaudInit.png)
+<p align="center">
+  <img src="assets/klaudInit.png" />
+</p>
 
 ## Features
 
