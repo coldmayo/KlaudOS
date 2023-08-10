@@ -23,6 +23,7 @@ void user_input(char *input) {
     static char umoney[6];
     static char kmoney[6];
     static char art[6];
+    static char restart[6];
     uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8};
     char clrLst[8][12] = {"blue","green","cyan","red","purple","orange","white","grey"};
     if (strcmp(rizz,"True") == 0) {
@@ -120,6 +121,14 @@ void user_input(char *input) {
         memcpy(art,"False",strlen("False")+1);
         printf("> ");
         
+    } else if (strcmp(restart,"True") == 0) {
+        memset(restart,"False",strlen("False")+1);
+        if (strcmp(input,"yes") == 0 || strcmp(input,"y") == 0) {
+            reboot();
+        } else {
+            scroll(1);
+            printf("Restart canceled\n> ");
+        }
     } else if (strlen(input) <= 4) {
         printf("Every command starts with klaud, try again");
         scroll(1);
@@ -220,7 +229,9 @@ void user_input(char *input) {
             clrscr();
             printf("> ");
         } else if (strcmp(input,"klaud restart") == 0) {
-            reboot();
+            memcpy(restart,"True",strlen("True")+1);
+            printf("Are you sure you want to restart?\n> ");
+            scroll(1);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud math") == 0) {
             if (strcmp(slice_str(input,buffer,11,len),"--help")==0) {
                 printf("klaud 4 function calculator that supports +,-,/,*,%,^,!\n> ");
@@ -263,7 +274,6 @@ void user_input(char *input) {
                             strcat(coords, " ");
                             strcat(coords, itoa(randY));
                             plotPoint(coords,22,iter);
-                            scroll(22);
                         }
                     } else {
                         char coords[9] = "\0";
@@ -273,12 +283,12 @@ void user_input(char *input) {
                         strcat(coords, " ");
                         strcat(coords, itoa(randY));
                         plotPoint(coords,22,1);
-                        scroll(22);
                     }
+                    scroll(22);
                     printf("> ");
                 } else if (isNum(input[17]) == 1 || input[17] == '(' && isNum(input[18]) == 1) {
                     plotPoint(slice_str(input,buffer,17,len),22,1);
-                    scroll(23);
+                    scroll(22);
                     printf("> ");
                 } else {
                     scroll(1);

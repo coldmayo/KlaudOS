@@ -122,16 +122,6 @@ int calc(char * str) {
     return ans;
 }
 
-void removeChar(char *str, char garbage) {
-
-    char *src, *dst;
-    for (src = dst = str; *src != '\0'; src++) {
-        *dst = *src;
-        if (*dst != garbage) dst++;
-    }
-    *dst = '\0';
-}
-
 // jesus fucking christ making this function was fucking cancer ill make it more readable soon but I need a break
 
 int eval(char *input,int k) {

@@ -27,7 +27,9 @@ input command: klaud clear
 
 ### klaud restart
 
-Restarts the kernel.
+Restarts the kernel after entering yes into the prompt.
+
+![echo](assets/klaudRestart.png)
 
 ### klaud text-color
 Command to change the text color. You can check klaud text-color --help to see which colors are supported.
