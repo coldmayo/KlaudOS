@@ -1,7 +1,7 @@
 #include "include/math.h"
 #include "include/strings.h"
 #include "include/stdio.h"
-#include "include/memory.h"
+#include "include/mem.h"
 #include "include/disp.h"
 
 char allPoints[400] = "\0";
@@ -30,6 +30,7 @@ int factorial(int x) {
 }
 
 // function for 4 function calculator
+// sorry for the ugly code
 
 int calc(char * str) {
     char *start = str;
@@ -226,6 +227,8 @@ int linReg(int * x, int * y) {
 // I had to refactor this once I realized I wanted to plot multiple points
 // It's a lot easier if I make a matrix (basically string array) and save points to that
 // instead of printing straight away
+
+// sorry for ugly code but if it works it works
 
 void plotPoint(char * points, int yhi, int pltN) {
     clrscr();

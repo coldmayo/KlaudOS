@@ -5,7 +5,7 @@
 #include "include/io.h"
 #include "include/idt.h"
 #include "include/stdio.h"
-#include "include/memory.h"
+#include "include/mem.h"
 #include "include/idt.h"
 #include "include/strings.h"
 #include "include/serial_port.h"

@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include "include/stdio.h"
-#include "include/memory.h"
+#include "include/mem.h"
 #include <include/hal.h>
 #include "include/interrupts.h"
 #include "include/strings.h"
@@ -15,6 +15,7 @@ extern uint8_t __end;
 
 void __attribute__((section(".entry"))) start(uint16_t bootDrive) {    
     memset(&__bss_start, 0, (&__end) - (&__bss_start));
+    memclear();
     HAL_Initialize();
     clrscr();
     klaud_ascii();

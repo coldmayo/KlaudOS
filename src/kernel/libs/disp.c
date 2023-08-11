@@ -1,5 +1,5 @@
 #include "include/disp.h"
-#include "include/memory.h"	
+#include "include/mem.h"	
 #include "include/strings.h"
 #include "include/stdio.h"
 

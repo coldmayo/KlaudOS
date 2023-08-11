@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include "include/stdio.h"
-#include "include/memory.h"
 #include <include/hal.h>
 #include "include/keyboard.h"
 #include "include/interrupts.h"

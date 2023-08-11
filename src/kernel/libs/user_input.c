@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include "include/stdio.h"
-#include "include/memory.h"
+#include "include/mem.h"
 #include <include/hal.h>
 #include "include/keyboard.h"
 #include "include/interrupts.h"
@@ -362,6 +362,65 @@ void user_input(char *input) {
             printf("> %s\n",comm[randCom]);
             scroll(1);
             user_input(comm[randCom]);
+        } else if (strcmp(slice_str(input,buffer,0,11),"klaud memory") == 0) {
+            char * inp = slice_str(input,buffer,13,len);
+            int i = 0;
+            char num[4];
+            while (inp[i] != ' ') {
+                num[i] = inp[i];
+                i++;
+            }
+            char * value = slice_str(input,buffer,14+i,len);
+            int adr = convert(num);
+            memsave(adr,value,len-(14+i));
+            scroll(1);
+            printf("klaud tries to remember\n> ");
+        } else if (strcmp(slice_str(input,buffer,0,13),"klaud remember") == 0) {
+            //int adr = convert(slice_str(input,buffer,15,len));
+            int i = 0;
+            char * inp = slice_str(input,buffer,15,len);
+            char num[4];
+            while (inp[i] != ' ') {
+                num[i] = inp[i];
+                i++;
+            }
+            int adr1 = convert(num);
+            int adr2 = convert(slice_str(input,buffer,16+i,len));
+            if (adr1 > adr2) {
+                adr2 = adr1;
+            }
+            i = adr1;
+            printf("'");
+            while (i < adr2+1) {
+                printf("%c",memread(i));
+                i++;
+            }
+            scroll(1);
+            printf("', klaud says in his native language\n> ");
+        } else if (strcmp(input,"klaud free-bytes") == 0) {
+            memAvail();
+            scroll(1);
+            printf("\n> ");
+        } else if (strcmp(slice_str(input,buffer,0,8),"klaud del") == 0) {
+            int i = 0;
+            char * inp = slice_str(input,buffer,11,len);
+            char num[4];
+            while (inp[i] != ' ') {
+                num[i] = inp[i];
+                i++;
+            }
+            int adr1 = convert(num);
+            int adr2 = convert(slice_str(input,buffer,12+i,len));
+            if (adr1 > adr2) {
+                adr2 = adr1;
+            }
+            i = adr1;
+            while (i < adr2+1) {
+                memAdrClear(i);
+                i++;
+            }
+            scroll(1);
+            printf("%d to %d cleared\n> ",adr1,adr2);
         } else {
             printf("You said: %s, which is not a certified Klaud command. Use the klaud --help command.",input);
             scroll(2);

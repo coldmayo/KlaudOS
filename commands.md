@@ -1,4 +1,16 @@
-# Commands
+<h1 align="center">
+  <br>
+  <br>
+    Commands
+  <br>
+</h1>
+<p align="center">
+  <a href="#general">General</a> •
+  <a href="#ascii-pictures">Ascii Pictures</a> •
+  <a href="#math">Math</a> •
+  <a href="#memory">Memory</a> •
+  <a href="#sillygames">Silly/Games</a>
+</p>
 
 ## General
 
@@ -141,6 +153,32 @@ Help function for klaud math
 Help function for klaud plot
 
 ![echo](assets/plotHelp.png)
+
+## Memory
+
+### klaud memory
+
+Save values to memory. The first value in the command is the memory location (int) where the highest it can go is 10000 at the moment. The second value is the value you're saving.
+
+![echo](assets/memory.png)
+
+### klaud remember
+
+Read from memory from the memory location.
+
+![echo](assets/memRem.png)
+
+### klaud free-bytes
+
+Shows memory location of used bytes.
+
+![echo](assets/freeBytes.png)
+
+### klaud del
+
+Clears data at given index range.
+
+![echo](assets/memDel.png)
 
 ## Silly/Games
 
