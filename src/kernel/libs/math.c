@@ -280,6 +280,14 @@ void plotPoint(char * points, int yhi, int pltN) {
     }
     plot[1][1] = '+';
     
+    if (f > 21) {
+        f = 21;
+    }
+
+    if (x > 80) {
+        x = 79;
+    }
+
     if (pltN == 1) {
         plot[f][x] = 'X';
     } else {

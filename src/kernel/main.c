@@ -18,7 +18,7 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     HAL_Initialize();
     clrscr();
     klaud_ascii();
-    printf("\n                         Version -- 0.0.4: July 2023\n");
+    printf("\n                         Version -- 0.0.5: Aug 2023\n");
     printf("                             Welcome to KlaudOS\n");
     printf("> ");
     scroll(2);

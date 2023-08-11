@@ -20,7 +20,7 @@ void makeLine(int numSyl,int * struc) {
     int i;
     int numLet = 0;
     for (i=0;syl!=0;i++) {
-        int newWord = randint(syl,1);
+        int newWord = abs(randint(syl,1));
         if (newWord != 0) {
             syl = syl-newWord;
             if (syl >= 0 && newWord > 0) {
