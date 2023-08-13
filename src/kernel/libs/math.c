@@ -193,7 +193,7 @@ void clearPoints() {
 
     // displays blank plot
 
-    int yhi = 22;
+    int yhi = 21;
     int i;
     int j;
     int xi;

@@ -18,15 +18,11 @@
 void user_input(char *input) {
     int len = strlen(input);
     char buffer[len + 1];
-    static char rizz[6];
-    static char dice[6];
     static char umoney[6];
     static char kmoney[6];
-    static char art[6];
-    static char restart[6];
     uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8};
     char clrLst[8][12] = {"blue","green","cyan","red","purple","orange","white","grey"};
-    if (strcmp(rizz,"True") == 0) {
+    if (memread(311,311)[0]=='1') {
         int score = rizzScore(input);
         printf("\n");
         if (score < 0) {
@@ -40,9 +36,9 @@ void user_input(char *input) {
             scroll(3);
         }
         printf(" he said in his native language\n");
-        memcpy(rizz,"False",strlen("False")+1);
+        memsave(311,"0",1);
         printf("> ");
-    } else if (strcmp(dice,"True") == 0) {
+    } else if (memread(313,313)[0]=='1') {
         if (strcmp(input,"random") == 0) {
             int score = convert(umoney);
             int bscore = convert(kmoney);
@@ -112,17 +108,11 @@ void user_input(char *input) {
             printf("Type 'exit' to leave the game\nPlace bet>");
             bet = 0;
         } else {
-            memcpy(dice,"False",strlen("False")+1);
+            memsave(313,"0",1);
             clrscr();
             printf("> ");
         }
-    } else if (strcmp(art,"True") == 0) {
-        clrscr();
-        memcpy(art,"False",strlen("False")+1);
-        printf("> ");
-        
-    } else if (strcmp(restart,"True") == 0) {
-        memset(restart,"False",strlen("False")+1);
+    } else if (memread(315,315)[0]=='1') {
         if (strcmp(input,"yes") == 0 || strcmp(input,"y") == 0) {
             reboot();
         } else {
@@ -136,8 +126,8 @@ void user_input(char *input) {
     } else {
         if (strcmp(slice_str(input,buffer,0,4),"klaud")) {
             printf("Every command starts with klaud, try again");
-            scroll(1);
             printf("\n> ");
+            scroll(1);
         } else if (strcmp(input, "klaud --help") == 0) {
             help();
             printf("\n> ");
@@ -151,7 +141,7 @@ void user_input(char *input) {
             scroll(1);
             printf("> ");
         } else if (strcmp(input, "klaud rizz") == 0) {
-            memcpy(rizz,"True",strlen("True")+1);
+            memsave(311,"1",1);
             clrscr();
             klaud_ascii();
             move_curs(13);
@@ -229,7 +219,8 @@ void user_input(char *input) {
             clrscr();
             printf("> ");
         } else if (strcmp(input,"klaud restart") == 0) {
-            memcpy(restart,"True",strlen("True")+1);
+            memsave(315,"1\0",1);
+            //memcpy(restart,"True",strlen("True")+1);
             printf("Are you sure you want to restart?\n> ");
             scroll(1);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud math") == 0) {
@@ -296,7 +287,7 @@ void user_input(char *input) {
                 }
             } else if (strcmp(slice_str(input,buffer,11,15),"clear") == 0) {
                 clearPoints();
-                scroll(23);
+                scroll(22);
                 printf("points cleared\n> ");
             } else if (strcmp(slice_str(input,buffer,11,16),"--help") == 0) {
                 printf("The klaud plotting system.\nExample commands:\nklaud plot x (plots y = x)\nklaud plot point 2 3 (plots point at (2,3))\nklaud plot clear (clears plot)\nNOTE: the max y value for the plots is 21 and 80 for x\n> ");
@@ -311,7 +302,7 @@ void user_input(char *input) {
             scroll(1);
             printf("\n> ");
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud dice")==0) {
-            memcpy(dice,"True",strlen("True")+1);
+            memsave(313,"1",1);
             memcpy(umoney,"500",strlen("500")+1);
             memcpy(kmoney,"500",strlen("500")+1);
             clrscr();
@@ -319,12 +310,8 @@ void user_input(char *input) {
             printf("your money:%s, klaud money: %s",umoney,kmoney);
             move_curs(9);
             printf("\nPlace bet> ");
-        } else if (strcmp(slice_str(input,buffer,0,9),"klaud art") == 0){
-            clrscr();
-            memcpy(art,"True",strlen("True")+1);
-            printf("Click enter to escape (coming soon)");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud random") == 0) {
-            char comm[15][30] = {
+            char comm[16][30] = {
                 "klaud",
                 "klaud ascii",
                 "klaud plot x",
@@ -339,7 +326,8 @@ void user_input(char *input) {
                 "klaud live-slug-reaction",
                 "klaud shrine",
                 "klaud plot point ",
-                "klaud plot clear"
+                "klaud plot clear",
+                "klaud memory "
             };
             int arrMax = *(&comm + 1) - comm - 1;
             int clrMax = *(&clrLst + 1) - clrLst - 1;
@@ -358,50 +346,53 @@ void user_input(char *input) {
                 strcat(comm[randCom], " ");
                 strcat(comm[randCom], itoa(randY));
                 printf("%s",comm[randCom]);
+            // makes klaud memory
+            } else if (strcmp(comm[randCom],"klaud memory 0 hello world") == 0) {
+                int randAdr = randint(0,300);
+                strcat(comm[randCom], itoa(randAdr));
+                strcat(comm[randCom], " ");
+                strcat(comm[randCom], "hello world");
             }
             printf("> %s\n",comm[randCom]);
             scroll(1);
             user_input(comm[randCom]);
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud memory") == 0) {
-            char * inp = slice_str(input,buffer,13,len);
+            clrscr();
             int i = 0;
+            char * inp = slice_str(input,buffer,13,len);
             char num[4];
-            while (inp[i] != ' ') {
+            while (isNum(inp[i]) != 0) {
                 num[i] = inp[i];
                 i++;
             }
-            char * value = slice_str(input,buffer,14+i,len);
-            int adr = convert(num);
-            memsave(adr,value,len-(14+i));
+            //printf("%s",num);
+            int adr = convert(slice_str(num,buffer,0,i-1));
+            char *value = slice_str(input,buffer,13+i+1,len);
+            //printf("%s",value);
+            memsave(adr,value,5);
             scroll(1);
-            printf("klaud tries to remember\n> ");
+            printf("klaud places value starting from memory address %d\n> ",adr);
         } else if (strcmp(slice_str(input,buffer,0,13),"klaud remember") == 0) {
-            //int adr = convert(slice_str(input,buffer,15,len));
+            clrscr();
             int i = 0;
             char * inp = slice_str(input,buffer,15,len);
             char num[4];
-            while (inp[i] != ' ') {
+            while (isNum(inp[i]) != 0) {
                 num[i] = inp[i];
                 i++;
             }
-            int adr1 = convert(num);
+            int adr1 = convert(slice_str(num,buffer,0,i-1));
             int adr2 = convert(slice_str(input,buffer,16+i,len));
-            if (adr1 > adr2) {
-                adr2 = adr1;
-            }
-            i = adr1;
-            printf("'");
-            while (i < adr2+1) {
-                printf("%c",memread(i));
-                i++;
-            }
+            //printf("%d %d",adr1,adr2);
             scroll(1);
-            printf("', klaud says in his native language\n> ");
+            printf("'%s', klaud says in his native language\n> ",memread(adr1,adr2));
         } else if (strcmp(input,"klaud free-bytes") == 0) {
+            clrscr();
             memAvail();
             scroll(1);
             printf("\n> ");
         } else if (strcmp(slice_str(input,buffer,0,8),"klaud del") == 0) {
+            clrscr();
             int i = 0;
             char * inp = slice_str(input,buffer,11,len);
             char num[4];
