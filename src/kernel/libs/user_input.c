@@ -30,13 +30,13 @@ void user_input(char *input) {
         int score = rizzScore(input);
         printf("\n");
         if (score < 0) {
-            printf("'Get off my Operating System, I do not consent to this'");
+            printf("%s",memread(500,554));
             scroll(3);
         } else if (score == 0) {
-            printf("'Whatever you say, I guess.'");
+            printf("%s",memread(600,627));
             scroll(2);
         } else if (score > 0) {
-            printf("'Finally, someone worth talking to! Some other people I've spoken to have been a huge pain!'");
+            printf("%s",memread(700,791));
             scroll(3);
         }
         printf(" he said in his native language\n");
@@ -50,11 +50,11 @@ void user_input(char *input) {
             int kroll = randint(6,1) + randint(6,1);
             int bet;
             if (score > 1) {
-                bet = randint(score,1);
+                bet = abs(randint(score,1));
             } else {
                 printf("'damn u broke ash' he said in his native language\n");
                 scroll(1);
-                bet = randint(bscore+200,0);
+                bet = abs(randint(bscore+200,0));
             }
             printf("Bet placed: %d\n",bet);
             if (mroll >= kroll) {
@@ -62,14 +62,8 @@ void user_input(char *input) {
                 bscore = bscore - bet;
             } else {
                 scroll(1);
-                char shitTalk[30][30] = {
-                    "couldn't be me tho",
-                    "me personally idk",
-                    "DAMN",
-                    "hell nah",
-                    "who's mans is this?"
-                };
-                printf("'%s' he said in his native language\n",shitTalk[randint(4,0)]);
+                int shit[5] = {400,800,900,1100,1000};
+                printf("'%s' he said in his native language\n",memread(shit[randint(5,0)],shit[randint(2,0)]+40));
                 score = score - bet;
                 bscore = bscore + bet;
             }
@@ -361,6 +355,10 @@ void user_input(char *input) {
         } else if (strcmp(slice_str(input,buffer,0,18),"klaud memory --help") == 0) {
             scroll(8);
             printf("The klaud memory system\nklaud memory: edit memory in specific memory location.\nExample: klaud memory 0 hello world\nklaud remember: shows characters at given range of memory locations\nExample: klaud remember 0 5\nklaud free-bytes: see which memory addresses are in use\nklaud del: deletes character at specified address\nExample: klaud del 0 5\n> ");
+        } else if (strcmp(input,"klaud memory init") == 0) {
+            memInit();
+            scroll(1);
+            printf("memory reverted back to initial state\n> ");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud memory") == 0) {
             clrscr();
             int i = 0;
@@ -394,7 +392,7 @@ void user_input(char *input) {
         } else if (strcmp(input,"klaud free-bytes") == 0) {
             clrscr();
             memAvail();
-            scroll(1);
+            scroll(16);
             printf("\n> ");
         } else if (strcmp(slice_str(input,buffer,0,8),"klaud del") == 0) {
             clrscr();

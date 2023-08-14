@@ -365,7 +365,7 @@ int rand(uint32_t *state) {
 }
 
 int randint(int hi, int lo) {
-    uint32_t seed = 10;
+    uint32_t seed = 69;
     return (rand(seed)%((hi+1)-lo) + lo);
 }
 
@@ -407,4 +407,16 @@ void removeChar(char *str, char garbage) {
         if (*dst != garbage) dst++;
     }
     *dst = '\0';
+}
+
+void memInit () {
+    memclear();   // just in case
+    memsave(500,"'Get off my Operating System, I do not consent to this'",strlen("'Get off my Operating System, I do not consent to this'")+1); // rizz bad ending
+    memsave(600,"'Whatever you say, I guess.'",strlen("'Whatever you say, I guess.'")+1);  // rizz mid ending
+    memsave(700,"'Finally, someone worth talking to! Some other people I've spoken to have been a huge pain!'",strlen("'Finally, someone worth talking to! Some other people I've spoken to have been a huge pain!'")+1);  // rizz good ending
+    memsave(400,"couldn't be me tho",strlen("couldn't be me tho")+1);
+    memsave(800,"me personally idk",strlen("me personally idk")+1);
+    memsave(900,"DAMN",strlen("DAMN")+1);
+    memsave(1100,"hell nah",strlen("hell nah")+1);
+    memsave(1000,"who's mans is this?",strlen("who's mans is this?")+1);
 }

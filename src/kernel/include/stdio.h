@@ -26,3 +26,4 @@ void user_input(char *input);
 int wordCheck(char * str);
 int rizzScore(char *str);
 int isNum(char num);
+void memInit(void);
