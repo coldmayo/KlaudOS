@@ -17,12 +17,12 @@
 ### klaud
 Every command starts with klaud
 
-![echo](../assets/klaud.png)
+![klaud](../assets/klaud.png)
 
 ### klaud --help
 General help. Shows all available commands.
 
-![echo](../assets/help.png)
+![help](../assets/help.png)
 
 ### klaud echo
 Works the same as echo command in Linux
@@ -33,7 +33,7 @@ Works the same as echo command in Linux
 
 Clears screen. That's it.
 
-![echo](../assets/blank.png)
+![clear](../assets/blank.png)
 
 input command: klaud clear
 
@@ -41,12 +41,12 @@ input command: klaud clear
 
 Restarts the kernel after entering yes into the prompt.
 
-![echo](../assets/klaudRestart.png)
+![restart](../assets/klaudRestart.png)
 
 ### klaud text-color
 Command to change the text color. You can check klaud text-color --help to see which colors are supported.
 
-![echo](../assets/textcolor.png)
+![txtClr](../assets/textcolor.png)
 
 input command:
 klaud text-color purple
@@ -54,7 +54,7 @@ klaud text-color purple
 ### klaud text-color random
 Klaud chooses what color your text is from the available colors listed in klaud text-color --help.
 
-![echo](../assets/textColorRand2.png)
+![txtClrRand](../assets/textColorRand2.png)
 
 input commands:
 
@@ -63,7 +63,7 @@ klaud text-color random
 ### klaud text-color default
 Change text-color back to default (white). You could use klaud text-color white to do this but in my head this command is easier to use.
 
-![echo](../assets/textColorDef.png)
+![txtClrDef](../assets/textColorDef.png)
 
 input commands:
 
@@ -72,24 +72,24 @@ klaud text-color default
 ### klaud text-color --help
 Help function for klaud text-color.
 
-![echo](../assets/textcolorHelp.png)
+![txtClrHelp](../assets/textcolorHelp.png)
 
 ## Ascii Pictures
 
 ### klaud ascii
 Prints ascii picture of klaud
 
-![echo](../assets/ascii.png)
+![ascii](../assets/ascii.png)
 
 ### klaud shrine
 Prints ascii picture of klaud with flowers, great for meditation
 
-![echo](../assets/shrine.png)
+![shrine](../assets/shrine.png)
 
 ### klaud live-slug-reaction
 Prints ascii picture of klaud actually reacting
 
-![echo](../assets/reaction.png)
+![lsr](../assets/reaction.png)
 
 ## Math
 
@@ -102,19 +102,19 @@ Simple 4 function calculator. Supports:
 * Exponentials
 * Factorials
 
-![echo](../assets/math.png)
+![math](../assets/math.png)
 
 ### klaud plot
 A text-based plotting system. Used for plotting simple functions like y = x or y = x^2
 
-![echo](../assets/plot.png)
+![plot](../assets/plot.png)
 
 input command: klaud plot x
 
 ### klaud plot point
 Plots a point at a specified location. To add more points to plot run the command again. The point just plotted will be in the form of a 'X' while the previous points are in the form of a 'O'. To clear the plot run the klaud plot clear command
 
-![echo](../assets/plotpoint.png)
+![point](../assets/plotpoint.png)
 input commands (in this order): 
 
 klaud plot point 2,2
@@ -128,7 +128,7 @@ Plots a point in a random place on the grid. This command operates the same as t
 
 You can also add more than one random point at a time by adding a number at the end of the command (i.e. 10 random points: klaud plot point random 10)
 
-![echo](../assets/plotRand.png)
+![plotRand](../assets/plotRand.png)
 
 input commands:
 
@@ -138,7 +138,7 @@ klaud plot point random
 
 Clears the plot of saved points. 
 
-![echo](../assets/plotClear.png)
+![plotClear](../assets/plotClear.png)
 
 input commands: 
 
@@ -147,12 +147,12 @@ klaud plot clear
 ### klaud math --help
 Help function for klaud math
 
-![echo](../assets/mathHelp.png)
+![mathHelp](../assets/mathHelp.png)
 
 ### klaud plot --help
 Help function for klaud plot
 
-![echo](../assets/plotHelp.png)
+![plotHelp](../assets/plotHelp.png)
 
 ## Memory
 
@@ -160,25 +160,31 @@ Help function for klaud plot
 
 Save values to memory. The first value in the command is the memory location (int) where the highest it can go is 10000 at the moment. The second value is the value you're saving.
 
-![echo](../assets/memory.png)
+![mem](../assets/memory.png)
 
 ### klaud remember
 
 Read from memory from the memory location.
 
-![echo](../assets/memRem.png)
+![remem](../assets/memRem.png)
 
 ### klaud free-bytes
 
 Shows memory location of used bytes.
 
-![echo](../assets/freeBytes.png)
+![freeBytes](../assets/freeBytes.png)
 
 ### klaud del
 
 Clears data at given index range.
 
-![echo](../assets/memDel.png)
+![memDel](../assets/memDel.png)
+
+### klaud memory --help
+
+Help command for klaud memory.
+
+![memHelp](../assets/memHelp.png)
 
 ## Silly/Games
 
@@ -191,25 +197,25 @@ Gamble with Klaud! The object of the game is to roll a higher number on the dice
 * leave game
     * type exit
 
-![echo](../assets/dice.png)
+![dice](../assets/dice.png)
 
 ### klaud rizz
 Ever want to rizz up Klaud? If the answer is yes I have the command for you. Tell him whatever you want with a range of responses depending on how much he likes what you typed.
 
-![echo](../assets/klaudrizz.png)
+![rizz](../assets/klaudrizz.png)
 
-![echo](../assets/klaudrizz1.png)
+![rizz1](../assets/klaudrizz1.png)
 
-![echo](../assets/klaudrizz2.png)
+![rizz2](../assets/klaudrizz2.png)
 
 input command: klaud rizz
 
 ### klaud haiku
 Klaud makes a haiku for you!
 
-![echo](../assets/haiku.png)
+![haiku](../assets/haiku.png)
 
 ### klaud random
 Klaud chooses a command for you.
 
-![echo](../assets/random.png)
+![rand](../assets/random.png)

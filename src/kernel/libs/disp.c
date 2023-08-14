@@ -19,7 +19,7 @@ void fb_move_cursor(unsigned short pos) {
 }
 
 void reset() {
-    memcpy(curr_x,itoa(3),strlen(itoa(100))+3);
+    memcpy(curr_x,itoa(2),strlen(itoa(100))+3);
 }
 
 void move_curs(int x) {

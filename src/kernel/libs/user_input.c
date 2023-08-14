@@ -15,6 +15,10 @@
 // user input function. This could rank in my top 10 ugliest pieces of code to date. I'm
 // sure as hell not fixing it lmao
 
+// adr 311: rizz
+// adr 313: dice
+// adr 315: restart
+
 void user_input(char *input) {
     int len = strlen(input);
     char buffer[len + 1];
@@ -310,7 +314,7 @@ void user_input(char *input) {
             move_curs(9);
             printf("\nPlace bet> ");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud random") == 0) {
-            char comm[16][30] = {
+            char comm[15][30] = {
                 "klaud",
                 "klaud ascii",
                 "klaud plot x",
@@ -325,8 +329,7 @@ void user_input(char *input) {
                 "klaud live-slug-reaction",
                 "klaud shrine",
                 "klaud plot point ",
-                "klaud plot clear",
-                "klaud memory "
+                "klaud memory 0 hello world"
             };
             int arrMax = *(&comm + 1) - comm - 1;
             int clrMax = *(&clrLst + 1) - clrLst - 1;
@@ -355,6 +358,9 @@ void user_input(char *input) {
             printf("> %s\n",comm[randCom]);
             scroll(1);
             user_input(comm[randCom]);
+        } else if (strcmp(slice_str(input,buffer,0,18),"klaud memory --help") == 0) {
+            scroll(8);
+            printf("The klaud memory system\nklaud memory: edit memory in specific memory location.\nExample: klaud memory 0 hello world\nklaud remember: shows characters at given range of memory locations\nExample: klaud remember 0 5\nklaud free-bytes: see which memory addresses are in use\nklaud del: deletes character at specified address\nExample: klaud del 0 5\n> ");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud memory") == 0) {
             clrscr();
             int i = 0;
