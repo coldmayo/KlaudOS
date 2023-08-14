@@ -220,7 +220,6 @@ void user_input(char *input) {
             printf("> ");
         } else if (strcmp(input,"klaud restart") == 0) {
             memsave(315,"1\0",1);
-            //memcpy(restart,"True",strlen("True")+1);
             printf("Are you sure you want to restart?\n> ");
             scroll(1);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud math") == 0) {
@@ -369,7 +368,7 @@ void user_input(char *input) {
             int adr = convert(slice_str(num,buffer,0,i-1));
             char *value = slice_str(input,buffer,13+i+1,len);
             //printf("%s",value);
-            memsave(adr,value,5);
+            memsave(adr,value,len);
             scroll(1);
             printf("klaud places value starting from memory address %d\n> ",adr);
         } else if (strcmp(slice_str(input,buffer,0,13),"klaud remember") == 0) {

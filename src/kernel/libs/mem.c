@@ -49,11 +49,7 @@ void* memmove(void* dstptr, const void* srcptr, int size) {
 void * memsave (int ptr, char * val, int num) {
     int i = 0;
     while (i < num) {
-        if (sizeof(val) >= i) {
-            mem[ptr+i] = val[i];
-        } else {
-            mem[ptr+i] = '\0';
-        }
+        mem[ptr+i] = val[i];
         i++;
     }
 }
@@ -86,7 +82,7 @@ void * memAdrClear (int adr) {
 
 char * memread (int adr1, int adr2) {
     char * buffer;
-    char * val;
+    char val[256];
     if (adr1 > adr2) {
         adr2 = adr1;
     }

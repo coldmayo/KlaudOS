@@ -27,7 +27,7 @@
 * FAT12 file system
 * Interrupt handler
 * Responsive Kernel with commands 
-    * visit commands.md to see all possible commands
+    * visit docs/commands.md to see all possible commands
 * Built in x86 assembly and C
 * About 1.4 MegaBytes
 
@@ -54,6 +54,11 @@ $ make toolchain
 
 # conjure a disk image
 $ make
+
+# create executable
+# only do your first time
+
+$ chmod +x run.sh
 
 # Open OS in qemu
 $ ./run.sh
