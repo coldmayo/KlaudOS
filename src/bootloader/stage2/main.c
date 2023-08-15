@@ -54,7 +54,7 @@ void __attribute__((cdecl)) start(uint16_t bootDrive)
     // Initialize graphics 
     VbeInfoBlock* info = (VbeInfoBlock*)MEMORY_VESA_INFO;
     VbeModeInfo* modeInfo = (VbeModeInfo*)MEMORY_MODE_INFO;
-    bool graphOn = false;
+    bool graphOn = false;   // change to true for graphics mode
     if (VBE_GetControllerInfo(info) && graphOn == true) {
         uint16_t* mode = (uint16_t*)(info->VideoModePtr);
         for (int i = 0; mode[i] != 0xFFFF; i++) {

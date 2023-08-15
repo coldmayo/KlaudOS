@@ -55,8 +55,7 @@ $ make toolchain
 # conjure a disk image
 $ make
 
-# create executable
-# only do your first time
+# create executable; only do your first time
 
 $ chmod +x run.sh
 

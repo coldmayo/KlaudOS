@@ -117,13 +117,11 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 			} else if (scan_code == 77) {
 				if (lim > cursPos+1) {
 					move_curs(1);
-					fb_move_cursor(1);
 					cursPos++;
 				}
 			} else if (scan_code == 75) {
 				if (0 < cursPos) {
 					move_curs(-1);
-					fb_move_cursor(-1);
 					cursPos--;
 				}
 			} else if (scan_code <= KEYBOARD_MAX_ASCII) {

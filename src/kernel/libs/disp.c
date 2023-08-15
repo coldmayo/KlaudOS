@@ -23,6 +23,11 @@ void reset() {
 }
 
 void move_curs(int x) {
+    int c_x = convert(curr_x);
+    int xi = c_x%80;
+    int y = c_x/80;
+    //printf("%d",y);
+    setcursor(xi+x,y);
     memcpy(curr_x,itoa(convert(curr_x)+x),8);
 }
 
