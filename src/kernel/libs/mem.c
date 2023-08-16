@@ -1,7 +1,7 @@
 #include "include/mem.h"
 #include "include/stdio.h"
 
-char mem[10000];   // main memory
+char mem[15000];   // main memory
 
 void* memcpy(void* dst, const void* src, uint16_t num) {
     uint8_t* u8Dst = (uint8_t *)dst;
@@ -61,18 +61,23 @@ void memclear () {
 void memAvail() {
     int i;
     int num = 0;
+    char * print;
     for (i=0;i<sizeof(mem);i++) {
         if (mem[i] != '\0') {
-            if (num == 0) {
-                printf("All but: %d",i);
-            } else {
-                printf(", %d",i);   
-            }
+            strcat(print,", ");
+            strcat(print,itoa(i));
             num++;
         }
     }
     if (num == 0) {
         printf("All free");
+        scroll(1);
+    } else {
+        char * buffer;
+        print = slice_str(print,buffer,3,strlen(print)+1);   // if i didn't slice it an S would show at the start of the string
+        int numScroll = (strlen(print)+1)/80;
+        scroll(numScroll+1);
+        printf("%s",print);
     }
 }
 

@@ -115,7 +115,7 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 			} else if (scan_code == 42) {
 				shift = 1;
 			} else if (scan_code == 77) {
-				if (lim > cursPos+1) {
+				if (lim+1 > cursPos+1) {
 					move_curs(1);
 					cursPos++;
 				}

@@ -24,15 +24,15 @@ Stores klaud shit talking in klaud dice.
 Specifically: "couldn't be me tho"
 
 ### Memory Address 500
-Stores klaud shit talking in klaud dice. 
+Stores a klaud rizz response.
 Specifically: "'Get off my Operating System, I do not consent to this'"
 
 ### Memory Address 600
-Stores klaud shit talking in klaud dice. 
+Stores a klaud rizz response. 
 Specifically: "'Whatever you say, I guess.'"
 
 ### Memory Address 700
-Stores klaud shit talking in klaud dice. 
+Stores klaud rizz response. 
 Specifically: "'Finally, someone worth talking to! Some other people I've spoken to have been a huge pain!'"
 
 ### Memory Address 800
@@ -50,4 +50,4 @@ Specifically: "who's mans is this?"
 ### Memory Address 1100
 Stores klaud shit talking in klaud dice
 Specifically: Stores klaud shit talking in klaud dice. 
-Specifically: "who's mans is this?"
+Specifically: "hell nah"

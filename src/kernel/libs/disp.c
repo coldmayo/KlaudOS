@@ -11,13 +11,6 @@ void textColorChange(uint8_t newCol) {
     def_col = newCol;
 }
 
-void fb_move_cursor(unsigned short pos) {
-	i686_outb(FB_COMMAND_PORT, FB_HIGH_BYTE_COMMAND);
-	i686_outb(FB_DATA_PORT, ((pos >> 8) & 0x00FF));
-	i686_outb(FB_COMMAND_PORT, FB_LOW_BYTE_COMMAND);
-  	i686_outb(FB_DATA_PORT, pos & 0x00FF);
-}
-
 void reset() {
     memcpy(curr_x,itoa(2),strlen(itoa(100))+3);
 }
@@ -70,7 +63,9 @@ void fb_string(unsigned int i, char * s, unsigned char fg, unsigned char bg) {
 void fb_write(char c, unsigned int i){
     int c_x = convert(curr_x);
 	fb_write_cell(c_x*2, c, BLACK, def_col);
-	fb_move_cursor(c_x+1);
+    int xi = c_x%80;
+    int y = c_x/80;
+    setcursor(xi+1,y);
 }
 
 void fb_clear(unsigned int i){

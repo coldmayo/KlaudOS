@@ -365,12 +365,11 @@ int rand(uint32_t *state) {
 }
 
 int randint(int hi, int lo) {
-    uint32_t seed = 69;
+    uint32_t seed = 70;
     return (rand(seed)%((hi+1)-lo) + lo);
 }
 
-char * slice_str(const char * str, char * buffer, int start, int end)
-{
+char * slice_str(const char * str, char * buffer, int start, int end) {
     int j = 0;
     for (int i = start; i <= end; ++i) {
         buffer[j++] = str[i];

@@ -184,40 +184,9 @@ void graph(char *input,int yhi) {
     }
 }
 
-void clearPoints() {
-    clrscr();
-
-    // clear the points saved
+void clearPoints() {// clear the points saved
 
     memset(allPoints, '\0', sizeof(allPoints));
-
-    // displays blank plot
-
-    int yhi = 21;
-    int i;
-    int j;
-    int xi;
-    int yi;
-    char plot[yhi][80];
-    
-    for (yi=1;yi<=yhi;yi++) {
-        for (xi = 1;xi<=80;xi++) {
-            plot[yi][xi] = ' ';
-        }
-    }
-    for(j=1;j<yhi;j++) {
-        plot[j][1] = '|';
-    }
-    for(i=1;i<80;i++) {
-        plot[1][i] = '-';
-    }
-    plot[1][1] = '+';
-
-    for (j = yhi; j > 0; j--) {
-        for (i = 0; i < 80; i++) {
-            putc(plot[j][i]);
-        }
-    }
 }
 
 int linReg(int * x, int * y) {

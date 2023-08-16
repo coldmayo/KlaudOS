@@ -63,7 +63,8 @@ void user_input(char *input) {
             } else {
                 scroll(1);
                 int shit[5] = {400,800,900,1100,1000};
-                printf("'%s' he said in his native language\n",memread(shit[randint(5,0)],shit[randint(2,0)]+40));
+                int phrase = shit[abs(randint(5,0)-1)];
+                printf("'%s' he said in his native language\n",memread(phrase,phrase+40));
                 score = score - bet;
                 bscore = bscore + bet;
             }
@@ -86,14 +87,9 @@ void user_input(char *input) {
                 bscore = bscore - bet;
             } else {
                 scroll(1);
-                char shitTalk[30][30] = {
-                    "couldn't be me tho",
-                    "me personally idk",
-                    "DAMN",
-                    "hell nah",
-                    "who's mans is this?"
-                };
-                printf("'%s' he said in his native language\n",shitTalk[randint(4,0)]);
+                int shit[5] = {400,800,900,1100,1000};
+                int phrase = shit[abs(randint(5,0)-1)];
+                printf("'%s' he said in his native language\n",memread(phrase,phrase+40));
                 score = score - bet;
                 bscore = bscore + bet;
             }
@@ -123,9 +119,13 @@ void user_input(char *input) {
         printf("\n> ");
     } else {
         if (strcmp(slice_str(input,buffer,0,4),"klaud")) {
+            int i = 0;
+            if (strlen(input) < 80) {
+                i = 1;
+            }
             printf("Every command starts with klaud, try again");
             printf("\n> ");
-            scroll(1);
+            scroll(0+i);
         } else if (strcmp(input, "klaud --help") == 0) {
             help();
             printf("\n> ");
@@ -284,7 +284,7 @@ void user_input(char *input) {
                 }
             } else if (strcmp(slice_str(input,buffer,11,15),"clear") == 0) {
                 clearPoints();
-                scroll(22);
+                scroll(1);
                 printf("points cleared\n> ");
             } else if (strcmp(slice_str(input,buffer,11,16),"--help") == 0) {
                 printf("The klaud plotting system.\nExample commands:\nklaud plot x (plots y = x)\nklaud plot point 2 3 (plots point at (2,3))\nklaud plot clear (clears plot)\nNOTE: the max y value for the plots is 21 and 80 for x\n> ");
@@ -386,13 +386,17 @@ void user_input(char *input) {
             }
             int adr1 = convert(slice_str(num,buffer,0,i-1));
             int adr2 = convert(slice_str(input,buffer,16+i,len));
-            //printf("%d %d",adr1,adr2);
-            scroll(1);
+            int len = (strlen(memread(adr1,adr2))+strlen("'', klaud says in his native language")) + 2;
+            if (len < 80) {
+                scroll(1);
+            } else {
+                int scrollNum = (strlen(memread(adr1,adr2))+strlen("'', klaud says in his native language"))/80;   // extra scrolled lines for frame buffer
+                scroll(scrollNum+1);
+            }
             printf("'%s', klaud says in his native language\n> ",memread(adr1,adr2));
         } else if (strcmp(input,"klaud free-bytes") == 0) {
             clrscr();
             memAvail();
-            scroll(16);
             printf("\n> ");
         } else if (strcmp(slice_str(input,buffer,0,8),"klaud del") == 0) {
             clrscr();
