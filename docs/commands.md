@@ -112,16 +112,16 @@ A text-based plotting system. Used for plotting simple functions like y = x or y
 input command: klaud plot x
 
 ### klaud plot point
-Plots a point at a specified location. To add more points to plot run the command again. The point just plotted will be in the form of a 'X' while the previous points are in the form of a 'O'. To clear the plot run the klaud plot clear command
+Plots a point at a specified location. To add more points to plot run the command again. The point just plotted will be in the form of a 'X' while the previous points are in the form of a 'O'. To clear the plot run the klaud plot clear command.
+
+There is also a line of best fit calculation below the plot (it's not great but it is what it is).
 
 ![point](../assets/plotpoint.png)
 input commands (in this order): 
 
+klaud plot point 0,0
+
 klaud plot point 2,2
-
-klaud plot point 4,0
-
-klaud plot point 4,4
 
 ### klaud plot point random
 Plots a point in a random place on the grid. This command operates the same as the klaud plot point command, so adding more points to the plot can be achieved with either this command or klaud plot point and clearing the plot is done with klaud plot clear.

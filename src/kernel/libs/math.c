@@ -4,7 +4,7 @@
 #include "include/mem.h"
 #include "include/disp.h"
 
-int pointStart = 14500;
+int pointStart = 14000;
 
 int abs(int i) {
     if (i < 0) {
@@ -194,8 +194,37 @@ void clearPoints() {// clear the points saved
     }
 }
 
-int linReg(int * x, int * y) {
+int linReg(int * arr) {
     // linear regression stuff here
+    int x[10], y[10];
+    int sumX = 0, sumX2=0, sumY=0, sumXY=0, a, b;
+    int n = 0;
+    int i = 0;
+    int j;
+    while (arr[n] != 0) {
+        x[i] = arr[n];
+        y[i] = arr[n+1];
+        n+=2;
+        i+=1;
+    }
+    //printf("%d",x[0]);
+    for (j=0;j<=i;j++) {
+        //printf("%d %d,",x[j],x[0]);
+        sumX = sumX + x[j];
+        sumX2 = sumX2 + x[j]*x[j];
+        sumY = sumY + y[j];
+        sumXY = sumXY + x[j]*y[j];
+    }
+    //printf("%d",j);
+    if (x[0] == 0 || j*sumX2-sumX*sumX == 0 || j == 0) {
+        b = 1;
+        a = 1;
+    } else {
+        b = (j*sumXY-sumX*sumY)/(j*sumX2-sumX*sumX);
+        a = (sumY - b*sumX)/j;
+    }
+    printf("Equation of best fit is: y = %d + %dx\n",a,b);
+
 }
 
 // I had to refactor this once I realized I wanted to plot multiple points
@@ -295,9 +324,12 @@ void plotPoint(char * points, int yhi, int pltN) {
     }
     arr[n+1] = 0;
     n = 0;
+    int save = 0;
     while (arr[n] != 0) {
         plot[arr[n]][arr[n+1]] = 'O';
-        //printf("%d %d",arr[n],arr[n+1]);
+        if (arr[n] == f && arr[n+1] == x) {
+            save = 1;
+        }
         n+=2;
     }
 
@@ -311,15 +343,15 @@ void plotPoint(char * points, int yhi, int pltN) {
 
     if (pltN == 1) {
         printf("(%d,%d)\n",x-1,f-1);
-        scroll(1);
+        linReg(arr);
+        scroll(2);
     }
-
-    // saves given point into allPoints
-
-    strcat(allPoints,itoa(f));
-    strcat(allPoints,",");
-    strcat(allPoints,itoa(x));
-    strcat(allPoints,",");
-    memsave(pointStart,allPoints,strlen(allPoints)+1);
-    memset(plot, '\0', sizeof(plot));
+    // saves given point into allPoints if the point isn't already saved
+    if (save != 1) {
+        strcat(allPoints,itoa(f));
+        strcat(allPoints,",");
+        strcat(allPoints,itoa(x));
+        strcat(allPoints,",");
+        memsave(pointStart,allPoints,strlen(allPoints)+1);
+    }
 }
