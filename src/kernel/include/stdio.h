@@ -12,7 +12,7 @@ void user_input(char *input);
 int strcmp(char s1[], char s2[]);
 unsigned strlen(const char* str);
 void append(char s[], char n);
-int rand(uint32_t *state);
+int rand(int seed);
 int randint(int hi, int lo);
 char * slice_str(const char * str, char * buffer, int start, int end);
 void abort(void);

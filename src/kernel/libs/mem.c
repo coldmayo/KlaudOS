@@ -64,8 +64,8 @@ void memAvail() {
     char * print;
     for (i=0;i<sizeof(mem);i++) {
         if (mem[i] != '\0') {
-            strcat(print,", ");
             strcat(print,itoa(i));
+            strcat(print,", ");
             num++;
         }
     }
@@ -74,7 +74,9 @@ void memAvail() {
         scroll(1);
     } else {
         char * buffer;
-        print = slice_str(print,buffer,3,strlen(print)+1);   // if i didn't slice it an S would show at the start of the string
+        if (print[0] == 'S') {
+            print = slice_str(print,buffer,2,strlen(print)+1);   // if i didn't slice it an S would show at the start of the string
+        }
         int numScroll = (strlen(print)+1)/80;
         scroll(numScroll+1);
         printf("%s",print);

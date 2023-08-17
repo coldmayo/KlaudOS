@@ -51,3 +51,6 @@ Specifically: "who's mans is this?"
 Stores klaud shit talking in klaud dice
 Specifically: Stores klaud shit talking in klaud dice. 
 Specifically: "hell nah"
+
+### Memory Address 14500
+Stores points plotted with klaud plot point

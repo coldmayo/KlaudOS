@@ -347,25 +347,23 @@ void append(char s[], char n) {
 
 // Lehmer random number generator (stolen from wikipedia)
 
-int rand(uint32_t *state) {
+int rand(int seed) {
     // Precomputed parameters for Schrage's method
     
-	const uint32_t M = 0x7fffffff;
-	const uint32_t A = 48271;
-	const uint32_t Q = M / A;
-	const uint32_t R = M % A; 
+    static int next = 1;
+    static int A = 16807;
+    static int M = 2147483647;   // 2^31 - 1
+    static int q = 127773;       // M / A
+    static int r = 2836;         // M % A
 
-	uint32_t div = *state / Q;
-	uint32_t rem = *state % Q;
-
-	int32_t s = rem * A;
-	int32_t t = div * R;
-	int32_t result = s - t;
-	return *state = result;
+    if (seed) next = seed;
+    next = A * (next % q) - r * (next / q);
+    if (next < 0) next += M;
+    return next;
 }
 
 int randint(int hi, int lo) {
-    uint32_t seed = 70;
+    int seed = 0;
     return (rand(seed)%((hi+1)-lo) + lo);
 }
 

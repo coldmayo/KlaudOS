@@ -176,9 +176,9 @@ void user_input(char *input) {
                 char * col = clrLst[i];
                 while (* col != '\0') {
                     if (* clrLst[i+1] == '\0') {
-                        printf("and %s",col);
+                        printf("and %s",clrLst[i]);
                     } else {
-                        printf("%s ",col);
+                        printf("%s ",clrLst[i]);
                     }
                     i++;
                     col = clrLst[i];

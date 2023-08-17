@@ -4,7 +4,7 @@
 #include "include/mem.h"
 #include "include/disp.h"
 
-char allPoints[400] = "\0";
+int pointStart = 14500;
 
 int abs(int i) {
     if (i < 0) {
@@ -185,8 +185,13 @@ void graph(char *input,int yhi) {
 }
 
 void clearPoints() {// clear the points saved
-
-    memset(allPoints, '\0', sizeof(allPoints));
+    //memset(allPoints, '\0', sizeof(allPoints));
+    int i = pointStart;
+    int adr2 = 15000;
+    while (i < adr2+1) {
+        memAdrClear(i);
+        i++;
+    }
 }
 
 int linReg(int * x, int * y) {
@@ -273,6 +278,8 @@ void plotPoint(char * points, int yhi, int pltN) {
     int p = 0;
     int arr[256] = {0,0};
     memset(arr, '\0', sizeof(arr));
+    char * allPoints = memread(pointStart,15000);
+    //printf("%s",allPoints);
     char buff[256] = {'\0','\0'};
     while (allPoints[n] != '\0') {
         if (isNum(allPoints[n])==1) {
@@ -313,8 +320,6 @@ void plotPoint(char * points, int yhi, int pltN) {
     strcat(allPoints,",");
     strcat(allPoints,itoa(x));
     strcat(allPoints,",");
-
+    memsave(pointStart,allPoints,strlen(allPoints)+1);
     memset(plot, '\0', sizeof(plot));
-    //printf("%s",allPoints);
-    //printf("%d",arr[1]);
 }
