@@ -353,8 +353,8 @@ void user_input(char *input) {
             scroll(1);
             user_input(comm[randCom]);
         } else if (strcmp(slice_str(input,buffer,0,18),"klaud memory --help") == 0) {
-            scroll(8);
-            printf("The klaud memory system\nklaud memory: edit memory in specific memory location.\nExample: klaud memory 0 hello world\nklaud remember: shows characters at given range of memory locations\nExample: klaud remember 0 5\nklaud free-bytes: see which memory addresses are in use\nklaud del: deletes character at specified address\nExample: klaud del 0 5\n> ");
+            scroll(9);
+            printf("The klaud memory system\nklaud memory: edit memory in specific memory location.\nExample: klaud memory 0 hello world\nklaud remember: shows characters at given range of memory locations\nExample: klaud remember 0 5\nklaud free-bytes: see which memory addresses are in use\nklaud del: deletes character at specified address\nExample: klaud del 0 5\nklaud memory init: restores memory to its inital state\n> ");
         } else if (strcmp(input,"klaud memory init") == 0) {
             memInit();
             scroll(1);

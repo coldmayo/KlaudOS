@@ -168,7 +168,6 @@ void graph(char *input,int yhi) {
     for (y=yhi;y>=1;y--) {
         for (x=1;x<=80;x++) {
             int f = eval(input,x);
-            //printf("%d ",f);
             if (y == f) {
                 printf("o");
             } else if (x == 1 && y == 1 && y != f) {
@@ -184,7 +183,9 @@ void graph(char *input,int yhi) {
     }
 }
 
-void clearPoints() {// clear the points saved
+// clear the points saved
+
+void clearPoints() {
     //memset(allPoints, '\0', sizeof(allPoints));
     int i = pointStart;
     int adr2 = 15000;
@@ -202,29 +203,29 @@ int linReg(int * arr) {
     int i = 0;
     int j;
     while (arr[n] != 0) {
-        x[i] = arr[n];
-        y[i] = arr[n+1];
+        y[i] = arr[n] - 1;
+        x[i] = arr[n+1] - 1;
+        //printf("%d %d ",x[i],y[i]);
         n+=2;
         i+=1;
     }
     //printf("%d",x[0]);
-    for (j=0;j<=i;j++) {
-        //printf("%d %d,",x[j],x[0]);
-        sumX = sumX + x[j];
-        sumX2 = sumX2 + x[j]*x[j];
-        sumY = sumY + y[j];
-        sumXY = sumXY + x[j]*y[j];
+    for (j=0;j<=i-1;j++) {
+        //printf("%d %d ",x[j],y[j]);
+        sumX += x[j];
+        sumX2 += x[j]*x[j];
+        sumY += y[j];
+        sumXY += x[j]*y[j];
     }
+    j+=1;
     //printf("%d",j);
-    if (x[0] == 0 || j*sumX2-sumX*sumX == 0 || j == 0) {
-        b = 1;
-        a = 1;
+    if (j*sumX2-sumX*sumX == 0 || j == 0) {
+        printf("Enter another point\n");
     } else {
         b = (j*sumXY-sumX*sumY)/(j*sumX2-sumX*sumX);
         a = (sumY - b*sumX)/j;
+        printf("Equation of best fit is: y = %d + %dx\n",a,b);
     }
-    printf("Equation of best fit is: y = %d + %dx\n",a,b);
-
 }
 
 // I had to refactor this once I realized I wanted to plot multiple points
@@ -294,12 +295,6 @@ void plotPoint(char * points, int yhi, int pltN) {
         x = 79;
     }
 
-    if (pltN == 1) {
-        plot[f][x] = 'X';
-    } else {
-        plot[f][x] = 'O';
-    }
-
     // gets saved points and plots them
 
     int n = 0;
@@ -322,6 +317,7 @@ void plotPoint(char * points, int yhi, int pltN) {
         }
         n++;
     }
+
     arr[n+1] = 0;
     n = 0;
     int save = 0;
@@ -333,6 +329,13 @@ void plotPoint(char * points, int yhi, int pltN) {
         n+=2;
     }
 
+    if (pltN == 1) {
+        plot[f][x] = 'X';
+    } else {
+        plot[f][x] = 'O';
+    }
+    arr[n] = f;
+    arr[n+1] = x;
     // displays plot
 
     for (j = yhi; j > 0; j--) {
@@ -346,6 +349,7 @@ void plotPoint(char * points, int yhi, int pltN) {
         linReg(arr);
         scroll(2);
     }
+
     // saves given point into allPoints if the point isn't already saved
     if (save != 1) {
         strcat(allPoints,itoa(f));
