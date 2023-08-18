@@ -34,10 +34,8 @@ char *strncpy(char *s1, const char *s2, size_t n) {
 
 int strncmp(const char *s1, const char *s2, size_t n) {
 	unsigned int count = 0;
-	while (count < n)
-	{
-		if (s1[count] == s2[count])
-		{
+	while (count < n) {
+		if (s1[count] == s2[count]) {
 			if (s1[count] == '\0') //quit early because null-termination found
 				return 0;
 			else
@@ -61,8 +59,8 @@ int convert(char s[]) {
 char *itoa(int nbr) {
     static char rep[] = "0123456789";
     static char buff[65];
-    char        *ptr;
-    int         neg;
+    char *ptr;
+    int neg;
 
     ptr = &buff[64];
     *ptr = '\0';

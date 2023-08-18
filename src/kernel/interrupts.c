@@ -62,7 +62,6 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 	unsigned char ascii;
 	static char key_buffer[256];
 	static char prevComm[256];
-	//char prevComm[256][256];   make this array of prev commands
 	int shift;
 	switch (interrupt){
 		case INTERRUPTS_KEYBOARD:
@@ -90,15 +89,7 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				lim += strlen(key_buffer);
 				cursPos += strlen(key_buffer);
 			} else if (shift == 1) {
-				if (scan_code==13) {scan_code = 78;}
-				else if (scan_code==6) {scan_code = 84;}
-				else if (scan_code==7) {scan_code = 85;}
-				else if (scan_code==9) {scan_code = 86;}
-				else if (scan_code==2) {scan_code = 87;}
-				else if (scan_code==43) {scan_code = 88;}
-				else if (scan_code==10) {scan_code = 89;}
-				else if (scan_code==11) {scan_code = 90;}
-				ascii = keyboard_scan_code_to_ascii(scan_code);
+				ascii = keyboard_scan_code_to_ascii_shift(scan_code);
 				key_buffer[cursPos] = ascii;
 				fb_write(ascii,BUFFER_COUNT);
 				shift = 0;

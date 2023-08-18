@@ -35,7 +35,8 @@ void makeLine(int numSyl,int * struc) {
     printf("\n");
 
     // using the created structure we can make the sentience
-    // for 3+ words: noun, verb, noun, ...
+    // for 3+ words (even): noun, verb, noun, ...
+    // for 3+ words (even): noun, verb, ..., noun, noun
     // for 2 >= words: noun, noun, ...
 
     int j=0;
