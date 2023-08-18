@@ -28,8 +28,9 @@
 * Interrupt handler
 * Responsive Kernel with commands 
     * visit docs/commands.md to see all possible commands
+    * visit demo.mp4
 * Built in x86 assembly and C
-* About 1.4 MegaBytes
+* Fits on a floppy
 
 ## How To Use
 
@@ -40,7 +41,6 @@ Make sure you have the following software installed before proceeding:
 * make
 * nasm
 * qemu-system-x86
-From your command line:
 
 ```bash
 # Clone this repository
@@ -56,7 +56,6 @@ $ make toolchain
 $ make
 
 # create executable; only do your first time
-
 $ chmod +x run.sh
 
 # Open OS in qemu
@@ -67,9 +66,9 @@ $ ./run.sh
 
 You can download the latest version of KlaudOS <a href="https://github.com/coldmayo/KlaudOS/releases">here</a>.
 
-## Contact Me!
+## Contact Me
 
-If you liked KlaudOS, it would be cool if you emailed me at <wallachmayas@gmail.com> and tell me anything.
+If you liked KlaudOS, it would be cool if you emailed me at <wallachmayas@gmail.com> and told me anything you want me to know.
 
 ## Credits
 

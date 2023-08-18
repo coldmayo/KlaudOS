@@ -360,21 +360,26 @@ void user_input(char *input) {
             scroll(1);
             printf("memory reverted back to initial state\n> ");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud memory") == 0) {
-            clrscr();
             int i = 0;
+            int j;
             char * inp = slice_str(input,buffer,13,len);
             char num[4];
             while (isNum(inp[i]) != 0) {
                 num[i] = inp[i];
                 i++;
             }
-            //printf("%s",num);
-            int adr = convert(slice_str(num,buffer,0,i-1));
-            char *value = slice_str(input,buffer,13+i+1,len);
-            //printf("%s",value);
-            memsave(adr,value,len);
-            scroll(1);
-            printf("klaud places value starting from memory address %d\n> ",adr);
+            char * ad = slice_str(num,buffer,0,i-1);
+            if (i > 0) {
+                clrscr();
+                int adr = convert(ad);
+                char *value = slice_str(input,buffer,13+i+1,len);
+                memsave(adr,value,len);
+                scroll(1);
+                printf("klaud places value starting from memory address %d\n> ",adr);   
+            } else {
+                scroll(1);
+                printf("use klaud memory --help to find out how to properly use this command\n> ");
+            }
         } else if (strcmp(slice_str(input,buffer,0,13),"klaud remember") == 0) {
             clrscr();
             int i = 0;

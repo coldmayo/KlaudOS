@@ -40,7 +40,7 @@ void makeLine(int numSyl,int * struc) {
 
     int j=0;
     for (j=0;j<numLet;j++) {
-        if (i>=3) {
+        if (i>=3 && i%2 != 0) {
             int k;
             int ops[3];
             int l=0;
@@ -48,14 +48,12 @@ void makeLine(int numSyl,int * struc) {
                 if (j%2 == 0) {
                     if (nsyl[k] == struc[j]) {
                         ops[l] = k;
-                        //printf("%d",k);
                         l++;
                     }
                 } else {
                     if (vsyl[k] == struc[j]) {
                         ops[l] = k;
                         l++;
-                        //printf("%d",k);
                     }
                 }
             }
@@ -63,6 +61,29 @@ void makeLine(int numSyl,int * struc) {
             int randNum = abs(randint(2,0));
             //printf("%d",randNum);
             if (j%2==0) {printf("%s ",noun[ops[randNum]]);}
+            else {printf("%s ",verb[ops[randNum]]);}
+        } else if (i>=3 && i%2 == 0) {
+            int k;
+            int ops[3];
+            int l=0;
+            for (k=0;k<=20;k++) {
+                if (j%2 == 0 || j==i-1) {
+                    if (nsyl[k] == struc[j]) {
+                        ops[l] = k;
+                        l++;
+                    }
+                } else {
+                    if (vsyl[k] == struc[j]) {
+                        //printf("%d %d ",j,i);
+                        ops[l] = k;
+                        l++;
+                    }
+                }
+            }
+            //printf("\n");
+            int randNum = abs(randint(2,0));
+            //printf("%d",randNum);
+            if (j%2==0 || j==i-1) {printf("%s ",noun[ops[randNum]]);}
             else {printf("%s ",verb[ops[randNum]]);}
         } else if (i <= 2) {
             int k;
