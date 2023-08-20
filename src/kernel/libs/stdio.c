@@ -406,6 +406,28 @@ void removeChar(char *str, char garbage) {
     *dst = '\0';
 }
 
+char * lower(char * str) {
+    char * low = "abcdefghijklmnopqrstuvwxyz";
+    char * up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    int i = 0;
+    int j;
+    while (strlen(str) > i) {
+        if (isNum(str[i]) == 1 || str[i]==' ') {
+            i++;
+        } else {
+            for (j=0; strlen(low)>j;j++) {
+                if (str[i] == up[j]) {
+                    str[i] = low[j];
+                    i++;
+                } else if (str[i] == low[j]) {
+                    i++;
+                }
+            }
+        }
+    }
+    return str;
+}
+
 void memInit () {
     memclear();   // just in case
     memsave(500,"'Get off my Operating System, I do not consent to this'",strlen("'Get off my Operating System, I do not consent to this'")+1); // rizz bad ending
@@ -414,6 +436,6 @@ void memInit () {
     memsave(400,"couldn't be me tho",strlen("couldn't be me tho")+1);
     memsave(800,"me personally idk",strlen("me personally idk")+1);
     memsave(900,"DAMN",strlen("DAMN")+1);
-    memsave(1100,"hell nah",strlen("hell nah")+1);
     memsave(1000,"who's mans is this?",strlen("who's mans is this?")+1);
+    memsave(1100,"hell nah",strlen("hell nah")+1);
 }

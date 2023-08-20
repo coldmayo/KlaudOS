@@ -18,10 +18,13 @@
 // adr 311: rizz
 // adr 313: dice
 // adr 315: restart
+// adr 317: caps lock
 
 void user_input(char *input) {
     int len = strlen(input);
     char buffer[len + 1];
+    input = lower(input);
+    //printf("%s",input);
     static char umoney[6];
     static char kmoney[6];
     uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8};
@@ -218,7 +221,7 @@ void user_input(char *input) {
             printf("> ");
         } else if (strcmp(input,"klaud restart") == 0) {
             memsave(315,"1\0",1);
-            printf("Are you sure you want to restart?\n> ");
+            printf("Are you sure you want to restart? (y/n)\n> ");
             scroll(1);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud math") == 0) {
             if (strcmp(slice_str(input,buffer,11,len),"--help")==0) {

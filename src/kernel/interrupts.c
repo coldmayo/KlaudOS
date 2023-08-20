@@ -63,7 +63,7 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 	static char key_buffer[256];
 	static char prevComm[256];
 	int shift;
-	switch (interrupt){
+	switch (interrupt) {
 		case INTERRUPTS_KEYBOARD:
 			scan_code = keyboard_read_scan_code();
 			//printf("%d",scan_code);
@@ -89,7 +89,11 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				lim += strlen(key_buffer);
 				cursPos += strlen(key_buffer);
 			} else if (shift == 1) {
-				ascii = keyboard_scan_code_to_ascii_shift(scan_code);
+				if (memread(317,317)[0] == '1') {
+					ascii = keyboard_scan_code_to_ascii(scan_code);
+				} else {
+					ascii = keyboard_scan_code_to_ascii_shift(scan_code);
+				}
 				key_buffer[cursPos] = ascii;
 				fb_write(ascii,BUFFER_COUNT);
 				shift = 0;
@@ -115,19 +119,27 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 					move_curs(-1);
 					cursPos--;
 				}
+			} else if (scan_code == 58) {
+				if (memread(317,317)[0] == '1') {
+					memsave(317,"0",1);
+				} else {
+					memsave(317,"1",1);
+				}
 			} else if (scan_code <= KEYBOARD_MAX_ASCII) {
-				ascii = keyboard_scan_code_to_ascii(scan_code);
+				if (memread(317,317)[0] == '1') {
+					ascii = keyboard_scan_code_to_ascii_shift(scan_code);
+				} else {
+					ascii = keyboard_scan_code_to_ascii(scan_code);
+				}
 				key_buffer[cursPos] = ascii;
 				fb_write(ascii,BUFFER_COUNT);
 				BUFFER_COUNT++;
 				lim++;
 				cursPos++;
 			}
+			
 			pic_acknowledge(interrupt);
 
-			break;
-		case INTERRUPTS_TIMER:
-			pic_acknowledge(interrupt);
 			break;
 		default:
 			break;

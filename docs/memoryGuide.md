@@ -19,6 +19,9 @@ When the character at this address is equal to 1 then the klaud dice game starts
 ### Memory Address 315
 When the character at this address is equal to 1 you are given a prompt where if you answer yes or y then the kernel restarts.
 
+### Memory Address 317
+When caps lock is enabled, the value at this address is equal to 1.
+
 ### Memory Address 400
 Stores klaud shit talking in klaud dice. 
 Specifically: "couldn't be me tho"

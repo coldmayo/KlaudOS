@@ -38,7 +38,7 @@ void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg) {
 	int c_x = convert(curr_x);
     if (c == '\n') {
         scroll(1);
-    } else if (c == '$') {
+    } else if (c == '`') {
         fb[i-2] = '\0';
 	    fb[i] = ((fg & 0x0F) << 4) | (bg & 0x0F);
         c_x--;
@@ -70,5 +70,5 @@ void fb_write(char c, unsigned int i){
 
 void fb_clear(unsigned int i){
     int c_x = convert(curr_x);
-    fb_write_cell(c_x*2+1, '$', BLACK, BLACK);
+    fb_write_cell(c_x*2+1, '`', BLACK, BLACK);
 }
