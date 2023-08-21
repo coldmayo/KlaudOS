@@ -27,8 +27,8 @@ void user_input(char *input) {
     //printf("%s",input);
     static char umoney[6];
     static char kmoney[6];
-    uint8_t numLst[8] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8};
-    char clrLst[8][12] = {"blue","green","cyan","red","purple","orange","white","grey"};
+    uint8_t numLst[15] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9,10,11,12,13,14,15};
+    char clrLst[15][17] = {"blue","green","cyan","red","purple","orange","white","grey","light blue","light green","light cyan","light red","light purple","yellow"};
     if (memread(311,311)[0]=='1') {
         int score = rizzScore(input);
         printf("\n");
@@ -168,11 +168,9 @@ void user_input(char *input) {
             printf("\n>");
         // This used to just be a bunch of if statements but now that fixed (thankfully)
         } else if (strcmp(slice_str(input,buffer,0,15),"klaud text-color") == 0) {
-            uint8_t numLst[9] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,'\0'};
-            char clrLst[9][12] = {"blue","green","cyan","red","purple","orange","white","grey",'\0'};
             int i = 0;
             if (strcmp(slice_str(input,buffer,17,len),"--help")==0) {
-                scroll(1);
+                scroll(2);
                 printf("klaud text-color supports ");
                 // haven't done a while loop in a while wanted to try it out
                 // decided to make printing the colors easier in that just adding a color to the clrLst will add it to the colors printed out with the --help command
@@ -180,9 +178,9 @@ void user_input(char *input) {
                 char * col = clrLst[i];
                 while (* col != '\0') {
                     if (* clrLst[i+1] == '\0') {
-                        printf("and %s",clrLst[i]);
+                        printf("and %s",clrLst[i],i);
                     } else {
-                        printf("%s ",clrLst[i]);
+                        printf("%s, ",clrLst[i],i);
                     }
                     i++;
                     col = clrLst[i];
@@ -194,12 +192,9 @@ void user_input(char *input) {
                 changeColor(numLst[randCol]);
                 printf("> Color changed to %s",clrLst[randCol]);
                 printf("\n> ");
-            } else if (strlen(input) < 19) {
-                scroll(1);
-                printf("use klaud text-color --help to see available colors\n>");
             } else {
                 int used = 0;
-                for (int i = 0; i<8; i++) {
+                for (int i = 0; i<17; i++) {
                     if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
                         changeColor(numLst[i]);
                         used++;
