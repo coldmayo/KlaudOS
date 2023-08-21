@@ -110,10 +110,11 @@ void user_input(char *input) {
             printf("> ");
         }
     } else if (memread(315,315)[0]=='1') {
-        if (strcmp(input,"yes") == 0 || strcmp(input,"y") == 0) {
+        if (strcmp(slice_str(input,buffer,0,2),"yes") == 0 || strcmp(slice_str(input,buffer,0,0),"y") == 0) {
             reboot();
         } else {
             scroll(1);
+            memsave(315,"0",1);
             printf("Restart canceled\n> ");
         }
     } else if (strlen(input) <= 4) {

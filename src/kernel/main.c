@@ -4,6 +4,7 @@
 #include <include/hal.h>
 #include "include/interrupts.h"
 #include "include/strings.h"
+#include "include/fpu.h"
 #include <stddef.h>
 #include "include/io.h"
 #include "include/disp.h"
@@ -17,6 +18,7 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     memset(&__bss_start, 0, (&__end) - (&__bss_start));
     memInit();
     HAL_Initialize();
+    enable_fpu();
     clrscr();
     klaud_ascii();
     printf("\n                         Version -- 0.0.5: Aug 2023\n");

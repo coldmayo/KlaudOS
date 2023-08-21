@@ -407,12 +407,12 @@ void removeChar(char *str, char garbage) {
 }
 
 char * lower(char * str) {
-    char * low = "abcdefghijklmnopqrstuvwxyz";
-    char * up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char * low= "0abcdefghijklmnopqrstuvwxyz(){}[]:;,!@#$%^&*/<>+-=_|\\\'";
+    char * up = "0ABCDEFGHIJKLMNOPQRSTUVWXYZ(){}[]:;,!@#$%^&*/<>+-=_|\\\'";
     int i = 0;
     int j;
     while (strlen(str) > i) {
-        if (isNum(str[i]) == 1 || str[i]==' ') {
+        if (isNum(str[i]) == 1 || str[i]==' ' || str[i] == '"') {
             i++;
         } else {
             for (j=0; strlen(low)>j;j++) {
@@ -425,7 +425,9 @@ char * lower(char * str) {
             }
         }
     }
+
     return str;
+
 }
 
 void memInit () {

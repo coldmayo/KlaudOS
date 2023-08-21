@@ -26,7 +26,9 @@ char keyboard_scan_code_to_ascii(unsigned char scan_code)
 
 	return ascii[scan_code];
 }
+
 // for shift+caps lock
+
 char keyboard_scan_code_to_ascii_shift(unsigned char scan_code) {
 	char ascii[90] = {
 		'\0','\0','!','@','#','$','%','^','&',   // 0 - 8

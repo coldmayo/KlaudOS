@@ -26,6 +26,7 @@
 * 32 bit protected mode + gdt
 * FAT12 file system
 * Interrupt handler
+* FPU support
 * Responsive Kernel with commands 
     * visit docs/commands.md to see all possible commands
     * visit demo.mp4
