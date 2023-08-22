@@ -51,14 +51,32 @@ Command to change the text color. You can check klaud text-color --help to see w
 input command:
 klaud text-color purple
 
+### klaud back-color
+Command to change the background color. You can check klaud back-color --help to see which colors are supported.
+
+![backClr](../assets/backColor.png)
+
+input command:
+
+klaud back-color light blue
+
 ### klaud text-color random
 Klaud chooses what color your text is from the available colors listed in klaud text-color --help.
 
 ![txtClrRand](../assets/textColorRand2.png)
 
-input commands:
+input command:
 
 klaud text-color random
+
+### klaud back-color random
+Klaud chooses what color your background is from the available colors listed in klaud back-color --help.
+
+![backClrRand](../assets/backColorRand.png)
+
+input command:
+
+klaud back-color random
 
 ### klaud text-color default
 Change text-color back to default (white). You could use klaud text-color white to do this but in my head this command is easier to use.
@@ -73,6 +91,11 @@ klaud text-color default
 Help function for klaud text-color.
 
 ![txtClrHelp](../assets/textcolorHelp.png)
+
+### klaud back-color --help
+Help function for klaud back-color.
+
+![backClrHelp](../assets/backColorHelp.png)
 
 ## Ascii Pictures
 

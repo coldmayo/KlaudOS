@@ -54,7 +54,9 @@ void fb_clear(unsigned int i);
 
 void scroll(int x);
 
-void textColorChange(uint8_t newCol);
+uint8_t textColorChange(uint8_t newCol);
+
+uint8_t backColorChange(uint8_t newCol);
 
 void move_curs(int x);
 

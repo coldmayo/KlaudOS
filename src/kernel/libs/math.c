@@ -359,3 +359,10 @@ void plotPoint(char * points, int yhi, int pltN) {
         memsave(pointStart,allPoints,strlen(allPoints)+1);
     }
 }
+
+int firstDigit(int x) {
+    while (x > 9) {
+        x /= 10;
+    }
+    return x;
+}

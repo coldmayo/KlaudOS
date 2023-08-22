@@ -19,6 +19,7 @@
 // adr 313: dice
 // adr 315: restart
 // adr 317: caps lock
+// adr 319: color theme
 
 void user_input(char *input) {
     int len = strlen(input);
@@ -189,14 +190,14 @@ void user_input(char *input) {
             } else if (strcmp(input,"klaud text-color random") == 0) {
                 int arrMax = *(&numLst + 1) - numLst - 1;
                 int randCol = abs(randint(arrMax-1,0));
-                changeColor(numLst[randCol]);
+                changeColor(textColorChange(numLst[randCol]));
                 printf("> Color changed to %s",clrLst[randCol]);
                 printf("\n> ");
             } else {
                 int used = 0;
                 for (int i = 0; i<17; i++) {
                     if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
-                        changeColor(numLst[i]);
+                        changeColor(textColorChange(numLst[i]));
                         used++;
                         printf("> Color changed to %s",clrLst[i]);
                         printf("\n> ");
@@ -210,6 +211,51 @@ void user_input(char *input) {
                 if (used == 0) {
                     scroll(1);
                     printf("use klaud text-color --help to see available colors\n>");
+                }
+            }
+        } else if (strcmp(slice_str(input,buffer,0,15),"klaud back-color") == 0) {
+            int i = 0;
+            if (strcmp(slice_str(input,buffer,17,len),"--help")==0) {
+                scroll(2);
+                printf("klaud back-color supports ");
+                // haven't done a while loop in a while wanted to try it out
+                // decided to make printing the colors easier in that just adding a color to the clrLst will add it to the colors printed out with the --help command
+                i = 0;
+                char * col = clrLst[i];
+                while (* col != '\0') {
+                    if (* clrLst[i+1] == '\0') {
+                        printf("and %s",clrLst[i],i);
+                    } else {
+                        printf("%s, ",clrLst[i],i);
+                    }
+                    i++;
+                    col = clrLst[i];
+                }
+                printf("\n> ");
+            } else if (strcmp(input,"klaud back-color random") == 0) {
+                int arrMax = *(&numLst + 1) - numLst - 1;
+                int randCol = abs(randint(arrMax-1,0));
+                changeColor(backColorChange(numLst[randCol]));
+                printf("> Color changed to %s",clrLst[randCol]);
+                printf("\n> ");
+            } else {
+                int used = 0;
+                for (int i = 0; i<17; i++) {
+                    if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
+                        changeColor(backColorChange(numLst[i]));
+                        used++;
+                        printf("> Color changed to %s",clrLst[i]);
+                        printf("\n> ");
+                    } else if (strcmp(slice_str(input,buffer,17,len),"default") == 0) {
+                        changeColor(numLst[6]);
+                        used++;
+                        printf("> Color changed to default");
+                        printf("\n> ");
+                    }
+                }
+                if (used == 0) {
+                    scroll(1);
+                    printf("use klaud back-color --help to see available colors\n>");
                 }
             }
         } else if (strcmp(input,"klaud clear") == 0) {

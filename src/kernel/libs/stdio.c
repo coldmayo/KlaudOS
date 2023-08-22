@@ -17,6 +17,7 @@ void putchr(int x, int y, char c) {
 }
 
 void putcolor(int x, int y, uint8_t color) {
+    //color = 0x0 + 19;
     g_ScreenBuffer[2 * (y * SCREEN_WIDTH + x) + 1] = color;
 }
 
@@ -52,18 +53,17 @@ void clrscr() {
 }
 
 void changeColor(const uint8_t color) {
-        for (int y = 0; y < SCREEN_HEIGHT; y++)
-        for (int x = 0; x < SCREEN_WIDTH; x++)
-        {
-            putchr(x, y, '\0');
-            DEFAULT_COLOR = color;
-            putcolor(x, y, DEFAULT_COLOR);
-        }
+    DEFAULT_COLOR = color;
+    memsave(319,itoa(color),3);
+    for (int y = 0; y < SCREEN_HEIGHT; y++)
+    for (int x = 0; x < SCREEN_WIDTH; x++) {
+        putchr(x, y, '\0');
+        putcolor(x, y, DEFAULT_COLOR);
+    }
 
     g_ScreenX = 0;
     g_ScreenY = 0;
     setcursor(g_ScreenX, g_ScreenY);
-    textColorChange(DEFAULT_COLOR);
     reset();
     scroll(1);
 }
@@ -432,6 +432,7 @@ char * lower(char * str) {
 
 void memInit () {
     memclear();   // just in case
+    memsave(319,"7",3); // current color
     memsave(500,"'Get off my Operating System, I do not consent to this'",strlen("'Get off my Operating System, I do not consent to this'")+1); // rizz bad ending
     memsave(600,"'Whatever you say, I guess.'",strlen("'Whatever you say, I guess.'")+1);  // rizz mid ending
     memsave(700,"'Finally, someone worth talking to! Some other people I've spoken to have been a huge pain!'",strlen("'Finally, someone worth talking to! Some other people I've spoken to have been a huge pain!'")+1);  // rizz good ending
