@@ -35,7 +35,7 @@
  *  @param fg The foreground color
  *  @param bg The background color
  */
-void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg);
+void fb_write_cell(unsigned int i, char c, uint8_t color);
 
 /** write:
  *  writes the contents of the buffer buf of length len to the screen

@@ -39,13 +39,13 @@ void help() {
     puts(
         "Commands:\r\n"
         "klaud: Everything starts with Klaud.\r\n"
-        "klaud ascii: prints ascii picture of Klaud.\r\n"
         "klaud echo <phrase>: returns whatever you say back\r\n"
         "klaud dice: play street dice with klaud\r\n"
         "klaud memory <mem adr> <value>: write stuff to memory\r\n"
         "klaud rizz: rizz up Klaud and see what he says\r\n"
         "klaud haiku: klaud makes a haiku! it wont be nice, he doesn't speak english\r\n"
         "klaud text-color <color>: changes the color of kernel text.\r\n"
+        "klaud back-color <color>: changes the color of the kernel background\r\n"
         "klaud clear: clears screen\r\n"
         "klaud restart: restarts kernel\r\n"
         "klaud math <expression>: the operating system's 4 function calculator\r\n"
@@ -57,7 +57,8 @@ void help() {
         "Esc: makes new line without running the previous\r\n"
         "Enter: makes a new line while running the previous\r\n"
         "Up arrow: returns the previous command into current line\r\n"
-        "Shift: same usage as normal (uppercase not supported yet)"
+        "Shift: same usage as normal\r\n"
+        "Caps Lock: same usage as normal"
     );
-    scroll(21);
+    scroll(22);
 }

@@ -25,11 +25,11 @@ void user_input(char *input) {
     int len = strlen(input);
     char buffer[len + 1];
     input = lower(input);
-    //printf("%s",input);
+    printf("\0");
     static char umoney[6];
     static char kmoney[6];
-    uint8_t numLst[15] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9,10,11,12,13,14,15};
-    char clrLst[15][17] = {"blue","green","cyan","red","purple","orange","white","grey","light blue","light green","light cyan","light red","light purple","yellow"};
+    uint8_t numLst[15] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
+    char clrLst[15][17] = {"blue","green","cyan","red","purple","orange","white","grey","light blue"};
     if (memread(311,311)[0]=='1') {
         int score = rizzScore(input);
         printf("\n");
@@ -218,7 +218,6 @@ void user_input(char *input) {
             if (strcmp(slice_str(input,buffer,17,len),"--help")==0) {
                 scroll(2);
                 printf("klaud back-color supports ");
-                // haven't done a while loop in a while wanted to try it out
                 // decided to make printing the colors easier in that just adding a color to the clrLst will add it to the colors printed out with the --help command
                 i = 0;
                 char * col = clrLst[i];

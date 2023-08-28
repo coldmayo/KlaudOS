@@ -16,7 +16,6 @@ extern uint8_t __end;
 
 void __attribute__((section(".entry"))) start(uint16_t bootDrive) {    
     memset(&__bss_start, 0, (&__end) - (&__bss_start));
-    memInit();
     HAL_Initialize();
     enable_fpu();
     clrscr();
@@ -24,6 +23,7 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     printf("\n                         Version -- 0.0.5: Aug 2023\n");
     printf("                             Welcome to KlaudOS\n");
     printf("> ");
+    memInit();
     scroll(2);
     interrupts_install_idt();
 end:

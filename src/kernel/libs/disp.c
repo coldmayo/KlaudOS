@@ -11,8 +11,8 @@ uint8_t textColorChange(uint8_t newCol) {
     uint8_t def_text = (convert(memread(319,322)))%10+0x0;
     uint8_t def_back = (convert(memread(319,322)))/10;
     def_text = newCol;
-    //def_col = (def_back*0x10) + def_text;
-    def_col = def_text;
+    def_col = (def_back*0x10) + def_text;
+    //def_col = def_text;
     return def_col;
 }
 
@@ -21,10 +21,7 @@ uint8_t backColorChange(uint8_t newCol) {
     uint8_t def_text = (convert(memread(319,322)))%10;
     uint8_t def_back = def_col - def_text;
     def_back = newCol;
-    def_col = (def_back*0x10) + 0x7;
-    if (def_back == 0x7) {
-        def_col = (def_back*0x10) + 0x0;
-    }
+    def_col = (def_back*0x10) + def_col;
     return def_col;
 }
 
@@ -51,27 +48,27 @@ void scroll(int x) {
     }
 }
 
-void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg) {
+void fb_write_cell(unsigned int i, char c, uint8_t color) {
 	int c_x = convert(curr_x);
     if (c == '\n') {
         scroll(1);
     } else if (c == '`') {
-        fb[i-2] = '\0';
-	    fb[i] = ((fg & 0x0F) << 4) | (bg & 0x0F);
+	    //fb[i-2] = color;
+        fb[i-2] = ' ';
         c_x--;
         memcpy(curr_x,itoa(c_x),strlen(itoa(c_x))+1);
     } else {
+	    fb[i] = color;
         fb[i] = c;
-	    fb[i + 1] = ((fg & 0x0F) << 4) | (bg & 0x0F);
         c_x++;
         memcpy(curr_x,itoa(c_x),strlen(itoa(c_x))+1);
     }
 }
 
-void fb_string(unsigned int i, char * s, unsigned char fg, unsigned char bg) {
+void fb_string(unsigned int i, char * s, uint8_t color) {
     int j = 0;
     while(*s != '\0') {
-        fb_write_cell(+j, *s, fg, bg);
+        fb_write_cell(+j, *s, color);
         s++;
         j++;
     }
@@ -79,10 +76,8 @@ void fb_string(unsigned int i, char * s, unsigned char fg, unsigned char bg) {
 
 void fb_write(char c, unsigned int i){
     uint8_t def_col = convert(memread(319,322));
-    uint8_t def_text = (convert(memread(319,322)))%10;
-    uint8_t def_back = (convert(memread(319,322)))/10;
     int c_x = convert(curr_x);
-	fb_write_cell(c_x*2, c, def_back, def_text);
+	fb_write_cell(c_x*2, c, def_col);
     int xi = c_x%80;
     int y = c_x/80;
     setcursor(xi+1,y);
@@ -90,8 +85,6 @@ void fb_write(char c, unsigned int i){
 
 void fb_clear(unsigned int i){
     uint8_t def_col = convert(memread(319,322));
-    uint8_t def_text = (convert(memread(319,322)))%10;
-    uint8_t def_back = (convert(memread(319,322)))/10;
     int c_x = convert(curr_x);
-    fb_write_cell(c_x*2+1, '`', def_back, def_back);
+    fb_write_cell(c_x*2+1, '`', def_col);
 }
