@@ -8,20 +8,20 @@ char curr_x[6];
 
 uint8_t textColorChange(uint8_t newCol) {
     uint8_t def_col = convert(memread(319,322));
-    uint8_t def_text = (convert(memread(319,322)))%10+0x0;
-    uint8_t def_back = (convert(memread(319,322)))/10;
+    uint8_t def_text = (convert(memread(319,322)))%10;
+    uint8_t def_back = convert(memread(319,322))/10;
     def_text = newCol;
-    def_col = (def_back*0x10) + def_text;
-    //def_col = def_text;
+    //def_col = (def_back*0x10) + def_col;
+    def_col = def_text;
     return def_col;
 }
 
 uint8_t backColorChange(uint8_t newCol) {
     uint8_t def_col = convert(memread(319,322));
     uint8_t def_text = (convert(memread(319,322)))%10;
-    uint8_t def_back = def_col - def_text;
+    uint8_t def_back = convert(memread(319,322))/10;
     def_back = newCol;
-    def_col = (def_back*0x10) + def_col;
+    def_col = (def_back*0x10) + def_text;
     return def_col;
 }
 
