@@ -11,7 +11,6 @@ uint8_t textColorChange(uint8_t newCol) {
     uint8_t def_text = (convert(memread(319,322)))%10;
     uint8_t def_back = convert(memread(319,322))/10;
     def_text = newCol;
-    //def_col = (def_back*0x10) + def_col;
     def_col = def_text;
     return def_col;
 }

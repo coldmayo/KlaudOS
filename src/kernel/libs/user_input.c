@@ -28,7 +28,7 @@ void user_input(char *input) {
     printf("\0");
     static char umoney[6];
     static char kmoney[6];
-    uint8_t numLst[15] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
+    uint8_t numLst[] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
     char clrLst[15][17] = {"blue","green","cyan","red","purple","orange","white","grey","light blue"};
     if (memread(311,311)[0]=='1') {
         int score = rizzScore(input);
@@ -171,7 +171,7 @@ void user_input(char *input) {
         } else if (strcmp(slice_str(input,buffer,0,15),"klaud text-color") == 0) {
             int i = 0;
             if (strcmp(slice_str(input,buffer,17,len),"--help")==0) {
-                scroll(2);
+                scroll(3);
                 printf("klaud text-color supports ");
                 // haven't done a while loop in a while wanted to try it out
                 // decided to make printing the colors easier in that just adding a color to the clrLst will add it to the colors printed out with the --help command
@@ -186,10 +186,10 @@ void user_input(char *input) {
                     i++;
                     col = clrLst[i];
                 }
-                printf("\n> ");
+                printf("\nklaud text-color random chooses a random text-color for the user\n> ");
             } else if (strcmp(input,"klaud text-color random") == 0) {
                 int arrMax = *(&numLst + 1) - numLst - 1;
-                int randCol = abs(randint(arrMax-1,0));
+                int randCol = abs(randint(arrMax-1,1));
                 changeColor(textColorChange(numLst[randCol]));
                 printf("> Color changed to %s",clrLst[randCol]);
                 printf("\n> ");
@@ -230,12 +230,6 @@ void user_input(char *input) {
                     i++;
                     col = clrLst[i];
                 }
-                printf("\n> ");
-            } else if (strcmp(input,"klaud back-color random") == 0) {
-                int arrMax = *(&numLst + 1) - numLst - 1;
-                int randCol = abs(randint(arrMax-1,0));
-                changeColor(backColorChange(numLst[randCol]));
-                printf("> Color changed to %s",clrLst[randCol]);
                 printf("\n> ");
             } else {
                 int used = 0;

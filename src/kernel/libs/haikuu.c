@@ -11,8 +11,8 @@
 void makeLine(int numSyl,int * struc) {
     char noun[30][30] = {"klaud", "mechanic", "trodatome","star wars","booty","troglodyte","cat","automobile","america","subterranean","teleportation","Venezuela","sky","virgin","Dominican Republic","seven syllables typed here","communism and femboys","Saudi Arabia","Avtomat Kalashnikova 1947","Czechoslovakia","Hippopotamus"};
     int nsyl[] = {1,3,3,2,2,3,1,4,4,5,5,4,1,2,7,7,7,6,6,6,5};
-    char verb[30][30] = {"is","loves","talks about","begs for","pees on","sees","celebrates","imagines","exchanges"};
-    int vsyl[] = {1,1,2,2,2,1,3,3,3};
+    char verb[30][30] = {"is","loves","talks about","begs for","pees on","sees","celebrates","imagines","exchanges", "renegotiates", "encourages", "misremembers", "materializes", "decontaminates", "americanizes", "dematerializes", "territorialized", "overgeneralized"};
+    int vsyl[] = {1,1,2,2,2,1,3,3,3,4,4,4,5,5,5,6,6,6};
 
     // makes syllable structure for sentience 
 
@@ -45,7 +45,7 @@ void makeLine(int numSyl,int * struc) {
             int k;
             int ops[3];
             int l=0;
-            for (k=0;k<=20;k++) {
+            for (k=0;k<=30;k++) {
                 if (j%2 == 0) {
                     if (nsyl[k] == struc[j]) {
                         ops[l] = k;
@@ -67,7 +67,7 @@ void makeLine(int numSyl,int * struc) {
             int k;
             int ops[3];
             int l=0;
-            for (k=0;k<=20;k++) {
+            for (k=0;k<=30;k++) {
                 if (j%2 == 0 || j==i-1) {
                     if (nsyl[k] == struc[j]) {
                         ops[l] = k;
@@ -90,7 +90,7 @@ void makeLine(int numSyl,int * struc) {
             int k;
             int ops[3];
             int l=0;
-            for (k=0;k<=20;k++) {
+            for (k=0;k<=30;k++) {
                 if (nsyl[k] == struc[j]) {
                     ops[l] = k;
                     //printf("%d",k);
@@ -99,7 +99,8 @@ void makeLine(int numSyl,int * struc) {
             }
             int randNum = abs(randint(2,0));
             //printf("%d",randNum);
-            printf("%s ",noun[ops[randNum]]);
+            if (j%2==0 || j==i-1) {printf("%s ",noun[ops[randNum]]);}
+            else {printf("%s ",verb[ops[randNum]]);}
         }
     }
 }

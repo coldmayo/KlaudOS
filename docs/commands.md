@@ -69,15 +69,6 @@ input command:
 
 klaud text-color random
 
-### klaud back-color random
-Klaud chooses what color your background is from the available colors listed in klaud back-color --help.
-
-![backClrRand](../assets/backColorRand.png)
-
-input command:
-
-klaud back-color random
-
 ### klaud text-color default
 Change text-color back to default (white). You could use klaud text-color white to do this but in my head this command is easier to use.
 
