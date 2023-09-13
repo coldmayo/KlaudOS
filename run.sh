@@ -1,1 +1,1 @@
-qemu-system-i386 -fda build/main_floppy.img
+qemu-system-i386 -fda build/klaudOSv0.0.5.img

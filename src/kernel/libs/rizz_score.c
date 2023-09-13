@@ -6,7 +6,6 @@
 #include "include/strings.h"
 #include <stddef.h>
 #include "include/io.h"
-#include "include/sound.h"
 #include "include/math.h"
 #include "include/disp.h"
 
@@ -22,7 +21,7 @@ int wordCheck(char * str) {
     int j = 0;
     int arrMax = *(&bad + 1) - bad - 1;
     for (i=0;i<arrMax;i++) {
-        //printf("%s",str);
+        //printf("%s ",str);
         if (strcmp(bad[i],str) == 0) {
             j = -1;
         } else if (strcmp(good[i],str) == 0) {

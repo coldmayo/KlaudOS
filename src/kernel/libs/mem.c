@@ -1,5 +1,7 @@
 #include "include/mem.h"
 #include "include/stdio.h"
+#include "include/strings.h"
+#include "include/disp.h"
 
 char mem[15000];   // main memory
 

@@ -17,6 +17,9 @@
 #define PIC_2_COMMAND_PORT 0xA0
 #define PIC_ACKNOWLEDGE 0x20
 
+#define asm __asm__
+#define volatile __volatile__
+
 #define PIC_ICW1_ICW4            0x01	/* ICW4 (not) needed */
 #define PIC_ICW1_SINGLE          0x02	/* Single (cascade) mode */
 #define PIC_ICW1_INTERVAL4       0x04	/* Call address interval 4 (8) */

@@ -20,7 +20,7 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     enable_fpu();
     clrscr();
     klaud_ascii();
-    printf("\n                         Version -- 0.0.5: Aug 2023\n");
+    printf("\n                         Version -- 0.0.5: Sep 2023\n");
     printf("                             Welcome to KlaudOS\n");
     printf("> ");
     memInit();

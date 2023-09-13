@@ -51,13 +51,15 @@ $ git clone https://github.com/coldmayo/KlaudOS
 $ cd KlaudOS
 
 # install gcc and binutils
+$ make config
 $ make toolchain
 
-# conjure a disk image
-$ make
-
-# create executable; only do your first time
+# make make.sh and run.sh executable files
+$ chmod +x make.sh
 $ chmod +x run.sh
+
+# cook up a disk image
+$ ./make.sh
 
 # Open OS in qemu
 $ ./run.sh
@@ -69,7 +71,7 @@ You can download the latest version of KlaudOS <a href="https://github.com/coldm
 
 ## Contact Me
 
-If you liked KlaudOS, it would be cool if you emailed me at <wallachmayas@gmail.com> and told me anything you want me to know.
+If you liked KlaudOS, it would be cool if you emailed me at <coldmayo@proton.me> and told me anything you want me to know.
 
 ## Credits
 

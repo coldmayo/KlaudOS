@@ -7,6 +7,7 @@ void clrscr();
 void putc(char c);
 void puts(const char* str);
 void printf(const char* fmt, ...);
+void setcursor(int x, int y);
 void print_buffer(const char* msg, const void* buffer, uint32_t count);
 void user_input(char *input);
 int strcmp(char s1[], char s2[]);

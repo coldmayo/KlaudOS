@@ -24,15 +24,17 @@
 void user_input(char *input) {
     int len = strlen(input);
     char buffer[len + 1];
-    input = lower(input);
     printf("\0");
-    static char umoney[6];
-    static char kmoney[6];
+    input = lower(input);
+    char umoney[8];
+    char kmoney[8];
     uint8_t numLst[] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
     char clrLst[15][17] = {"blue","green","cyan","red","purple","orange","white","grey","light blue"};
     if (memread(311,311)[0]=='1') {
+        input[strlen(input)-1] = '\0';
         int score = rizzScore(input);
         printf("\n");
+        //printf("%s",input);
         if (score < 0) {
             printf("%s",memread(500,554));
             scroll(3);
@@ -47,6 +49,7 @@ void user_input(char *input) {
         memsave(311,"0",1);
         printf("> ");
     } else if (memread(313,313)[0]=='1') {
+        input[strlen(input)-1] = '\0';
         if (strcmp(input,"random") == 0) {
             int score = convert(umoney);
             int bscore = convert(kmoney);
@@ -66,7 +69,7 @@ void user_input(char *input) {
                 bscore = bscore - bet;
             } else {
                 scroll(1);
-                int shit[5] = {400,800,900,1100,1000};
+                int shit[] = {400,800,900,1100,1000};
                 int phrase = shit[abs(randint(5,0)-1)];
                 printf("'%s' he said in his native language\n",memread(phrase,phrase+40));
                 score = score - bet;
@@ -84,6 +87,7 @@ void user_input(char *input) {
             int score = convert(umoney);
             int bscore = convert(kmoney);
             int bet = convert(input);
+            printf("%d %s ",score, umoney);
             int mroll = randint(6,1) + randint(6,1);
             int kroll = randint(6,1) + randint(6,1);
             if (mroll >= kroll) {

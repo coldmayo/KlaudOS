@@ -47,13 +47,14 @@ int strncmp(const char *s1, const char *s2, size_t n) {
 	
 	return 0;
 }
-
+// cannot convert negative numbers, very annoying
 int convert(char s[]) {
+	int neg = 0;
     int num = 0;
     int n = strlen(s);
     for (int i = 0; i < n; i++)
         num = num * 10 + (s[i] - 48);
-    return num;
+	return num;
 }
 
 char *itoa(int nbr) {

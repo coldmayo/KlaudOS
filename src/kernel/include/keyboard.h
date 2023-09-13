@@ -7,4 +7,6 @@ unsigned char keyboard_read_scan_code(void);
 
 unsigned char keyboard_scan_code_to_ascii(unsigned char);
 
+unsigned char keyboard_scan_code_to_ascii_shift(unsigned char);
+
 #endif
