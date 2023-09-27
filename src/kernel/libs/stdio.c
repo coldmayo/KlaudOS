@@ -384,7 +384,7 @@ void reboot() {
 }
 
 int isNum(char num) {
-    char arr[30] = "1234567890+=/*^-%!";
+    char arr[30] = "1234567890";
     int i = 0;
     for (i=0;i < strlen(arr);i++) {
         //printf("%c%c",arr[i],num);

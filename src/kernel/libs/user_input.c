@@ -270,6 +270,7 @@ void user_input(char *input) {
                 char * equ = slice_str(input,buffer,11,len);
                 scroll(1);
                 printf("%d\n> ", calc(equ));
+                //calc(equ);
             }
         } else if (strcmp(input,"klaud fun-fact")==0) {
             char factList[12][256] = {

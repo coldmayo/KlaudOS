@@ -30,100 +30,108 @@ int factorial(int x) {
 }
 
 // function for 4 function calculator
-// sorry for the ugly code
+// added PEMDAS :D
+// could be the worst possible way to do this ¯\_(ツ)_/¯
 
 int calc(char * str) {
-    char *start = str;
-    int ans = 0;
-    char lastOp;
-    char opList[7] = {'+','-','/','*','%','^','!'};
-    int i=0;   // makes sure the first number doesn't do an operation on the number before that (0)
-    for(;*str;str++) { 
-        // I hate continuous if/else if statements TODO fix this shit
-        if(*str == '+') {
-            *str = '\0';
-            ans = ans + convert(start);
-            if (i == 0) {ans = convert(start);}
-            //printf("%d\n%d\n",ans,convert(start));
-            *str = '+';
-            start = str + 1;
-            lastOp = *str;
-            i++;
-        } else if (*str == '-') {
-            *str = '\0';
-            ans = ans+(-1*convert(start));
-            if (i == 0) {ans = convert(start);}
-            *str = '-';
-            start = str + 1;
-            lastOp = *str;
-            i++;
-        } else if (*str == '*') {
-            *str = '\0';
-            ans = convert(start) * ans;
-            if (i == 0) {ans = convert(start);}
-            *str = '*';
-            start = str + 1;
-            lastOp = *str;
-            i++;
-        } else if (*str == '%') {
-            *str = '\0';
-            ans = ans % convert(start);
-            if (i == 0) {ans = convert(start);}
-            *str = '%';
-            start = str + 1;
-            lastOp = *str;
-            i++;
-        } else if (*str == '/') {
-            *str = '\0';
-            ans = ans / convert(start);
-            if (i == 0) {ans = convert(start);}
-            *str = '/';
-            start = str + 1;
-            lastOp = *str;
-            i++;
-        } else if (*str == '^') {
-            *str = '\0';
-            ans = ans * ans;
-            ans = pow(ans,convert(start));
-            if (i == 0) {ans = convert(start);}
-            *str = '^';
-            start = str + 1;
-            lastOp = *str;
-            i++;
-        } else if (*str == '!') {
-            *str = '\0';
-            ans = factorial(convert(start));
-            *str = '!';
-            start = str + 1;
-            lastOp = *str;
-            i++;
-        } else if (*str == '(' || *str == ')') {
-            start = str + 1;
-            ans = ans;
-        } else if (isNum(*str) == 0) {
-                //printf("%s",str);
-            printf("'thats not a number dumbass' he said in his native language\n");
-            scroll(1);
-            return 0;
+    int numTokens[10];
+    char opTokens[10];
+
+    // scanner / tokenizer
+    int i;
+    int j = 0;
+    int val = 0;
+    for (i=0;strlen(str)+1>i;i++) {
+        switch(str[i]) {
+            case '+':
+                numTokens[j] = val;
+                val = 0;
+                opTokens[j] = '+';
+                j++;
+                break;
+            case '-':
+                numTokens[j] = val;
+                val = 0;
+                opTokens[j] = '-';
+                j++;
+                break;
+            case '/':
+                numTokens[j] = val;
+                val = 0;
+                opTokens[j] = '/';
+                j++;
+                break;
+            case '*':
+                numTokens[j] = val;
+                val = 0;
+                opTokens[j] = '*';
+                j++;
+                break;
+            default:
+                if (isNum(str[i])==1) {
+                    val = val*10;
+                    int new = str[i] - '0';
+                    val += new;
+                }
         }
     }
-    // catches last numbers
-    if (lastOp == '+') {ans = ans + convert(start);}
-    else if (lastOp == '-') {ans = ans - convert(start);}
-    else if (lastOp == '*') {ans = ans * convert(start);}
-    else if (lastOp == '/') {ans = ans / convert(start);}
-    else if (lastOp == '%') {ans = ans % convert(start);}
-    else if (lastOp == '^') {ans = pow(ans,convert(start));}
-    else if (lastOp == '!') {
-        if (i > 1) {
-            ans = factorial(ans);
+    // add the last number in
+    numTokens[j] = val;
+
+    // check for multiplication/division
+
+    int ans;
+    int arr[20];
+    for (i=0;j+1>i;i++) {
+        switch (opTokens[i]) {
+            case '*':
+                ans = numTokens[i]*numTokens[i+1];
+                numTokens[i+1] = ans;
+                arr[i] = ans;
+                opTokens[i] = ' ';
+                break;
+            case '/':
+                ans = numTokens[i]/numTokens[i+1];
+                numTokens[i+1] = ans;
+                arr[i] = ans;
+                opTokens[i] = ' ';
+                break;
+            default:
+                arr[i] = numTokens[i];
         }
     }
-    else {ans = convert(start);}
-    return ans;
+
+    // check for addition/subtraction
+
+    int arr1[20];
+    for (i=0;j+1>i;i++) {
+        switch (opTokens[i]) {
+            case '+':
+                ans = arr[i]+arr[i+1];
+                arr[i+1] = ans;
+                arr1[i] = ans;
+                opTokens[i] = ' ';
+                break;
+            case '-':
+                ans = arr[i]-arr[i+1];
+                arr[i+1] = ans;
+                arr1[i] = ans;
+                opTokens[i] = ' ';
+                break;
+            default:
+                arr1[i] = arr[i];
+        }
+    }
+
+
+    int k;
+    //for (k=0; k<i+1; k++) {
+    //    printf("%d ", arr1[k]);
+    //}
+    return arr1[0];
 }
 
-// jesus fucking christ making this function was fucking cancer ill make it more readable soon but I need a break
+// make this better idk
 
 int eval(char *input,int k) {
     int i;
