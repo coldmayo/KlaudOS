@@ -87,7 +87,7 @@ void user_input(char *input) {
             int score = convert(umoney);
             int bscore = convert(kmoney);
             int bet = convert(input);
-            printf("%d %s ",score, umoney);
+            //printf("%d %s ",score, umoney);
             int mroll = randint(6,1) + randint(6,1);
             int kroll = randint(6,1) + randint(6,1);
             if (mroll >= kroll) {
@@ -157,10 +157,13 @@ void user_input(char *input) {
             haikuu();
             scroll(5);
             printf("\n\n> ");
+        } else if (strcmp(input, "klaud startup") == 0) {
+            startUp();
+            scroll(2);
         } else if (strcmp(input,"klaud ascii") == 0) {
             klaud_ascii();
             printf("\n> ");
-        } else if (strcmp(input,"klaud live-slug-reaction") == 0) {
+        } else if (strcmp(input,"klaud live-slug-reaction") == 0 || strcmp(input,"klaud live slug reaction") == 0) {
             puts("\n                   ========================================\r\n");
             klaud_ascii();
             puts("                   ========================================\r\n");

@@ -62,3 +62,11 @@ void help() {
     );
     scroll(22);
 }
+
+void startUp() {
+    clrscr();
+    klaud_ascii();
+    printf("\n                         Version -- 0.0.5: Sep 2023\n");
+    printf("                             Welcome to KlaudOS\n");
+    printf("> ");
+}

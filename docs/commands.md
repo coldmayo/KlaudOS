@@ -43,6 +43,15 @@ Restarts the kernel after entering yes into the prompt.
 
 ![restart](../assets/klaudRestart.png)
 
+### klaud startup
+
+Without restarting the kernel takes the user back to the title page.
+
+![startup](../assets/startup.png)
+
+input command:
+klaud startup
+
 ### klaud text-color
 Command to change the text color. You can check klaud text-color --help to see which colors are supported.
 
@@ -108,7 +117,7 @@ Prints ascii picture of klaud actually reacting
 ## Math
 
 ### klaud math
-Simple 4 function calculator. Supports: 
+Simple 4 function calculator with PEMDAS. Supports: 
 * Addition
 * Subtraction
 * Multiplication

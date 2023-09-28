@@ -4,7 +4,7 @@
 #include "include/mem.h"
 #include "include/disp.h"
 
-int pointStart = 14000;
+int pointStart = 14000;   // memory address where the points start to be saved
 
 int abs(int i) {
     if (i < 0) {
@@ -29,15 +29,16 @@ int factorial(int x) {
     return ans;
 }
 
-// function for 4 function calculator
+// function for 4 function calculator, very important
 // added PEMDAS :D
-// could be the worst possible way to do this ¯\_(ツ)_/¯
+// could be the worst possible way to do this but oh well ¯\_(ツ)_/¯
 
 int calc(char * str) {
-    int numTokens[10];
-    char opTokens[10];
+    int numTokens[30];
+    char opTokens[30];
 
     // scanner / tokenizer
+
     int i;
     int j = 0;
     int val = 0;
@@ -67,6 +68,11 @@ int calc(char * str) {
                 opTokens[j] = '*';
                 j++;
                 break;
+            case '^':
+                numTokens[j] = val;
+                val = 0;
+                opTokens[j] = '^';
+                j++;
             default:
                 if (isNum(str[i])==1) {
                     val = val*10;
@@ -75,23 +81,19 @@ int calc(char * str) {
                 }
         }
     }
+
     // add the last number in
+    
     numTokens[j] = val;
 
-    // check for multiplication/division
+    // check for exponents
 
     int ans;
     int arr[20];
     for (i=0;j+1>i;i++) {
         switch (opTokens[i]) {
-            case '*':
-                ans = numTokens[i]*numTokens[i+1];
-                numTokens[i+1] = ans;
-                arr[i] = ans;
-                opTokens[i] = ' ';
-                break;
-            case '/':
-                ans = numTokens[i]/numTokens[i+1];
+            case '^':
+                ans = pow(numTokens[i],numTokens[i+1]);
                 numTokens[i+1] = ans;
                 arr[i] = ans;
                 opTokens[i] = ' ';
@@ -101,19 +103,19 @@ int calc(char * str) {
         }
     }
 
-    // check for addition/subtraction
+    // check for multiplication/division
 
     int arr1[20];
     for (i=0;j+1>i;i++) {
         switch (opTokens[i]) {
-            case '+':
-                ans = arr[i]+arr[i+1];
+            case '*':
+                ans = arr[i]*arr[i+1];
                 arr[i+1] = ans;
                 arr1[i] = ans;
                 opTokens[i] = ' ';
                 break;
-            case '-':
-                ans = arr[i]-arr[i+1];
+            case '/':
+                ans = arr1[i]/arr1[i+1];
                 arr[i+1] = ans;
                 arr1[i] = ans;
                 opTokens[i] = ' ';
@@ -123,15 +125,33 @@ int calc(char * str) {
         }
     }
 
+    // check for addition/subtraction
 
-    int k;
-    //for (k=0; k<i+1; k++) {
-    //    printf("%d ", arr1[k]);
-    //}
-    return arr1[0];
+    int arr2[20];
+    for (i=0;j+1>i;i++) {
+        switch (opTokens[i]) {
+            case '+':
+                ans = arr1[i]+arr1[i+1];
+                arr1[i+1] = ans;
+                arr2[i] = ans;
+                opTokens[i] = ' ';
+                break;
+            case '-':
+                ans = arr1[i]-arr1[i+1];
+                arr1[i+1] = ans;
+                arr2[i] = ans;
+                opTokens[i] = ' ';
+                break;
+            default:
+                arr2[i] = arr1[i];
+        }
+    }
+
+    return arr2[0];
 }
 
-// make this better idk
+// replaces x character with the number k and then returns the 
+// result of that expression from the klaud calculator
 
 int eval(char *input,int k) {
     int i;
@@ -167,7 +187,7 @@ int eval(char *input,int k) {
     return calc(buffer);
 }
 
-// make text based plots
+// make text based plots from given function
 
 void graph(char *input,int yhi) {
     clrscr();
@@ -194,7 +214,6 @@ void graph(char *input,int yhi) {
 // clear the points saved
 
 void clearPoints() {
-    //memset(allPoints, '\0', sizeof(allPoints));
     int i = pointStart;
     int adr2 = 15000;
     while (i < adr2+1) {
@@ -203,8 +222,10 @@ void clearPoints() {
     }
 }
 
+// linear regression function 
+// math not that hard, literally used notes from 6th grade lmao
+
 int linReg(int * arr) {
-    // linear regression stuff here
     int x[10], y[10];
     int sumX = 0, sumX2=0, sumY=0, sumXY=0, a, b;
     int n = 0;
@@ -213,20 +234,16 @@ int linReg(int * arr) {
     while (arr[n] != 0) {
         y[i] = arr[n] - 1;
         x[i] = arr[n+1] - 1;
-        //printf("%d %d ",x[i],y[i]);
         n+=2;
         i+=1;
     }
-    //printf("%d",x[0]);
     for (j=0;j<=i-1;j++) {
-        //printf("%d %d ",x[j],y[j]);
         sumX += x[j];
         sumX2 += x[j]*x[j];
         sumY += y[j];
         sumXY += x[j]*y[j];
     }
     j+=1;
-    //printf("%d",j);
     if (j*sumX2-sumX*sumX == 0 || j == 0) {
         printf("Enter another point\n");
     } else {
@@ -311,7 +328,6 @@ void plotPoint(char * points, int yhi, int pltN) {
     int arr[256] = {0,0};
     memset(arr, '\0', sizeof(arr));
     char * allPoints = memread(pointStart,15000);
-    //printf("%s",allPoints);
     char buff[256] = {'\0','\0'};
     while (allPoints[n] != '\0') {
         if (isNum(allPoints[n])==1) {

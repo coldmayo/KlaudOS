@@ -18,11 +18,7 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     memset(&__bss_start, 0, (&__end) - (&__bss_start));
     HAL_Initialize();
     enable_fpu();
-    clrscr();
-    klaud_ascii();
-    printf("\n                         Version -- 0.0.5: Sep 2023\n");
-    printf("                             Welcome to KlaudOS\n");
-    printf("> ");
+    startUp();
     memInit();
     scroll(2);
     interrupts_install_idt();
