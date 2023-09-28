@@ -117,12 +117,13 @@ Prints ascii picture of klaud actually reacting
 ## Math
 
 ### klaud math
-Simple 4 function calculator with PEMDAS. Supports: 
+Simple calculator with PEMDAS. Supports: 
 * Addition
 * Subtraction
 * Multiplication
 * Division
-* Exponentials
+* Modulo
+* Exponential
 * Factorials
 
 ![math](../assets/math.png)

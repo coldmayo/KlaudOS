@@ -396,6 +396,17 @@ int isNum(char num) {
     return 0;
 }
 
+int isLet(char let) {
+    char arr[30] = "abcdefghijklmnopqrstuvwxyz";
+    int i = 0;
+    for (i=0;i < strlen(arr);i++) {
+        if (arr[i] == let) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void removeChar(char *str, char garbage) {
 
     char *src, *dst;

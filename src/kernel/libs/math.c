@@ -73,17 +73,32 @@ int calc(char * str) {
                 val = 0;
                 opTokens[j] = '^';
                 j++;
+                break;
+            case '%':
+                numTokens[j] = val;
+                val = 0;
+                opTokens[j] = '%';
+                j++;
+                break;
+            case '!':
+                numTokens[j] = val;
+                val = 0;
+                opTokens[j] = '!';
+                j++;
+                break;
             default:
                 if (isNum(str[i])==1) {
                     val = val*10;
                     int new = str[i] - '0';
                     val += new;
+                } else if (isLet(str[i]) == 1) {
+                    printf("%c does this look like a letter? Error: ", str[i]);
+                    return 1;
                 }
         }
     }
 
-    // add the last number in
-    
+    // add the last number in (if statement in case of factorials)
     numTokens[j] = val;
 
     // check for exponents
@@ -96,29 +111,37 @@ int calc(char * str) {
                 ans = pow(numTokens[i],numTokens[i+1]);
                 numTokens[i+1] = ans;
                 arr[i] = ans;
-                opTokens[i] = ' ';
+                break;
+            case '!':
+                ans = factorial(numTokens[i]);
+                numTokens[i] = ans;
+                arr[i] = ans;
                 break;
             default:
                 arr[i] = numTokens[i];
         }
     }
 
-    // check for multiplication/division
+    // check for multiplication/division/modulo
 
     int arr1[20];
+    ans = 0;
     for (i=0;j+1>i;i++) {
         switch (opTokens[i]) {
             case '*':
                 ans = arr[i]*arr[i+1];
                 arr[i+1] = ans;
                 arr1[i] = ans;
-                opTokens[i] = ' ';
                 break;
             case '/':
-                ans = arr1[i]/arr1[i+1];
+                ans = arr[i]/arr[i+1];
                 arr[i+1] = ans;
                 arr1[i] = ans;
-                opTokens[i] = ' ';
+                break;
+            case '%':
+                ans = arr[i]%arr[i+1];
+                arr[i+1] = ans;
+                arr1[i] = ans;
                 break;
             default:
                 arr1[i] = arr[i];
@@ -128,19 +151,18 @@ int calc(char * str) {
     // check for addition/subtraction
 
     int arr2[20];
+    ans = 0;
     for (i=0;j+1>i;i++) {
         switch (opTokens[i]) {
             case '+':
                 ans = arr1[i]+arr1[i+1];
                 arr1[i+1] = ans;
                 arr2[i] = ans;
-                opTokens[i] = ' ';
                 break;
             case '-':
                 ans = arr1[i]-arr1[i+1];
                 arr1[i+1] = ans;
                 arr2[i] = ans;
-                opTokens[i] = ' ';
                 break;
             default:
                 arr2[i] = arr1[i];
