@@ -54,8 +54,9 @@ $ cd KlaudOS
 $ make config
 $ make toolchain
 
-# make make.sh and run.sh executable files
+# make make.sh, run.sh, and clean.sh executable files
 $ chmod +x make.sh
+$ chmod +x clean.sh
 $ chmod +x run.sh
 
 # cook up a disk image
