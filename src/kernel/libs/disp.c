@@ -6,22 +6,24 @@
 static char *fb = (char *)0x000B8000;
 char curr_x[6];
 
+struct template {
+    uint8_t temp;
+    uint8_t back;
+    uint8_t text;
+};
+
 uint8_t textColorChange(uint8_t newCol) {
-    uint8_t def_col = convert(memread(319,322));
-    uint8_t def_text = (convert(memread(319,322)))%10;
-    uint8_t def_back = convert(memread(319,322))/10;
-    def_text = newCol;
-    def_col = def_text;
-    return def_col;
+    struct template TMP;
+    TMP.text = newCol;
+    TMP.temp = (TMP.back*0x10)+TMP.text;
+    return TMP.temp;
 }
 
 uint8_t backColorChange(uint8_t newCol) {
-    uint8_t def_col = convert(memread(319,322));
-    uint8_t def_text = (convert(memread(319,322)))%10;
-    uint8_t def_back = convert(memread(319,322))/10;
-    def_back = newCol;
-    def_col = (def_back*0x10) + def_text;
-    return def_col;
+    struct template TMP;
+    TMP.back = newCol;
+    TMP.temp = (TMP.back*0x10)+TMP.text;
+    return TMP.temp;
 }
 
 void reset() {
@@ -32,7 +34,6 @@ void move_curs(int x) {
     int c_x = convert(curr_x);
     int xi = c_x%80;
     int y = c_x/80;
-    //printf("%d",y);
     setcursor(xi+x,y);
     memcpy(curr_x,itoa(convert(curr_x)+x),8);
 }
@@ -52,7 +53,6 @@ void fb_write_cell(unsigned int i, char c, uint8_t color) {
     if (c == '\n') {
         scroll(1);
     } else if (c == '`') {
-	    //fb[i-2] = color;
         fb[i-2] = ' ';
         c_x--;
         memcpy(curr_x,itoa(c_x),strlen(itoa(c_x))+1);
@@ -74,16 +74,18 @@ void fb_string(unsigned int i, char * s, uint8_t color) {
 }
 
 void fb_write(char c, unsigned int i){
-    uint8_t def_col = convert(memread(319,322));
+    struct template TMP;
+    uint8_t def_col = TMP.temp;
     int c_x = convert(curr_x);
-	fb_write_cell(c_x*2, c, def_col);
+	  fb_write_cell(c_x*2, c, TMP.text);
     int xi = c_x%80;
     int y = c_x/80;
     setcursor(xi+1,y);
 }
 
 void fb_clear(unsigned int i){
-    uint8_t def_col = convert(memread(319,322));
+    struct template TMP;
+    uint8_t def_col = TMP.temp;
     int c_x = convert(curr_x);
-    fb_write_cell(c_x*2+1, '`', def_col);
+    fb_write_cell(c_x*2+1, '`', TMP.back);
 }

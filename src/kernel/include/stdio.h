@@ -1,6 +1,10 @@
 #pragma once
 #include <stdint.h>
 #include <stdarg.h>
+#include <stdbool.h>
+
+#define min(a,b)    ((a) < (b) ? (a) : (b))
+#define max(a,b)    ((a) > (b) ? (a) : (b))
 
 void clrscr();
 
@@ -30,3 +34,6 @@ int rizzScore(char *str);
 int isNum(char num);
 char * lower(char * str);
 void memInit(void);
+char * upper(char * str);
+bool islower(char chr);
+bool isupper(char chr);

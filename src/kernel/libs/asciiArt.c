@@ -35,6 +35,8 @@ void flowers() {
     scroll(9);
 }
 
+// lowkey dont know what \r does 
+
 void help() {
     puts(
         "Commands:\r\n"
@@ -66,7 +68,7 @@ void help() {
 void startUp() {
     clrscr();
     klaud_ascii();
-    printf("\n                         Version -- 0.0.5: Sep 2023\n");
+    printf("\n                         Version -- 0.0.6: Oct 2023\n");
     printf("                             Welcome to KlaudOS\n");
     printf("> ");
 }

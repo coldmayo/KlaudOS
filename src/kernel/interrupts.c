@@ -14,7 +14,7 @@
 
 #define INTERRUPTS_DESCRIPTOR_COUNT 256 
 #define INTERRUPTS_KEYBOARD 33
-#define INTERRUPTS_TIMER 0 
+#define INTERRUPTS_TIMER 32 
 unsigned int BUFFER_COUNT;
 int lim = 0;
 int cursPos = 0;
@@ -140,6 +140,9 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 			
 			pic_acknowledge(interrupt);
 
+			break;
+    case INTERRUPTS_TIMER:
+			pic_acknowledge(interrupt);
 			break;
 		default:
 			break;

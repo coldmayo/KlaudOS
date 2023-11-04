@@ -26,6 +26,7 @@
 #define HEIGHT 25
 #define DEFAULT_COLOR LIGHT_GREY
 
+
 /** fb_write_cell:
  *  Writes a character with the given foreground and background to position i
  *  in the framebuffer.

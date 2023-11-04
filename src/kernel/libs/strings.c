@@ -1,5 +1,6 @@
 #include "include/strings.h"
 #include "include/stdio.h"
+#include <stddef.h>
 
 char *strcpy(char *s1, const char *s2) {
 	strncpy(s1, s2, strlen(s2) + 1);
@@ -82,4 +83,20 @@ char *itoa(int nbr) {
 
 char * strcat(char *dst, const char *src) {
     return strcpy(dst + strlen(dst), src);
+}
+
+const char* strchr(const char* str, char chr)
+{
+    if (str == NULL)
+        return NULL;
+
+    while (*str)
+    {
+        if (*str == chr)
+            return str;
+
+        ++str;
+    }
+
+    return NULL;
 }

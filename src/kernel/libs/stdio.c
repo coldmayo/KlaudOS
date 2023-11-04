@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include "include/disp.h"
+#include <stdint.h>
 
 const char g_HexChars[] = "0123456789abcdef";
 const unsigned SCREEN_WIDTH = 80;
@@ -54,7 +55,6 @@ void clrscr() {
 
 void changeColor(const uint8_t color) {
     DEFAULT_COLOR = color;
-    memsave(319,itoa(color),3);
     for (int y = 0; y < SCREEN_HEIGHT; y++)
     for (int x = 0; x < SCREEN_WIDTH; x++) {
         putchr(x, y, '\0');
@@ -438,8 +438,41 @@ char * lower(char * str) {
     }
 
     return str;
-
 }
+
+char * upper(char * str) {
+    char * low= "0abcdefghijklmnopqrstuvwxyz(){}[]:;,!@#$%^&*/<>+-=_|\\\'";
+    char * up = "0ABCDEFGHIJKLMNOPQRSTUVWXYZ(){}[]:;,!@#$%^&*/<>+-=_|\\\'";
+    int i = 0;
+    int j;
+    while (strlen(str) > i) {
+        if (isNum(str[i]) == 1 || str[i]==' ' || str[i] == '"') {
+            i++;
+        } else {
+            for (j=0; strlen(low)>j;j++) {
+                if (str[i] == low[j]) {
+                    str[i] = up[j];
+                    i++;
+                } else if (str[i] == up[j]) {
+                    i++;
+                }
+            }
+        }
+    }
+
+    return str;
+}
+
+bool islower(char chr)
+{
+    return chr >= 'a' && chr <= 'z';
+}
+
+char toupper(char chr)
+{
+    return islower(chr) ? (chr - 'a' + 'A') : chr;
+}
+
 
 void memInit () {
     memclear();   // just in case

@@ -15,10 +15,12 @@ extern uint8_t __end;
 // inital kernel boot function, welcomes user to greatest experience of their life
 
 void __attribute__((section(".entry"))) start(uint16_t bootDrive) {    
-    memset(&__bss_start, 0, (&__end) - (&__bss_start));
+    clrscr();
     HAL_Initialize();
     enable_fpu();
     startUp();
+    // TODO: print out files in boot directory in kernel (works in bootloader)
+    //printRoot(bootDrive);
     memInit();
     scroll(2);
     interrupts_install_idt();

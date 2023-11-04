@@ -75,10 +75,6 @@ void memAvail() {
         printf("All free");
         scroll(1);
     } else {
-        char * buffer;
-        if (print[0] == 'S') {
-            print = slice_str(print,buffer,2,strlen(print)+1);   // if i didn't slice it an S would show at the start of the string
-        }
         int numScroll = (strlen(print)+1+strlen("bytes in use: "))/80;
         scroll(numScroll+2);
         printf("bytes in use: %s",print);

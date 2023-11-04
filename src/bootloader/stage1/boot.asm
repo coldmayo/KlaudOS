@@ -1,5 +1,3 @@
-; bootloader taken from nanobyte youtube channel. Check his channel out hes awesome
-
 org 0x7C00
 bits 16
 
@@ -33,11 +31,11 @@ ebr_drive_number:           db 0                    ; 0x00 floppy, 0x80 hdd, use
 ebr_signature:              db 29h
 ebr_volume_id:              db 12h, 34h, 56h, 78h   ; serial number, value doesn't matter
 ebr_volume_label:           db 'KLAUDOS'        ; OS label
-ebr_system_id:              db 'FAT12   '           ; 8 bytes
+ebr_system_id:              db 'FAT12 '           ; 6 bytes
 
 start:
     ; setup data segments
-    mov ax, 0           ; can't set ds/es directly
+    mov ax, 0
     mov ds, ax
     mov es, ax
     
@@ -45,15 +43,13 @@ start:
     mov ss, ax
     mov sp, 0x7C00      ; first sector saved at this address
 
-    ; some BIOSes might start us at 07C0:0000 instead of 0000:7C00, make sure we are in the
-    ; expected location
     push es
     push word .after
     retf
 
 .after:
 
-    ; read something from floppy disk
+    ; read from floppy disk
     ; BIOS should set DL to drive number
     mov [ebr_drive_number], dl
 
@@ -247,6 +243,7 @@ puts:
     jmp .loop
 
 .done:
+    mov si, msg_success
     pop bx
     pop ax
     pop si    
@@ -330,10 +327,11 @@ disk_read:
     jnz .retry
 
 .fail:
-    ; all attempts are exhausted
+    ; all attempts are exhausted, time to take the L
     jmp floppy_error
 
 .done:
+    mov si, msg_success
     popa
 
     pop di
@@ -359,16 +357,16 @@ disk_reset:
     ret
 
 ; load sector 2
-msg_loading:            db 'Loading...', ENDL, 0
-msg_read_failed:        db 'Read from disk failed!', ENDL, 0
-msg_stage2_not_found:   db 'STAGE2.BIN file not found!', ENDL, 0
+msg_loading:            db 'Loading', ENDL, 0
+msg_success:            db 'Success!', 0
+msg_read_failed:        db 'Read from disk failed', ENDL, 0
+msg_stage2_not_found:   db 'STAGE2.BIN not found', ENDL, 0
 file_stage2_bin:        db 'STAGE2  BIN'
 stage2_cluster:         dw 0
 
 STAGE2_LOAD_SEGMENT     equ 0x0
 STAGE2_LOAD_OFFSET      equ 0x500
 
-; 
 times 510-($-$$) db 0
 ; magic numba (last two bytes that tell the computer to boot the system)
 dw 0AA55h   ; computer sees this 

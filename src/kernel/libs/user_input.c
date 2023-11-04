@@ -12,6 +12,13 @@
 #include "include/disp.h"
 #include "include/strings.h"
 
+typedef unsigned char uint8_t;
+
+struct diceGameInfo {
+    int playerMoney;
+    int klaudMoney;
+};
+
 // user input function. This could rank in my top 10 ugliest pieces of code to date. I'm
 // sure as hell not fixing it lmao
 
@@ -19,15 +26,13 @@
 // adr 313: dice
 // adr 315: restart
 // adr 317: caps lock
-// adr 319: color theme
 
 void user_input(char *input) {
+    struct diceGameInfo DCI;
     int len = strlen(input);
     char buffer[len + 1];
     printf("\0");
     input = lower(input);
-    char umoney[8];
-    char kmoney[8];
     uint8_t numLst[] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
     char clrLst[15][17] = {"blue","green","cyan","red","purple","orange","white","grey","light blue"};
     if (memread(311,311)[0]=='1') {
@@ -51,8 +56,8 @@ void user_input(char *input) {
     } else if (memread(313,313)[0]=='1') {
         input[strlen(input)-1] = '\0';
         if (strcmp(input,"random") == 0) {
-            int score = convert(umoney);
-            int bscore = convert(kmoney);
+            int score = DCI.playerMoney;
+            int bscore = DCI.klaudMoney;
             int mroll = randint(6,1) + randint(6,1);
             int kroll = randint(6,1) + randint(6,1);
             int bet;
@@ -75,17 +80,17 @@ void user_input(char *input) {
                 score = score - bet;
                 bscore = bscore + bet;
             }
-            memcpy(umoney,itoa(score),6);
-            memcpy(kmoney,itoa(bscore),6);
+            DCI.playerMoney = score;
+            DCI.klaudMoney = bscore;
             printf("your roll: %d, klaud roll: %d\n",mroll,kroll);
-            printf("your money: %s, klaud money: %s\n",umoney,kmoney);
+            printf("your money: %d, klaud money: %d\n",DCI.playerMoney,DCI.klaudMoney);
             scroll(4);
             move_curs(9);
             printf("Type 'exit' to leave the game\nPlace bet>");
             bet = 0;
         } else if (strcmp(input,"exit") != 0) {
-            int score = convert(umoney);
-            int bscore = convert(kmoney);
+            int score = DCI.playerMoney;
+            int bscore = DCI.klaudMoney;
             int bet = convert(input);
             //printf("%d %s ",score, umoney);
             int mroll = randint(6,1) + randint(6,1);
@@ -101,10 +106,10 @@ void user_input(char *input) {
                 score = score - bet;
                 bscore = bscore + bet;
             }
-            memcpy(umoney,itoa(score),6);
-            memcpy(kmoney,itoa(bscore),6);
+            DCI.playerMoney = score;
+            DCI.klaudMoney = bscore;
             printf("your roll: %d, klaud roll: %d\n",mroll,kroll);
-            printf("your money: %s, klaud money: %s\n",umoney,kmoney);
+            printf("your money: %d, klaud money: %d\n",DCI.playerMoney,DCI.klaudMoney);
             scroll(3);
             move_curs(9);
             printf("Type 'exit' to leave the game\nPlace bet>");
@@ -206,8 +211,7 @@ void user_input(char *input) {
                     if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
                         changeColor(textColorChange(numLst[i]));
                         used++;
-                        printf("> Color changed to %s",clrLst[i]);
-                        printf("\n> ");
+                        printf("> Color changed to %s\n> ",clrLst[i]);
                     } else if (strcmp(slice_str(input,buffer,17,len),"default") == 0) {
                         changeColor(numLst[6]);
                         used++;
@@ -237,6 +241,12 @@ void user_input(char *input) {
                     i++;
                     col = clrLst[i];
                 }
+                printf("\n> ");
+            } else if (strcmp(input,"klaud back-color random") == 0) {
+                int arrMax = *(&numLst + 1) - numLst - 1;
+                int randCol = abs(randint(arrMax-1,1));
+                changeColor(backColorChange(numLst[randCol]));
+                printf("> Color changed to %s",clrLst[randCol]);
                 printf("\n> ");
             } else {
                 int used = 0;
@@ -346,11 +356,11 @@ void user_input(char *input) {
             printf("\n> ");
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud dice")==0) {
             memsave(313,"1",1);
-            memcpy(umoney,"500",strlen("500")+1);
-            memcpy(kmoney,"500",strlen("500")+1);
+            DCI.playerMoney = 500;
+            DCI.klaudMoney = 500;
             clrscr();
             klaud_ascii();
-            printf("your money:%s, klaud money: %s",umoney,kmoney);
+            printf("your money:%s, klaud money: %s",DCI.playerMoney,DCI.klaudMoney);
             move_curs(9);
             printf("\nPlace bet> ");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud random") == 0) {

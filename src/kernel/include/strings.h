@@ -8,6 +8,7 @@ char *strncpy(char *s1, const char *s2, size_t n);
 int strncmp(const char *s1, const char *s2, size_t n);
 int convert(char s[]);
 char* itoa(int val);
+const char* strchr(const char* str, char chr);
 //char * strcat(char *dst, const char *src)
 
 #endif
