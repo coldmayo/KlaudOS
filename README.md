@@ -72,7 +72,7 @@ You can download the latest version of KlaudOS <a href="https://github.com/coldm
 
 ## Contact Me
 
-If you liked KlaudOS, it would be cool if you emailed me at <coldmayo@proton.me> and told me anything you want me to know.
+KlaudOS is still under construction and if you have any suggestions it would be cool if you emailed me at <coldmayo@proton.me> and told me anything you want me to know.
 
 ## Credits
 
