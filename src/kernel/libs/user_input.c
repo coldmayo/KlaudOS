@@ -11,6 +11,7 @@
 #include "include/math.h"
 #include "include/disp.h"
 #include "include/strings.h"
+#include "include/vfs.h"
 
 typedef unsigned char uint8_t;
 
@@ -130,7 +131,7 @@ void user_input(char *input) {
     } else if (strlen(input) <= 4) {
         printf("Every command starts with klaud, try again");
         scroll(1);
-        printf("\n> ");
+        newLine(1);
     } else {
         if (strcmp(slice_str(input,buffer,0,4),"klaud")) {
             int i = 0;
@@ -138,20 +139,20 @@ void user_input(char *input) {
                 i = 1;
             }
             printf("Every command starts with klaud, try again");
-            printf("\n> ");
             scroll(0+i);
+            newLine(1);
         } else if (strcmp(input, "klaud --help") == 0) {
             help();
-            printf("\n> ");
+            newLine(1);
         } else if (strcmp(input, "klaud") == 0) {
             printf("That's the guy. I'm personally a big fan");
             scroll(1);
-            printf("\n> ");
+            newLine(1);
         } else if (strcmp(input, "klaud beep") == 0) {
             //beep(950,18);
             printf("will do something soon\n");
             scroll(1);
-            printf("> ");
+            newLine(1);
         } else if (strcmp(input, "klaud rizz") == 0) {
             memsave(311,"1",1);
             clrscr();
@@ -161,24 +162,24 @@ void user_input(char *input) {
         } else if (strcmp(input, "klaud haiku") == 0) {
             haikuu();
             scroll(5);
-            printf("\n\n> ");
+            newLine(2);
         } else if (strcmp(input, "klaud startup") == 0) {
             startUp();
             scroll(2);
         } else if (strcmp(input,"klaud ascii") == 0) {
             klaud_ascii();
-            printf("\n> ");
+            newLine(1);
         } else if (strcmp(input,"klaud live-slug-reaction") == 0 || strcmp(input,"klaud live slug reaction") == 0) {
             puts("\n                   ========================================\r\n");
             klaud_ascii();
             puts("                   ========================================\r\n");
             printf("                      L i v e  S l u g  R e a c t i o n");
             scroll(3);
-            printf("\n>");
+            newLine(1);
         } else if (strcmp(input,"klaud shrine") == 0) {
             klaud_ascii();
             flowers();
-            printf("\n>");
+            newLine(1);
         // This used to just be a bunch of if statements but now that fixed (thankfully)
         } else if (strcmp(slice_str(input,buffer,0,15),"klaud text-color") == 0) {
             int i = 0;
@@ -198,30 +199,33 @@ void user_input(char *input) {
                     i++;
                     col = clrLst[i];
                 }
-                printf("\nklaud text-color random chooses a random text-color for the user\n> ");
+                printf("\nklaud text-color random chooses a random text-color for the user");
+                newLine(1);
             } else if (strcmp(input,"klaud text-color random") == 0) {
                 int arrMax = *(&numLst + 1) - numLst - 1;
                 int randCol = abs(randint(arrMax-1,1));
                 changeColor(textColorChange(numLst[randCol]));
                 printf("> Color changed to %s",clrLst[randCol]);
-                printf("\n> ");
+                newLine(1);
             } else {
                 int used = 0;
                 for (int i = 0; i<17; i++) {
                     if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
                         changeColor(textColorChange(numLst[i]));
                         used++;
-                        printf("> Color changed to %s\n> ",clrLst[i]);
+                        printf("Color changed to %s",clrLst[i]);
+                        newLine(1);
                     } else if (strcmp(slice_str(input,buffer,17,len),"default") == 0) {
                         changeColor(numLst[6]);
                         used++;
-                        printf("> Color changed to default");
-                        printf("\n> ");
+                        printf("Color changed to default");
+                        newLine(1);
                     }
                 }
                 if (used == 0) {
                     scroll(1);
-                    printf("use klaud text-color --help to see available colors\n>");
+                    printf("use klaud text-color --help to see available colors");
+                    newLine(1);
                 }
             }
         } else if (strcmp(slice_str(input,buffer,0,15),"klaud back-color") == 0) {
@@ -241,13 +245,13 @@ void user_input(char *input) {
                     i++;
                     col = clrLst[i];
                 }
-                printf("\n> ");
+                newLine(1);
             } else if (strcmp(input,"klaud back-color random") == 0) {
                 int arrMax = *(&numLst + 1) - numLst - 1;
                 int randCol = abs(randint(arrMax-1,1));
                 changeColor(backColorChange(numLst[randCol]));
                 printf("> Color changed to %s",clrLst[randCol]);
-                printf("\n> ");
+                newLine(1);
             } else {
                 int used = 0;
                 for (int i = 0; i<17; i++) {
@@ -255,35 +259,37 @@ void user_input(char *input) {
                         changeColor(backColorChange(numLst[i]));
                         used++;
                         printf("> Color changed to %s",clrLst[i]);
-                        printf("\n> ");
+                        newLine(1);
                     } else if (strcmp(slice_str(input,buffer,17,len),"default") == 0) {
                         changeColor(numLst[6]);
                         used++;
                         printf("> Color changed to default");
-                        printf("\n> ");
+                        newLine(1);
                     }
                 }
                 if (used == 0) {
                     scroll(1);
-                    printf("use klaud back-color --help to see available colors\n>");
+                    printf("use klaud back-color --help to see available colors");
+                    newLine(1);
                 }
             }
         } else if (strcmp(input,"klaud clear") == 0) {
             clrscr();
-            printf("> ");
+            newLine(1);
         } else if (strcmp(input,"klaud restart") == 0) {
             memsave(315,"1\0",1);
             printf("Are you sure you want to restart? (y/n)\n> ");
             scroll(1);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud math") == 0) {
             if (strcmp(slice_str(input,buffer,11,len),"--help")==0) {
-                printf("klaud 4 function calculator that supports +,-,/,*,%,^,!\n> ");
+                printf("klaud 4 function calculator that supports +,-,/,*,%,^,!");
+                newLine(1);
                 scroll(1);
             } else {
                 char * equ = slice_str(input,buffer,11,len);
                 scroll(1);
-                printf("%d\n> ", calc(equ));
-                //calc(equ);
+                printf("%d ", calc(equ));
+                newLine(1);
             }
         } else if (strcmp(input,"klaud fun-fact")==0) {
             char factList[12][256] = {
@@ -303,7 +309,8 @@ void user_input(char *input) {
             int randNum = abs(randint(arrMax-1,0));
             if (randNum == 9 || randNum == 8) {scroll(2);}
             else {scroll(1);}
-            printf("%s\n> ",factList[randNum]);
+            printf("%s",factList[randNum]);
+            newLine(1);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud plot")==0) {
             if (strcmp(slice_str(input,buffer,11,15),"point") == 0) {
                 if (strcmp(slice_str(input,buffer,11,22),"point random") == 0) {
@@ -329,38 +336,41 @@ void user_input(char *input) {
                         plotPoint(coords,22,1);
                     }
                     scroll(22);
-                    printf("> ");
+                    newLine(1);
                 } else if (isNum(input[17]) == 1 || input[17] == '(' && isNum(input[18]) == 1) {
                     plotPoint(slice_str(input,buffer,17,len),22,1);
                     scroll(22);
-                    printf("> ");
+                    newLine(1);
                 } else {
                     scroll(1);
-                    printf("Use klaud plot --help for proper syntax\n> ");
+                    printf("Use klaud plot --help for proper syntax");
+                    newLine(1);
                 }
             } else if (strcmp(slice_str(input,buffer,11,15),"clear") == 0) {
                 clearPoints();
                 scroll(1);
-                printf("points cleared\n> ");
+                printf("points cleared");
+                newLine(1);
             } else if (strcmp(slice_str(input,buffer,11,16),"--help") == 0) {
-                printf("The klaud plotting system.\nExample commands:\nklaud plot x (plots y = x)\nklaud plot point 2 3 (plots point at (2,3))\nklaud plot clear (clears plot)\nNOTE: the max y value for the plots is 21 and 80 for x\n> ");
+                printf("The klaud plotting system.\nExample commands:\nklaud plot x (plots y = x)\nklaud plot point 2 3 (plots point at (2,3))\nklaud plot clear (clears plot)\nNOTE: the max y value for the plots is 21 and 80 for x");
                 scroll(6);
+                newLine(1);
             } else {
                 graph(slice_str(input,buffer,11,len),23);
                 scroll(23);
-                printf("> ");
+                newLine(1);
             }
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud echo")==0) {
             printf("'%s' Klaud said in his native language",slice_str(input,buffer,11,len));
             scroll(1);
-            printf("\n> ");
+            newLine(1);
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud dice")==0) {
             memsave(313,"1",1);
             DCI.playerMoney = 500;
             DCI.klaudMoney = 500;
             clrscr();
             klaud_ascii();
-            printf("your money:%s, klaud money: %s",DCI.playerMoney,DCI.klaudMoney);
+            printf("your money:%d, klaud money: %d",DCI.playerMoney,DCI.klaudMoney);
             move_curs(9);
             printf("\nPlace bet> ");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud random") == 0) {
@@ -414,7 +424,8 @@ void user_input(char *input) {
         } else if (strcmp(input,"klaud memory init") == 0) {
             memInit();
             scroll(1);
-            printf("memory reverted back to initial state\n> ");
+            printf("memory reverted back to initial state");
+            newLine(1);
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud memory") == 0) {
             int i = 0;
             int j;
@@ -434,7 +445,8 @@ void user_input(char *input) {
                 printf("klaud places value starting from memory address %d\n> ",adr);   
             } else {
                 scroll(1);
-                printf("use klaud memory --help to find out how to properly use this command\n> ");
+                printf("use klaud memory --help to find out how to properly use this command");
+                newLine(1);
             }
         } else if (strcmp(slice_str(input,buffer,0,13),"klaud remember") == 0) {
             clrscr();
@@ -454,7 +466,8 @@ void user_input(char *input) {
                 int scrollNum = (strlen(memread(adr1,adr2))+strlen("'', klaud says in his native language"))/80;   // extra scrolled lines for frame buffer
                 scroll(scrollNum+1);
             }
-            printf("'%s', klaud says in his native language\n> ",memread(adr1,adr2));
+            printf("'%s', klaud says in his native language",memread(adr1,adr2));
+            newLine(1);
         } else if (strcmp(input,"klaud free-bytes") == 0) {
             clrscr();
             memAvail();
@@ -479,11 +492,25 @@ void user_input(char *input) {
                 i++;
             }
             scroll(1);
-            printf("%d to %d cleared\n> ",adr1,adr2);
+            printf("%d to %d cleared",adr1,adr2);
+            newLine(1);
+        } else if (strcmp(slice_str(input,buffer,0,10),"klaud mkdir") == 0) {
+            char * name = slice_str(input, buffer, 12, len+1);
+            makeFolder(name);
+            syncFS();
+            newLine(0);
+        } else if (strcmp(slice_str(input,buffer,0,7),"klaud cd") == 0) {
+            char * inst = slice_str(input, buffer, 9, len+1);
+            cd(inst);
+            newLine(0);
+        } else if (strcmp(slice_str(input,buffer,0,7),"klaud ls") == 0) {
+            ls();
+            scroll(3);
+            newLine(1);
         } else {
             printf("You said: %s, which is not a certified Klaud command. Use the klaud --help command.",input);
             scroll(2);
-            printf("\n> ");
+            newLine(1);
         }
     }
 }

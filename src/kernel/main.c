@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include "include/io.h"
 #include "include/disp.h"
+#include "include/vfs.h"
 
 extern uint8_t __bss_start;
 extern uint8_t __end;
@@ -20,10 +21,12 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     enable_fpu();
     startUp();
     // TODO: print out files in boot directory in kernel (works in bootloader)
-    //printRoot(bootDrive);
     memInit();
-    scroll(2);
     interrupts_install_idt();
+    initFS();
+    //printf(findDirName(getCurrDir())); // Prove I actually got the fs working
+    scroll(2);
+    newLine(0);
 end:
     for (;;);
 }

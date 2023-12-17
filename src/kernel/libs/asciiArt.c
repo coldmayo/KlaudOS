@@ -65,10 +65,18 @@ void help() {
     scroll(22);
 }
 
+void newLine(int newLines) {
+    int i;
+    for (i = 0; newLines > i; i++) {
+        printf("\n");
+    }
+    printf("%s> ", findDirName(getCurrDir()));
+    move_curs(strlen(findDirName(getCurrDir())));
+}
+
 void startUp() {
     clrscr();
     klaud_ascii();
     printf("\n                         Version -- 0.0.6: Oct 2023\n");
     printf("                             Welcome to KlaudOS\n");
-    printf("> ");
 }

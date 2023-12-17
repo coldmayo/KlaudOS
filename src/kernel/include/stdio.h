@@ -37,3 +37,4 @@ void memInit(void);
 char * upper(char * str);
 bool islower(char chr);
 bool isupper(char chr);
+void newLine(int newLines);
