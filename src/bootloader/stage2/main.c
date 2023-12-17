@@ -35,18 +35,19 @@ void __attribute__((cdecl)) start(uint16_t bootDrive)
         printf("");
     }
     // browse files in root
-    FAT_File* fd = FAT_Open(&disk, "/");
-    FAT_DirectoryEntry entry;
-    int i = 0;
-    while (FAT_ReadEntry(&disk, fd, &entry) && i++ < 5) {
-        printf("  ");
-        for (int i = 0; i < 11; i++)
-            putc(entry.Name[i]);
-        printf("\r\n");
-    }
-    FAT_Close(fd);
+    //FAT_File* fd = FAT_Open(&disk, "/");
+    //FAT_DirectoryEntry entry;
+    //int i = 0;
+    //while (FAT_ReadEntry(&disk, fd, &entry) && i++ < 5) {
+        //printf("  ");
+        //for (int i = 0; i < 11; i++)
+            //putc(entry.Name[i]);
+        //printf("\r\n");
+    //}
+    //FAT_Close(fd);
 
     // load kernel
+    FAT_File* fd = FAT_Open(&disk, "/");
     fd = FAT_Open(&disk, "/kernel.bin");
     uint32_t read;
     uint8_t* kernelBuffer = Kernel;

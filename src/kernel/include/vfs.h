@@ -30,7 +30,7 @@ struct block {
 };
 
 struct Disk {
-    char data[10000];
+    char data[1000];
 };
 
 int initFS(void);

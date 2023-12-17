@@ -56,53 +56,24 @@ void user_input(char *input) {
         printf("> ");
     } else if (memread(313,313)[0]=='1') {
         input[strlen(input)-1] = '\0';
-        if (strcmp(input,"random") == 0) {
-            int score = DCI.playerMoney;
-            int bscore = DCI.klaudMoney;
-            int mroll = randint(6,1) + randint(6,1);
-            int kroll = randint(6,1) + randint(6,1);
-            int bet;
-            if (score > 1) {
-                bet = abs(randint(score,1));
-            } else {
-                printf("'damn u broke ash' he said in his native language\n");
-                scroll(1);
-                bet = abs(randint(bscore+200,0));
-            }
-            printf("Bet placed: %d\n",bet);
-            if (mroll >= kroll) {
-                score = score + bet;
-                bscore = bscore - bet;
-            } else {
-                scroll(1);
-                int shit[] = {400,800,900,1100,1000};
-                int phrase = shit[abs(randint(5,0)-1)];
-                printf("'%s' he said in his native language\n",memread(phrase,phrase+40));
-                score = score - bet;
-                bscore = bscore + bet;
-            }
-            DCI.playerMoney = score;
-            DCI.klaudMoney = bscore;
-            printf("your roll: %d, klaud roll: %d\n",mroll,kroll);
-            printf("your money: %d, klaud money: %d\n",DCI.playerMoney,DCI.klaudMoney);
-            scroll(4);
-            move_curs(9);
-            printf("Type 'exit' to leave the game\nPlace bet>");
-            bet = 0;
-        } else if (strcmp(input,"exit") != 0) {
+        if (strcmp(input,"exit") != 0) {
             int score = DCI.playerMoney;
             int bscore = DCI.klaudMoney;
             int bet = convert(input);
-            //printf("%d %s ",score, umoney);
+            if (strcmp(input,"random") == 0) {
+                bet = abs(randint(DCI.playerMoney, 1));
+            }
+            printf("Bet placed: %d\n",bet);
             int mroll = randint(6,1) + randint(6,1);
             int kroll = randint(6,1) + randint(6,1);
-            if (mroll >= kroll) {
+            if (mroll > kroll) {
                 score = score + bet;
                 bscore = bscore - bet;
-            } else {
+            } else if (mroll < kroll) {
                 scroll(1);
                 int shit[5] = {400,800,900,1100,1000};
                 int phrase = shit[abs(randint(5,0)-1)];
+                scroll(1);
                 printf("'%s' he said in his native language\n",memread(phrase,phrase+40));
                 score = score - bet;
                 bscore = bscore + bet;
