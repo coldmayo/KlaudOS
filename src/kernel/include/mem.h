@@ -1,5 +1,6 @@
 #pragma once
-#include "stdint.h"
+#include <stdint.h>
+#include <stddef.h>
 
 void* memcpy(void* dst, const void* src, uint16_t num);
 void* memset(void* ptr, int value, uint16_t num);
@@ -9,3 +10,5 @@ void * memsave (int ptr, char * val, int num);
 char * memread (int adr1, int adr2);
 void * memAdrClear (int adr);
 void memAvail(void);
+char* malloc(size_t size);
+void free(void *mem);

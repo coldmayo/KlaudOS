@@ -6,6 +6,7 @@
 </h1>
 <p align="center">
   <a href="#general">General</a> •
+  <a href="#file-system">File System</a> •
   <a href="#ascii-pictures">Ascii Pictures</a> •
   <a href="#math">Math</a> •
   <a href="#memory">Memory</a> •
@@ -113,6 +114,24 @@ Prints ascii picture of klaud with flowers, great for meditation
 Prints ascii picture of klaud actually reacting
 
 ![lsr](../assets/reaction.png)
+
+## File System
+
+### klaud mkdir
+Makes a directory in whatever directory you're in(works the same as it does in Linux).<br>
+![mkdir](../assets/mkdir.png)
+
+### klaud ls
+Lists all files and folders in the current directory directory<br>
+![ls](../assets/ls.png)
+
+### klaud cd
+Changes the current directory (works the same as it does in Linux).<br>
+![cd](../assets/cd.png)
+
+### klaud mkfile
+Makes a file in whatever directory you're in. Files are 200 bytes large.<br>
+![mkfile](../assets/mkfile.png)
 
 ## Math
 

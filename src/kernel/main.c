@@ -24,6 +24,8 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     memInit();
     interrupts_install_idt();
     initFS();
+    //mountFS();
+    //clearAllData();
     //printf(findDirName(getCurrDir())); // Prove I actually got the fs working
     scroll(2);
     newLine(0);

@@ -1,6 +1,6 @@
 #include "include/stdio.h"
 
-#define BLOCKSIZE 420
+#define BLOCKSIZE 416
 
 struct SuperBlock {
     int numInodes;
@@ -30,14 +30,14 @@ struct block {
 };
 
 struct Disk {
-    char data[1000];
+    char data[500];
 };
 
 int initFS(void);
 int mountFS(void);
 void syncFS(void);
-void fsInfo(void);
-int makeFile(char * fileName);
+int fsInfo(void);
+void makeFile(char * fileName);
 void setFileSize(int fileNum, int size);
 void writeToByte(int fileNum, int pos, char *data);
 int findFileNum(char* fileName);
@@ -49,4 +49,4 @@ char * findDirName(int id);
 int findDirNum(char * foldName);
 int getCurrDir(void);
 int cd(char * foldName);
-void ls(void);
+int ls(void);

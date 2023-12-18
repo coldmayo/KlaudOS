@@ -246,7 +246,7 @@ void user_input(char *input) {
             }
         } else if (strcmp(input,"klaud clear") == 0) {
             clrscr();
-            newLine(1);
+            newLine(0);
         } else if (strcmp(input,"klaud restart") == 0) {
             memsave(315,"1\0",1);
             printf("Are you sure you want to restart? (y/n)\n> ");
@@ -307,15 +307,15 @@ void user_input(char *input) {
                         plotPoint(coords,22,1);
                     }
                     scroll(22);
-                    newLine(1);
+                    newLine(0);
                 } else if (isNum(input[17]) == 1 || input[17] == '(' && isNum(input[18]) == 1) {
                     plotPoint(slice_str(input,buffer,17,len),22,1);
                     scroll(22);
-                    newLine(1);
+                    newLine(0);
                 } else {
                     scroll(1);
                     printf("Use klaud plot --help for proper syntax");
-                    newLine(1);
+                    newLine(0);
                 }
             } else if (strcmp(slice_str(input,buffer,11,15),"clear") == 0) {
                 clearPoints();
@@ -329,7 +329,7 @@ void user_input(char *input) {
             } else {
                 graph(slice_str(input,buffer,11,len),23);
                 scroll(23);
-                newLine(1);
+                newLine(0);
             }
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud echo")==0) {
             printf("'%s' Klaud said in his native language",slice_str(input,buffer,11,len));
@@ -468,16 +468,27 @@ void user_input(char *input) {
         } else if (strcmp(slice_str(input,buffer,0,10),"klaud mkdir") == 0) {
             char * name = slice_str(input, buffer, 12, len+1);
             makeFolder(name);
-            syncFS();
+            //syncFS();
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,7),"klaud cd") == 0) {
             char * inst = slice_str(input, buffer, 9, len+1);
             cd(inst);
+            //syncFS();
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,7),"klaud ls") == 0) {
-            ls();
-            scroll(3);
-            newLine(1);
+            int i;
+            i = ls();
+            scroll(i+3);
+            newLine(0);
+        } else if (strcmp(slice_str(input,buffer,0,11),"klaud mkfile") == 0) {
+            char * name = slice_str(input, buffer, 13, len+1);
+            makeFile(name);
+            setFileSize(name,200);
+            newLine(0);
+        } else if (strcmp(slice_str(input,buffer,0,11),"klaud fsinfo") == 0) {
+            fsInfo();
+            scroll(18);
+            newLine(0);
         } else {
             printf("You said: %s, which is not a certified Klaud command. Use the klaud --help command.",input);
             scroll(2);

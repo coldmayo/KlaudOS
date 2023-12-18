@@ -24,14 +24,14 @@
 
 * Double Stage Bootloader
 * 32 bit protected mode + gdt
-* FAT12 file system
+* Klaud file system
 * Interrupt handler
 * FPU support
 * Responsive Kernel with commands 
     * visit docs/commands.md to see all possible commands
     * visit demo.mp4
 * Built in x86 assembly and C
-* Fits on a floppy
+* Fits on a floppy disk
 
 ## How To Use
 
@@ -72,7 +72,7 @@ You can download the latest version of KlaudOS <a href="https://github.com/coldm
 
 ## Contact Me
 
-KlaudOS is still under construction and if you have any suggestions it would be cool if you emailed me at <coldmayo@proton.me> and told me anything you want me to know.
+KlaudOS is still under construction and if you have any suggestions or found a bug it would be cool if you emailed me at <coldmayo@proton.me> and told me anything you want me to know.
 
 ## Credits
 

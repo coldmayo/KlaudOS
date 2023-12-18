@@ -1,8 +1,8 @@
 #include "include/stdio.h"
+#include "include/strings.h"
+#include "include/mem.h"
 #include "include/vfs.h"
 #include <stddef.h>
-
-#define BLOCKSIZE 420
 
 struct SuperBlock SB;
 struct inode *inodes;
@@ -27,11 +27,9 @@ int initFS() {
         inodes[i].directory = -1;
         strcpy(inodes[i].name, "klaud__");
     }
-
     for (i=0; i<SB.numBlocks;i++) {
         dbs[i].nextBlockNum = -1;
     }
-    
     for (i=0; i<SB.numDirs;i++) {
         dirs[i].index = -1;
         dirs[i].prevDir = -1;
@@ -53,10 +51,6 @@ int mountFS() {
     SB.sizeBlocks = sizeof(struct block);
     int i;
     memcpy(D.data, &SB, sizeof(struct SuperBlock));
-
-    char inodes[sizeof(struct inode)*SB.numInodes];
-    char dbs[sizeof(struct block)*SB.numBlocks];
-    char dirs[sizeof(struct folder)*SB.numDirs];
 
     for (i=0; i<SB.numInodes; i++) {
         memcpy(D.data, &(inodes[i]), sizeof(struct inode));
@@ -103,25 +97,25 @@ void syncFS() {
     }
 }
 
-void fsInfo() {
+int fsInfo() {
     printf("SuperBlock info:\n");
     printf("# of inodes %d\n", SB.numInodes);
     printf("# of blocks %d\n", SB.numBlocks);
     printf("# of directories %d\n", SB.numDirs);
     printf("block sizes: %d\n", SB.sizeBlocks);
-    printf("inode info:\n");
+    printf("File info:\n");
     int i;
+    int elems;
     for (i=0;i<SB.numInodes; i++) {
         printf("size: %d first block: %d name: %s location: %d\n", inodes[i].size, inodes[i].firstBlock, inodes[i].name, inodes[i].directory);
+        elems++;
     }
-    //printf("block info\n");
-    //for (i=0;i<SB.numBlocks;i++) {
-    //    printf("block num: %d next block %d\n", i, dbs[i].nextBlockNum);
-    //}
-    printf("directory info\n");
+    printf("Directory info\n");
     for (i=0;i<SB.numDirs; i++) {
         printf("dir index: %d prev directory: %d name: %s\n", dirs[i].index, dirs[i].prevDir, dirs[i].name);
+        elems++;
     }
+    return elems;
 }
 
 // find nearest empty inode
@@ -148,14 +142,13 @@ int findEmptyBlock() {
     return -1;
 }
 
-int makeFile(char * fileName) {
+void makeFile(char * fileName) {
     int inode = findEmptyInode();
     int block = findEmptyBlock();
     inodes[inode].firstBlock = block;
     inodes[inode].directory = SB.currDir;
     dbs[block].nextBlockNum = -2;
     strcpy(&(inodes[inode].name), fileName);
-    return inode;
 }
 
 void shortenFile(int begNum) {
@@ -199,6 +192,13 @@ int delFile(int fileNum) {
     inodes[fileNum].directory = -1;
     strcpy(&(inodes[fileNum].name), "klaud__");
     return 0;
+}
+
+int delFolder(char * foldName) {
+    int dirNum = findDirNum(foldName);
+    dirs[dirNum].index = -1;
+    dirs[dirNum].prevDir = -1;
+    strcpy(dirs[dirNum].name, "klaud__");
 }
 
 int getBlockNum (int fileNum, int offset) {
@@ -319,18 +319,22 @@ int cd(char * foldName) {
 
 // list all files in current directory
 
-void ls() {
+int ls() {
     int i;
-    printf("files in this directory:\n");
+    int elems = 0;
+    printf("\nfiles in this directory:\n");
     for (i=0; i<SB.numInodes; i++) {
         if (inodes[i].directory == SB.currDir) {
             printf("%s\n", inodes[i].name);
+            elems++;
         }
     }
     printf("folders in this directory:\n");
     for (i=0; i<SB.numDirs; i++) {
         if (dirs[i].prevDir == SB.currDir) {
             printf("%s\n", dirs[i].name);
+            elems++;
         }
     }
+    return elems;
 }
