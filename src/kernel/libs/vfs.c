@@ -180,7 +180,11 @@ void setFileSize(int fileNum, int size) {
     inodes[fileNum].size = size;
 }
 
-int delFile(int fileNum) {
+int delFile(char * fileName) {
+    int fileNum = findFileNum(fileName);
+    if (fileNum == -1) {
+        return -1;
+    }
     int i;
     int start = inodes[fileNum].firstBlock;
     int end = inodes[fileNum].size/BLOCKSIZE + start;
@@ -196,9 +200,13 @@ int delFile(int fileNum) {
 
 int delFolder(char * foldName) {
     int dirNum = findDirNum(foldName);
+    if (dirNum == -1) {
+        return -1;
+    }
     dirs[dirNum].index = -1;
     dirs[dirNum].prevDir = -1;
     strcpy(dirs[dirNum].name, "klaud__");
+    return 0;
 }
 
 int getBlockNum (int fileNum, int offset) {

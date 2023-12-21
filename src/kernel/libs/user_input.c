@@ -20,8 +20,7 @@ struct diceGameInfo {
     int klaudMoney;
 };
 
-// user input function. This could rank in my top 10 ugliest pieces of code to date. I'm
-// sure as hell not fixing it lmao
+// user input function
 
 // adr 311: rizz
 // adr 313: dice
@@ -36,6 +35,7 @@ void user_input(char *input) {
     input = lower(input);
     uint8_t numLst[] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
     char clrLst[15][17] = {"blue","green","cyan","red","purple","orange","white","grey","light blue"};
+    int err;
     if (memread(311,311)[0]=='1') {
         input[strlen(input)-1] = '\0';
         int score = rizzScore(input);
@@ -51,9 +51,9 @@ void user_input(char *input) {
             printf("%s",memread(700,791));
             scroll(3);
         }
-        printf(" he said in his native language\n");
+        printf(" he said in his native language");
         memsave(311,"0",1);
-        printf("> ");
+        newLine(1);
     } else if (memread(313,313)[0]=='1') {
         input[strlen(input)-1] = '\0';
         if (strcmp(input,"exit") != 0) {
@@ -137,6 +137,7 @@ void user_input(char *input) {
         } else if (strcmp(input, "klaud startup") == 0) {
             startUp();
             scroll(2);
+            newLine(0);
         } else if (strcmp(input,"klaud ascii") == 0) {
             klaud_ascii();
             newLine(1);
@@ -327,8 +328,12 @@ void user_input(char *input) {
                 scroll(6);
                 newLine(1);
             } else {
-                graph(slice_str(input,buffer,11,len),23);
-                scroll(23);
+                err = graph(slice_str(input,buffer,11,len),23);
+                if (err == -1) {
+                    scroll(1);
+                } else {
+                    scroll(23);
+                }
                 newLine(0);
             }
         } else if (strcmp(slice_str(input,buffer,0,9),"klaud echo")==0) {
@@ -468,12 +473,14 @@ void user_input(char *input) {
         } else if (strcmp(slice_str(input,buffer,0,10),"klaud mkdir") == 0) {
             char * name = slice_str(input, buffer, 12, len+1);
             makeFolder(name);
-            //syncFS();
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,7),"klaud cd") == 0) {
             char * inst = slice_str(input, buffer, 9, len+1);
-            cd(inst);
-            //syncFS();
+            err = cd(inst);
+            if (err == -1) {
+                printf("%s is not the name of any folder in your current directory\nUse the 'klaud' ls command to see what folders are in your current directory\n", inst);
+                scroll(2);
+            }
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,7),"klaud ls") == 0) {
             int i;
@@ -488,6 +495,22 @@ void user_input(char *input) {
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud fsinfo") == 0) {
             fsInfo();
             scroll(18);
+            newLine(0);
+        } else if (strcmp(slice_str(input,buffer,0,12),"klaud filedel") == 0) {
+            char * name = slice_str(input, buffer, 14, len+1);
+            err = delFile(name);
+            if (err == -1) {
+                printf("%s is not the name of a file on this system\n");
+                scroll(1);
+            }
+            newLine(0);
+        } else if (strcmp(slice_str(input,buffer,0,11),"klaud dirdel") == 0) {
+            char * name = slice_str(input, buffer, 13, len+1);
+            err = delFolder(name);
+            if (err == -1) {
+                printf("%s is not the name of a folder on this system\n");
+                scroll(1);
+            }
             newLine(0);
         } else {
             printf("You said: %s, which is not a certified Klaud command. Use the klaud --help command.",input);

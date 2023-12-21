@@ -133,6 +133,14 @@ Changes the current directory (works the same as it does in Linux).<br>
 Makes a file in whatever directory you're in. Files are 200 bytes large.<br>
 ![mkfile](../assets/mkfile.png)
 
+### klaud filedel
+Deletes file from the system.<br>
+![filedel](../assets/filedel.png)
+
+### klaud dirdel
+Deletes folder from the system<br>
+![dirdel](../assets/dirdel.png)
+
 ## Math
 
 ### klaud math

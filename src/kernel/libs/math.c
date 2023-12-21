@@ -31,7 +31,6 @@ int factorial(int x) {
 
 // function for 4 function calculator, very important
 // added PEMDAS :D
-// could be the worst possible way to do this but oh well ¯\_(ツ)_/¯
 
 int calc(char * str) {
     int numTokens[30];
@@ -92,8 +91,8 @@ int calc(char * str) {
                     int new = str[i] - '0';
                     val += new;
                 } else if (isLet(str[i]) == 1) {
-                    printf("%c does this look like a letter? Error: ", str[i]);
-                    return 1;
+                    printf("Error: does %c look like a number to you?\n", str[i]);
+                    return -1;
                 }
         }
     }
@@ -186,19 +185,16 @@ int eval(char *input,int k) {
                 buffer[j] = '1';
                 buffer[j+1] = '0';
                 j++;
-                //printf("%s ",buffer);
             } else if (k < 10) {
                 j = i;
                 char * num = itoa(k);
                 buffer[j] = num[0];
-                //printf("%s ",buffer);
             } else if (k > 10) {
                 j = i;
                 char * num = itoa(k);
                 buffer[j] = num[0];
                 buffer[j+1] = num[1];
                 j++;
-                //printf("%s ",buffer);
             }
         } else {
             buffer[j] = input[i];
@@ -211,13 +207,16 @@ int eval(char *input,int k) {
 
 // make text based plots from given function
 
-void graph(char *input,int yhi) {
+int graph(char *input,int yhi) {
     clrscr();
     int x;
     int y;
     for (y=yhi;y>=1;y--) {
         for (x=1;x<=80;x++) {
             int f = eval(input,x);
+            if (f == -1) {
+                return -1;
+            }
             if (y == f) {
                 printf("o");
             } else if (x == 1 && y == 1 && y != f) {
@@ -231,6 +230,7 @@ void graph(char *input,int yhi) {
             }
         }
     }
+    return 0;
 }
 
 // clear the points saved

@@ -42,7 +42,7 @@ void setFileSize(int fileNum, int size);
 void writeToByte(int fileNum, int pos, char *data);
 int findFileNum(char* fileName);
 int unmountFS(void);
-int delFile(int fileNum);
+int delFile(char * fileName);
 void clearAllData(void);
 void makeFolder(char * foldName);
 char * findDirName(int id);
