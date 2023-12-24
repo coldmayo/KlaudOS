@@ -20,6 +20,8 @@ struct diceGameInfo {
     int klaudMoney;
 };
 
+struct diceGameInfo DCI;
+
 // user input function
 
 // adr 311: rizz
@@ -28,7 +30,6 @@ struct diceGameInfo {
 // adr 317: caps lock
 
 void user_input(char *input) {
-    struct diceGameInfo DCI;
     int len = strlen(input);
     char buffer[len + 1];
     printf("\0");
@@ -77,6 +78,9 @@ void user_input(char *input) {
                 printf("'%s' he said in his native language\n",memread(phrase,phrase+40));
                 score = score - bet;
                 bscore = bscore + bet;
+            } else {
+                score = score + bet/2;
+                bscore = bscore + bet/2;
             }
             DCI.playerMoney = score;
             DCI.klaudMoney = bscore;
@@ -89,7 +93,7 @@ void user_input(char *input) {
         } else {
             memsave(313,"0",1);
             clrscr();
-            printf("> ");
+            newLine(0);
         }
     } else if (memread(315,315)[0]=='1') {
         if (strcmp(slice_str(input,buffer,0,2),"yes") == 0 || strcmp(slice_str(input,buffer,0,0),"y") == 0) {
@@ -346,7 +350,7 @@ void user_input(char *input) {
             DCI.klaudMoney = 500;
             clrscr();
             klaud_ascii();
-            printf("your money:%d, klaud money: %d",DCI.playerMoney,DCI.klaudMoney);
+            printf("your money: %d, klaud money: %d",DCI.playerMoney,DCI.klaudMoney);
             move_curs(9);
             printf("\nPlace bet> ");
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud random") == 0) {
