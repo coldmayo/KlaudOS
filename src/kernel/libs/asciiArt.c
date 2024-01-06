@@ -1,5 +1,6 @@
 #include "include/stdio.h"
 #include "include/disp.h"
+#include "include/fs.h"
 
 void klaud_ascii() {
     puts(                                                                               

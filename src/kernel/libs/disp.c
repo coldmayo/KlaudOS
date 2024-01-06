@@ -12,15 +12,15 @@ struct template {
     uint8_t text;
 };
 
+struct template TMP;
+
 uint8_t textColorChange(uint8_t newCol) {
-    struct template TMP;
     TMP.text = newCol;
     TMP.temp = (TMP.back*0x10)+TMP.text;
     return TMP.temp;
 }
 
 uint8_t backColorChange(uint8_t newCol) {
-    struct template TMP;
     TMP.back = newCol;
     TMP.temp = (TMP.back*0x10)+TMP.text;
     return TMP.temp;
@@ -74,17 +74,15 @@ void fb_string(unsigned int i, char * s, uint8_t color) {
 }
 
 void fb_write(char c, unsigned int i){
-    struct template TMP;
     uint8_t def_col = TMP.temp;
     int c_x = convert(curr_x);
-	  fb_write_cell(c_x*2, c, TMP.text);
+	fb_write_cell(c_x*2, c, TMP.text);
     int xi = c_x%80;
     int y = c_x/80;
     setcursor(xi+1,y);
 }
 
 void fb_clear(unsigned int i){
-    struct template TMP;
     uint8_t def_col = TMP.temp;
     int c_x = convert(curr_x);
     fb_write_cell(c_x*2+1, '`', TMP.back);

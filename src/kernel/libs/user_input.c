@@ -11,7 +11,7 @@
 #include "include/math.h"
 #include "include/disp.h"
 #include "include/strings.h"
-#include "include/vfs.h"
+#include "include/fs.h"
 
 typedef unsigned char uint8_t;
 
@@ -29,19 +29,26 @@ struct diceGameInfo DCI;
 // adr 315: restart
 // adr 317: caps lock
 
-void user_input(char *input) {
+void user_input(char * input) {
     int len = strlen(input);
     char buffer[len + 1];
-    printf("\0");
     input = lower(input);
     uint8_t numLst[] = {0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};
     char clrLst[15][17] = {"blue","green","cyan","red","purple","orange","white","grey","light blue"};
     int err;
+
+    if (memread(315,315)[0] != '1') {
+        if (strcmp(slice_str(input, buffer,0,2),"yes") == 0) {
+            input = slice_str(input, buffer, 3, len);
+        } else if (input[0] == 'y') {
+            input = slice_str(input, buffer, 1, len);
+        }
+    }
+
     if (memread(311,311)[0]=='1') {
         input[strlen(input)-1] = '\0';
         int score = rizzScore(input);
         printf("\n");
-        //printf("%s",input);
         if (score < 0) {
             printf("%s",memread(500,554));
             scroll(3);
@@ -494,9 +501,10 @@ void user_input(char *input) {
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud mkfile") == 0) {
             char * name = slice_str(input, buffer, 13, len+1);
             makeFile(name);
-            setFileSize(name,200);
+            setFileSize(findFileNum(name),200);
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud fsinfo") == 0) {
+            syncFS();
             fsInfo();
             scroll(18);
             newLine(0);

@@ -252,8 +252,6 @@ void printf(const char* fmt, ...) {
 
                     case 'o':   radix = 8; sign = false; number = true;
                                 break;
-
-                    // ignore invalid spec
                     default:    break;
                 }
 
@@ -293,7 +291,6 @@ void printf(const char* fmt, ...) {
                     }
                 }
 
-                // reset state
                 state = PRINTF_STATE_NORMAL;
                 length = PRINTF_LENGTH_DEFAULT;
                 radix = 10;
@@ -387,9 +384,7 @@ int isNum(char num) {
     char arr[30] = "1234567890";
     int i = 0;
     for (i=0;i < strlen(arr);i++) {
-        //printf("%c%c",arr[i],num);
         if (arr[i] == num) {
-            //printf("%c%c",num,arr[i]);
             return 1;
         }
     }

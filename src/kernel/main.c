@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include "include/io.h"
 #include "include/disp.h"
-#include "include/vfs.h"
+#include "include/fs.h"
 
 extern uint8_t __bss_start;
 extern uint8_t __end;

@@ -29,5 +29,5 @@ void beep(unsigned int freq, unsigned int time) {
     }
     PlaySound(freq);
     //stop(time);
-    Quiet();
+    //Quiet();
 }

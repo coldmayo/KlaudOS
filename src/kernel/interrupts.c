@@ -55,7 +55,7 @@ void interrupts_install_idt()
 	pic_remap(PIC_1_OFFSET, PIC_2_OFFSET);
 }
 
-/* Interrupt handlers ********************************************************/
+/// Interrupt handler
 
 void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned int interrupt, __attribute__((unused)) struct stack_state stack) {
 	unsigned char scan_code;
