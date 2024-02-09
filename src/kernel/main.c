@@ -20,13 +20,9 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     HAL_Initialize();
     enable_fpu();
     startUp();
-    // TODO: print out files in boot directory in kernel (works in bootloader)
     memInit();
     interrupts_install_idt();
     initFS();
-    //mountFS();
-    //clearAllData();
-    //printf(findDirName(getCurrDir())); // Prove I actually got the fs working
     scroll(2);
     newLine(0);
 end:

@@ -14,9 +14,9 @@ struct Disk D;
 
 int initFS(void) {
 
-    SB.numInodes = 1;
+    SB.numInodes = 0;
     SB.numBlocks = 100;
-    SB.numDirs = 1;
+    SB.numDirs = 0;
     SB.sizeBlocks = sizeof(struct block);
 
     SB.currDir = 0;
@@ -66,15 +66,13 @@ int fsInfo(void) {
     printf("block sizes: %d\n", SB.sizeBlocks);
     printf("File info:\n");
     int i;
-    int elems;
+    int elems = SB.numInodes + SB.numDirs;
     for (i=0;i<SB.numInodes; i++) {
         printf("size: %d first block: %d name: %s location: %d\n", inodes[i].size, inodes[i].firstBlock, inodes[i].name, inodes[i].directory);
-        elems++;
     }
     printf("Directory info\n");
     for (i=0;i<SB.numDirs; i++) {
         printf("dir index: %d prev directory: %d name: %s\n", dirs[i].index, dirs[i].prevDir, dirs[i].name);
-        elems++;
     }
     return elems;
 }

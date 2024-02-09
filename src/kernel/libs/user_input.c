@@ -505,8 +505,8 @@ void user_input(char * input) {
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud fsinfo") == 0) {
             syncFS();
-            fsInfo();
-            scroll(18);
+            int elems = fsInfo();
+            scroll(7+elems);
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,12),"klaud filedel") == 0) {
             char * name = slice_str(input, buffer, 14, len+1);
