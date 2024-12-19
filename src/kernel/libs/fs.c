@@ -103,6 +103,16 @@ int findEmptyBlock(void) {
 
 int makeFile(char * fileName) {
     addMoreInodes(1);
+
+    int i;
+    for (i=0; i<SB.numInodes; i++) {
+        if (strcmp(fileName, inodes[i].name) == 0) {
+            printf("'%s' name already taken\n", fileName);
+            scroll(1);
+            return -1;
+        }
+    }
+
     int inode = findEmptyInode();
     int block = findEmptyBlock();
     inodes[inode].firstBlock = 1;
@@ -254,6 +264,16 @@ int findEmptyFolder(void) {
 
 void makeFolder(char * foldName) {
     addMoreDirs(1);
+
+    int i;
+    for (i=0; i<SB.numDirs; i++) {
+        if (strcmp(foldName, dirs[i].name) == 0) {
+            printf("'%s' name already taken\n", foldName);
+            scroll(1);
+            return -1;
+        }
+    }
+
     int folder = findEmptyFolder();
     dirs[folder-1].index = folder;
     dirs[folder-1].prevDir = SB.currDir;

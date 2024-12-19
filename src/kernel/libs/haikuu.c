@@ -8,12 +8,11 @@
 
 // I'll fix this bullshit later
 
-void makeLine(int numSyl,int * struc) {
+void makeLine(int numSyl,int * struc, unsigned int start_seed) {
     char noun[30][30] = {"klaud", "mechanic", "trodatome","star wars","booty","troglodyte","cat","automobile","america","subterranean","teleportation","Venezuela","sky","virgin","Dominican Republic","seven syllables typed here","communism and femboys","Saudi Arabia","Avtomat Kalashnikova 1947","Czechoslovakia","Hippopotamus"};
     int nsyl[] = {1,3,3,2,2,3,1,4,4,5,5,4,1,2,7,7,7,6,6,6,5};
     char verb[30][30] = {"is","loves","talks about","begs for","pees on","sees","celebrates","imagines","exchanges", "renegotiates", "encourages", "misremembers", "materializes", "decontaminates", "americanizes", "dematerializes", "territorialized", "overgeneralized"};
     int vsyl[] = {1,1,2,2,2,1,3,3,3,4,4,4,5,5,5,6,6,6};
-
     // makes syllable structure for sentience 
 
     int syl = numSyl;
@@ -59,7 +58,8 @@ void makeLine(int numSyl,int * struc) {
                 }
             }
             //printf("\n");
-            int randNum = abs(randint(2,0));
+            int randNum = abs(randint(2,0,start_seed));
+            start_seed = start_seed + 89899;
             //printf("%d",randNum);
             if (j%2==0) {printf("%s ",noun[ops[randNum]]);}
             else {printf("%s ",verb[ops[randNum]]);}
@@ -82,7 +82,8 @@ void makeLine(int numSyl,int * struc) {
                 }
             }
             //printf("\n");
-            int randNum = abs(randint(2,0));
+            int randNum = abs(randint(2,0, start_seed));
+            start_seed = start_seed + 100010;
             //printf("%d",randNum);
             if (j%2==0 || j==i-1) {printf("%s ",noun[ops[randNum]]);}
             else {printf("%s ",verb[ops[randNum]]);}
@@ -97,7 +98,8 @@ void makeLine(int numSyl,int * struc) {
                     l++;
                 }
             }
-            int randNum = abs(randint(2,0));
+            int randNum = abs(randint(2,0, start_seed));
+            start_seed = start_seed + 19230;
             //printf("%d",randNum);
             if (j%2==0 || j==i-1) {printf("%s ",noun[ops[randNum]]);}
             else {printf("%s ",verb[ops[randNum]]);}
@@ -107,7 +109,8 @@ void makeLine(int numSyl,int * struc) {
 
 void haikuu(void) {
     int struc[7];
-    makeLine(5,struc);
-    makeLine(7,struc);
-    makeLine(5,struc);
+    unsigned int seed = 100;
+    makeLine(5,struc, seed);
+    makeLine(7,struc, seed+100);
+    makeLine(5,struc, seed+200);
 }

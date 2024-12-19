@@ -2,6 +2,7 @@
 #include "include/mem.h"	
 #include "include/strings.h"
 #include "include/stdio.h"
+#include "include/stdio.h"
 
 static char *fb = (char *)0x000B8000;
 char curr_x[6];
@@ -14,20 +15,39 @@ struct template {
 
 struct template TMP;
 
-uint8_t textColorChange(uint8_t newCol) {
-    TMP.text = newCol;
-    TMP.temp = (TMP.back*0x10)+TMP.text;
-    return TMP.temp;
-}
-
-uint8_t backColorChange(uint8_t newCol) {
-    TMP.back = newCol;
-    TMP.temp = (TMP.back*0x10)+TMP.text;
-    return TMP.temp;
-}
-
 void reset() {
     memcpy(curr_x,itoa(2),strlen(itoa(100))+3);
+}
+
+uint8_t textColorChange(uint8_t newCol, uint8_t old) {
+    clrscr();
+    TMP.text = newCol;
+    TMP.back = old - (old%10);
+    TMP.temp = (TMP.back)+TMP.text;
+    for (int y = 0; y < 25; y++)
+    for (int x = 0; x < 80; x++) {
+        putchr(x, y, '\0');
+        putcolor(x, y, TMP.temp);
+    }
+
+    reset();
+    scroll(1);
+    return TMP.temp;
+}
+
+uint8_t backColorChange(uint8_t newCol, uint8_t old) {
+    clrscr();
+    TMP.back = newCol;
+    TMP.text = old%10;
+    TMP.temp = (TMP.back*0x10)+TMP.text;
+    for (int y = 0; y < 25; y++)
+    for (int x = 0; x < 80; x++) {
+        putchr(x, y, '\0');
+        putcolor(x, y, TMP.temp);
+    }
+    reset();
+    scroll(1);
+    return TMP.temp;
 }
 
 void move_curs(int x) {

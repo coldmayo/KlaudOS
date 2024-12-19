@@ -22,6 +22,13 @@ struct diceGameInfo {
 
 struct diceGameInfo DCI;
 
+struct plebus {
+    uint8_t setting;
+    int settChange;
+};
+
+struct plebus SET;
+
 // user input function
 
 // adr 311: rizz
@@ -147,7 +154,7 @@ void user_input(char * input) {
             newLine(2);
         } else if (strcmp(input, "klaud startup") == 0) {
             startUp();
-            scroll(2);
+            scroll(3);
             newLine(0);
         } else if (strcmp(input,"klaud ascii") == 0) {
             klaud_ascii();
@@ -187,19 +194,22 @@ void user_input(char * input) {
             } else if (strcmp(input,"klaud text-color random") == 0) {
                 int arrMax = *(&numLst + 1) - numLst - 1;
                 int randCol = abs(randint(arrMax-1,1));
-                changeColor(textColorChange(numLst[randCol]));
+                if (SET.settChange != 1) {SET.setting = 0x7;SET.settChange = 1;}
+                SET.setting = textColorChange(numLst[randCol], SET.setting);
                 printf("> Color changed to %s",clrLst[randCol]);
                 newLine(1);
             } else {
                 int used = 0;
                 for (int i = 0; i<17; i++) {
                     if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
-                        changeColor(textColorChange(numLst[i]));
+                        if (SET.settChange != 1) {SET.setting = 0x7;SET.settChange = 1;}
+                        SET.setting = textColorChange(numLst[i], SET.setting);
                         used++;
                         printf("Color changed to %s",clrLst[i]);
                         newLine(1);
                     } else if (strcmp(slice_str(input,buffer,17,len),"default") == 0) {
                         changeColor(numLst[6]);
+                        SET.settChange = 0;
                         used++;
                         printf("Color changed to default");
                         newLine(1);
@@ -232,16 +242,18 @@ void user_input(char * input) {
             } else if (strcmp(input,"klaud back-color random") == 0) {
                 int arrMax = *(&numLst + 1) - numLst - 1;
                 int randCol = abs(randint(arrMax-1,1));
-                changeColor(backColorChange(numLst[randCol]));
+                if (SET.settChange != 1) {SET.setting = 0x7;SET.settChange = 1;}
+                SET.setting = backColorChange(numLst[randCol], SET.setting);
                 printf("> Color changed to %s",clrLst[randCol]);
                 newLine(1);
             } else {
                 int used = 0;
                 for (int i = 0; i<17; i++) {
                     if (strcmp(slice_str(input,buffer,17,len),clrLst[i]) == 0) {
-                        changeColor(backColorChange(numLst[i]));
+                        if (SET.settChange != 1) {SET.setting = 0x7;SET.settChange = 1;}
+                        SET.setting = backColorChange(numLst[i], SET.setting);
                         used++;
-                        printf("> Color changed to %s",clrLst[i]);
+                        printf("> Color changed to %s %s",clrLst[i], (int)SET.setting);
                         newLine(1);
                     } else if (strcmp(slice_str(input,buffer,17,len),"default") == 0) {
                         changeColor(numLst[6]);
@@ -501,7 +513,7 @@ void user_input(char * input) {
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud mkfile") == 0) {
             char * name = slice_str(input, buffer, 13, len+1);
             makeFile(name);
-            setFileSize(findFileNum(name),200);
+            //setFileSize(findFileNum(name),200);
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,11),"klaud fsinfo") == 0) {
             syncFS();
@@ -524,6 +536,12 @@ void user_input(char * input) {
                 scroll(1);
             }
             newLine(0);
+        } else if (strcmp(slice_str(input, buffer, 0, 13), "klaud uptime") == 0) {
+			unsigned int time = get_update_seconds();
+			int * uptime = better_time(time);
+			printf("Uptime: %dd %dm %ds\n", uptime[0], uptime[1], uptime[2]);
+			scroll(1);
+			newLine(0);
         } else {
             printf("You said: %s, which is not a certified Klaud command. Use the klaud --help command.",input);
             scroll(2);

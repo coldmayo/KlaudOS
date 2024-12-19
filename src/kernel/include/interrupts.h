@@ -1,6 +1,8 @@
 #ifndef INCLUDE_INTERRUPTS
 #define INCLUDE_INTERRUPTS
 
+#include <stdint.h>
+
 struct IDT 
 {
 	unsigned short size;
@@ -24,7 +26,7 @@ void interrupts_install_idt();
 void load_idt(unsigned int idt_address);
 void interrupt_handler_33();
 void interrupt_handler_14();
-void interrupt_handler_0();
+void interrupt_handler_32();
 
 struct cpu_state {
 	unsigned int eax;
@@ -45,5 +47,10 @@ struct stack_state {
 
 void interrupt_handler(struct cpu_state cpu, unsigned int interrupt, struct stack_state stack);
 
+int * better_time(unsigned int time);
+
+double get_update_seconds();
+
+uint64_t get_ticks();
 
 #endif /* INCLUDE_INTERRUPTS */

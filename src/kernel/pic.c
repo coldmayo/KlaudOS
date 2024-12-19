@@ -27,7 +27,8 @@ void pic_remap(int offset1, int offset2)
 	i686_outb(PIC_2_DATA, PIC_ICW4_8086);
 
     // Setup Interrupt Mask Register (IMR)
-	i686_outb(PIC_1_DATA, 0xFD); // 1111 1101 - Enable IRQ 1 only (keyboard).
+    //i686_outb(PIC_1_DATA, 0xFE); // Enable IRQ 0, timer
+	i686_outb(PIC_1_DATA, 0xFC); // 1111 1101 - Enable IRQ 1 and 0 only (keyboard + timer).
 	i686_outb(PIC_2_DATA, 0xFF);
 
 	asm("sti"); // Enable interrupts.

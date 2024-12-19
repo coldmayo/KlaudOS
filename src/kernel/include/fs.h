@@ -52,3 +52,5 @@ int cd(char * foldName);
 int ls(void);
 char * findDirName(int id);
 int delFolder(char * foldName);
+void addMoreInodes(int num);
+void addMoreDirs(int num);

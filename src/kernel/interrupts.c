@@ -14,16 +14,18 @@
 
 #define INTERRUPTS_DESCRIPTOR_COUNT 256 
 #define INTERRUPTS_KEYBOARD 33
-#define INTERRUPTS_TIMER 32 
+#define INTERRUPTS_TIMER 32
+#define PIT_FREQ 1193182
+#define PIT_COMMAND 0x43
+#define PIT_CHANNEL0 0x40
 unsigned int BUFFER_COUNT;
 int lim = 0;
 int cursPos = 0;
-
+volatile uint64_t ticks = 0;
 struct IDTDescriptor idt_descriptors[INTERRUPTS_DESCRIPTOR_COUNT];
 struct IDT idt;
 
-void interrupts_init_descriptor(int index, unsigned int address)
-{
+void interrupts_init_descriptor(int index, unsigned int address) {
 	idt_descriptors[index].offset_high = (address >> 16) & 0xFFFF; // offset bits 0..15
 	idt_descriptors[index].offset_low = (address & 0xFFFF); // offset bits 16..31
 
@@ -43,9 +45,8 @@ void interrupts_init_descriptor(int index, unsigned int address)
 						0xe;				// 0b1110=0xE 32-bit interrupt gate
 }
 
-void interrupts_install_idt()
-{
-	interrupts_init_descriptor(INTERRUPTS_TIMER,(unsigned int) interrupt_handler_0);
+void interrupts_install_idt() {
+	interrupts_init_descriptor(INTERRUPTS_TIMER,(unsigned int) interrupt_handler_32);
 	interrupts_init_descriptor(INTERRUPTS_KEYBOARD, (unsigned int) interrupt_handler_33);
 
 	idt.address = (int) &idt_descriptors;
@@ -53,6 +54,36 @@ void interrupts_install_idt()
 	i686_IDT_Load((int) &idt);
 
 	pic_remap(PIC_1_OFFSET, PIC_2_OFFSET);
+
+	pit_init(100);
+}
+
+void pit_init(uint32_t frequency) {
+	uint16_t divisor = PIT_FREQ / frequency;
+	
+	i686_outb(PIT_COMMAND, 0x36);
+	i686_outb(PIT_CHANNEL0, divisor & 0xFF);
+	i686_outb(PIT_CHANNEL0, (divisor >> 8) & 0xFF);
+}
+
+uint64_t get_ticks() {
+	return ticks;
+}
+
+double get_update_seconds() {
+	return (double)ticks / 100;
+}
+
+int * better_time(unsigned int time) {
+	static int ret[3];
+
+	unsigned int days = time / 86400;
+	unsigned int remainig_sexs = time % 86400;
+	unsigned int mins = remainig_sexs / 60;
+	unsigned int sexs = remainig_sexs % 60;
+
+	ret[0] = days; ret[1] = mins; ret[2] = sexs;
+	return ret;
 }
 
 /// Interrupt handler
@@ -141,7 +172,8 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 			pic_acknowledge(interrupt);
 
 			break;
-    case INTERRUPTS_TIMER:
+    	case INTERRUPTS_TIMER:
+        	ticks++;
 			pic_acknowledge(interrupt);
 			break;
 		default:

@@ -19,11 +19,11 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     clrscr();
     HAL_Initialize();
     enable_fpu();
-    startUp();
     memInit();
     interrupts_install_idt();
     initFS();
-    scroll(2);
+    startUp();
+    scroll(3);
     newLine(0);
 end:
     for (;;);

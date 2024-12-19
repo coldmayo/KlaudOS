@@ -18,7 +18,7 @@ int strcmp(char s1[], char s2[]);
 unsigned strlen(const char* str);
 void append(char s[], char n);
 int rand(int seed);
-int randint(int hi, int lo);
+int randint(int hi, int lo, ...);
 char * slice_str(const char * str, char * buffer, int start, int end);
 void abort(void);
 void changeColor(const uint8_t color);

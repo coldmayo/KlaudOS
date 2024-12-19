@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "include/disp.h"
 #include <stdint.h>
+#include "include/interrupts.h"
 
 const char g_HexChars[] = "0123456789abcdef";
 const unsigned SCREEN_WIDTH = 80;
@@ -342,25 +343,33 @@ void append(char s[], char n) {
     s[len+1] = '\0';
 }
 
-// Lehmer random number generator (stolen from wikipedia)
-
 int rand(int seed) {
-    // Precomputed parameters for Schrage's method
-    
-    static int next = 1;
-    static int A = 16807;
-    static int M = 2147483647;   // 2^31 - 1
-    static int q = 127773;       // M / A
-    static int r = 2836;         // M % A
 
-    if (seed) next = seed;
-    next = A * (next % q) - r * (next / q);
-    if (next < 0) next += M;
-    return next;
+	int real_seed = get_ticks();
+
+	if (seed > 0) {
+		int real_seed = real_seed+seed;
+		//printf("%d", real_seed);
+	}
+
+	seed = seed + 100000;
+    return seed;
 }
 
-int randint(int hi, int lo) {
+int randint(int hi, int lo, ...) {
+    va_list args;
     int seed = 0;
+    
+    va_start(args, lo);	
+
+	int seed_prov = va_arg(args, int);
+
+	if (seed_prov) {
+		seed = seed_prov;
+		//printf("%d", seed);
+	}
+
+    va_end(args);
     return (rand(seed)%((hi+1)-lo) + lo);
 }
 

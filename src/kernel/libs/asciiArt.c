@@ -1,6 +1,7 @@
 #include "include/stdio.h"
 #include "include/disp.h"
 #include "include/fs.h"
+#include "include/interrupts.h"
 
 void klaud_ascii() {
     puts(                                                                               
@@ -80,4 +81,7 @@ void startUp() {
     klaud_ascii();
     printf("\n                         Version -- 0.0.6: Oct 2023\n");
     printf("                             Welcome to KlaudOS\n");
+	unsigned int time = get_update_seconds();
+	int * uptime = better_time(time);
+	printf("                              Uptime: %dd %dm %ds\n", uptime[0], uptime[1], uptime[2]);
 }
