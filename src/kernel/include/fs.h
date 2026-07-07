@@ -44,7 +44,7 @@ int findFileNum(char* fileName);
 int unmountFS(void);
 int delFile(char * fileName);
 void clearAllData(void);
-void makeFolder(char * foldName);
+int makeFolder(char * foldName);
 char * findDirName(int id);
 int findDirNum(char * foldName);
 int getCurrDir(void);

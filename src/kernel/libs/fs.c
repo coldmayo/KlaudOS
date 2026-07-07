@@ -2,6 +2,7 @@
 #include "include/strings.h"
 #include "include/mem.h"
 #include "include/fs.h"
+#include "include/disp.h"
 #include <stddef.h>
 
 #define BLOCKSIZE 416
@@ -262,7 +263,7 @@ int findEmptyFolder(void) {
 
 // makes directory
 
-void makeFolder(char * foldName) {
+int makeFolder(char * foldName) {
     addMoreDirs(1);
 
     int i;
@@ -278,6 +279,7 @@ void makeFolder(char * foldName) {
     dirs[folder-1].index = folder;
     dirs[folder-1].prevDir = SB.currDir;
     strcpy(dirs[folder-1].name, foldName);
+    return folder-1;
 }
 
 int findDirNum(char * foldName) {

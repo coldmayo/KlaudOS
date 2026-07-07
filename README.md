@@ -38,10 +38,13 @@
 ### Build from Source
 
 Make sure you have the following software installed before proceeding:
-* gcc
 * make
 * nasm
-* qemu-system-x86
+* qemu-desktop
+* valgrind
+* dosfstools
+* mtools
+* coreutils
 
 ```bash
 # Clone this repository
@@ -51,8 +54,11 @@ $ git clone https://github.com/coldmayo/KlaudOS
 $ cd KlaudOS
 
 # install gcc and binutils
-$ make config
-$ make toolchain
+$ chmod +x build_toolchain.sh
+$ ./build_toolchain.sh
+
+# Once you get the "Installed Successfully" message do the following:
+$ source ~/.bashrc
 
 # make make.sh, run.sh, and clean.sh executable files
 $ chmod +x make.sh

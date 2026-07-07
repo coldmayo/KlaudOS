@@ -34,7 +34,7 @@ start:
     mov ax, 0
     mov ds, ax
     mov es, ax
-    
+
     ; setup stack
     mov ss, ax
     mov sp, 0x7C00      ; first sector saved at this address
@@ -135,10 +135,10 @@ start:
     mov bx, STAGE2_LOAD_OFFSET
 
 .load_kernel_loop:
-    
+
     ; Read next cluster
     mov ax, [stage2_cluster]
-    
+
     add ax, 31                          ; first cluster = (stage2_cluster - 2) * sectors_per_cluster + start_sector
                                         ; start sector = reserved + fats + root directory size = 1 + 18 + 134 = 33
     mov cl, 1
@@ -176,7 +176,7 @@ start:
     jmp .load_kernel_loop
 
 .read_finish:
-    
+
     ; jump to our kernel
     mov dl, [ebr_drive_number]          ; boot device in dl
 
@@ -242,7 +242,7 @@ puts:
     mov si, msg_success
     pop bx
     pop ax
-    pop si    
+    pop si
     ret
 
 ;
@@ -304,7 +304,7 @@ disk_read:
     push cx                             ; temporarily save CL (number of sectors to read)
     call lba_to_chs                     ; compute CHS
     pop ax                              ; AL = number of sectors to read
-    
+
     mov ah, 02h
     mov di, 3                           ; retry count
 
@@ -365,6 +365,6 @@ STAGE2_LOAD_OFFSET      equ 0x500
 
 times 510-($-$$) db 0
 ; magic numba (last two bytes that tell the computer to boot the system)
-dw 0AA55h   ; computer sees this 
+dw 0AA55h   ; computer sees this
 
 buffer:

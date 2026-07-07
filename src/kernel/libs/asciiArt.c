@@ -73,7 +73,7 @@ void newLine(int newLines) {
         printf("\n");
     }
     printf("%s> ", findDirName(getCurrDir()));
-    move_curs(strlen(findDirName(getCurrDir())));
+    move_curs(strlen(findDirName(getCurrDir()))+2);
 }
 
 void startUp() {

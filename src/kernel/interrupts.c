@@ -12,7 +12,7 @@
 #include "include/keyboard.h"
 #include "include/disp.h"
 
-#define INTERRUPTS_DESCRIPTOR_COUNT 256 
+#define INTERRUPTS_DESCRIPTOR_COUNT 256
 #define INTERRUPTS_KEYBOARD 33
 #define INTERRUPTS_TIMER 32
 #define PIT_FREQ 1193182
@@ -45,25 +45,25 @@ void interrupts_init_descriptor(int index, unsigned int address) {
 						0xe;				// 0b1110=0xE 32-bit interrupt gate
 }
 
+void pit_init(uint32_t frequency) {
+	uint16_t divisor = PIT_FREQ / frequency;
+
+	i686_outb(PIT_COMMAND, 0x36);
+	i686_outb(PIT_CHANNEL0, divisor & 0xFF);
+	i686_outb(PIT_CHANNEL0, (divisor >> 8) & 0xFF);
+}
+
 void interrupts_install_idt() {
 	interrupts_init_descriptor(INTERRUPTS_TIMER,(unsigned int) interrupt_handler_32);
 	interrupts_init_descriptor(INTERRUPTS_KEYBOARD, (unsigned int) interrupt_handler_33);
 
 	idt.address = (int) &idt_descriptors;
 	idt.size = sizeof(struct IDTDescriptor) * INTERRUPTS_DESCRIPTOR_COUNT;
-	i686_IDT_Load((int) &idt);
+	i686_IDT_Load((void *) &idt);
 
 	pic_remap(PIC_1_OFFSET, PIC_2_OFFSET);
 
 	pit_init(100);
-}
-
-void pit_init(uint32_t frequency) {
-	uint16_t divisor = PIT_FREQ / frequency;
-	
-	i686_outb(PIT_COMMAND, 0x36);
-	i686_outb(PIT_CHANNEL0, divisor & 0xFF);
-	i686_outb(PIT_CHANNEL0, (divisor >> 8) & 0xFF);
 }
 
 uint64_t get_ticks() {
@@ -168,7 +168,7 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				lim++;
 				cursPos++;
 			}
-			
+
 			pic_acknowledge(interrupt);
 
 			break;

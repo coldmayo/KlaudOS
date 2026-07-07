@@ -17,7 +17,6 @@ $(BUILD_DIR)/klaudOSv0.0.5.img: bootloader kernel
 	@dd if=$(BUILD_DIR)/stage1.bin of=$@ conv=notrunc >/dev/null
 	@mcopy -i $@ $(BUILD_DIR)/stage2.bin "::stage2.bin"
 	@mcopy -i $@ $(BUILD_DIR)/kernel.bin "::kernel.bin"
-	@mmd -i $@ "::mydir"
 	@echo "--> Conjured: " $@
 
 

@@ -1,5 +1,21 @@
 #pragma once
 #include <stdint.h>
+#include <util/binary.h>
+
+typedef struct
+{
+    uint16_t BaseLow;
+    uint16_t SegmentSelector;
+    uint8_t Reserved;
+    uint8_t Flags;
+    uint16_t BaseHigh;
+} __attribute__((packed)) IDTEntry;
+
+typedef struct
+{
+    uint16_t Limit;
+    IDTEntry* Ptr;
+} __attribute__((packed)) IDTDescriptor;
 
 typedef enum
 {
@@ -22,3 +38,4 @@ void i686_IDT_Initialize();
 void i686_IDT_DisableGate(int interrupt);
 void i686_IDT_EnableGate(int interrupt);
 void i686_IDT_SetGate(int interrupt, void* base, uint16_t segmentDescriptor, uint8_t flags);
+void i686_IDT_Load(void* idtDescriptor);
