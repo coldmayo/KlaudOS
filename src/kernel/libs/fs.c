@@ -4,59 +4,105 @@
 #include "include/fs.h"
 #include "include/disp.h"
 #include <stddef.h>
+#include "include/fdc.h"
 
-#define BLOCKSIZE 416
+#define BLOCKSIZE 512
 
 struct SuperBlock SB;
-struct inode *inodes;
-struct block *dbs;
-struct folder *dirs;
-struct Disk D;
+
+static struct FSImage img;
+#define FS_IMAGE_SECTORS ((sizeof(struct FSImage) + 511) / 512)
+#define inodes (img.inodes)
+#define dbs (img.blocks)
+#define dirs (img.dirs)
 
 int initFS(void) {
 
+    if (!init_fdc()) {
+        return -1;
+    }
+
     SB.numInodes = 0;
-    SB.numBlocks = 100;
+    SB.numBlocks = MAX_BLOCKS;
     SB.numDirs = 0;
     SB.sizeBlocks = sizeof(struct block);
 
     SB.currDir = 0;
     SB.ifMounted = 0;
+    SB.magic = KLAUDFS_MAGIC;
 
     int i;
-    for (i=0; i<SB.numInodes; i++) {
+    for (i=0; i<MAX_INODES; i++) {
         inodes[i].size = -1;
         inodes[i].firstBlock = -1;
         inodes[i].directory = -1;
         strcpy(inodes[i].name, "klaud__");
     }
-    for (i=0; i<SB.numBlocks;i++) {
+    printf("inodes zeroed\n");
+    for (i=0; i<MAX_BLOCKS;i++) {
         dbs[i].nextBlockNum = -1;
     }
-    for (i=0; i<SB.numDirs;i++) {
+    printf("blocks zeroed\n");
+    for (i=0; i<MAX_DIRS;i++) {
         dirs[i].index = -1;
         dirs[i].prevDir = -1;
         strcpy(dirs[i].name, "klaud__");
     }
+    printf("dirs zeroed\n");
 
+    syncFS();
+    printf("Syncing done!");
     return 0;
 }
 
+// Takes forever, only do this once at the beginning
 void syncFS(void) {
+    img.sb = SB;
+    fdc_write_sectors(FS_START_LBA, &img, FS_IMAGE_SECTORS);
+}
 
-    memcpy(D.data, &SB, sizeof(struct SuperBlock));
-    int i;
-    for (i=0; i<SB.numInodes; i++) {
-        memcpy(D.data, &(inodes[i]), sizeof(struct inode));
-    }
+void syncRegion(void* struct_ptr, size_t struct_size) {
+    // Calculate byte offset from the start of the global image
+    uint32_t byte_offset = (uint32_t)((uint8_t*)struct_ptr - (uint8_t*)&img);
 
-    for (i = 0; i<SB.numBlocks; i++) {
-        memcpy(D.data, &(dbs[i]), sizeof(struct block));
-    }
+    // Find which sectors contain this data
+    uint32_t start_sector = byte_offset / BLOCKSIZE;
+    uint32_t end_sector = (byte_offset + struct_size + BLOCKSIZE - 1) / BLOCKSIZE;
+    uint32_t num_sectors = end_sector - start_sector;
 
-    for (i=0; i<SB.numDirs; i++) {
-        memcpy(D.data, &(dirs[i]), sizeof(struct folder));
+    uint8_t* data_ptr = (uint8_t*)&img + (start_sector * BLOCKSIZE);
+
+    // Write only the sectors we want
+    for (uint32_t i = 0; i < num_sectors; i++) {
+        fdc_write_sectors(FS_START_LBA + start_sector + i, data_ptr + (i * BLOCKSIZE), 1);
     }
+}
+
+int mountFS(void) {
+    printf("initializing fdc...\n");
+    if (!init_fdc()) {
+        return -1;
+    }
+    printf("FDC initialized\n");
+    if (!fdc_read_sectors(FS_START_LBA, FS_IMAGE_SECTORS, &img)) {
+        return -1;
+    }
+    printf("Data was read\n");
+    SB = img.sb;
+    if (SB.magic != KLAUDFS_MAGIC) {
+        return -1;
+    }
+    printf("Previous FS detected...\n");
+    SB.ifMounted = 1;
+    syncFS();
+    printf("Syncing done!");
+    return 0;
+}
+
+int unmountFS(void) {
+    SB.ifMounted = 0;
+    syncFS();
+    return 0;
 }
 
 int fsInfo(void) {
@@ -120,6 +166,14 @@ int makeFile(char * fileName) {
     inodes[inode].directory = SB.currDir;
     dbs[block].nextBlockNum = -2;
     strcpy(inodes[inode].name, fileName);
+
+    //printf("Syncing inodes");
+    //syncRegion(&inodes[inode], sizeof(struct inode));
+    //printf("Syncing blocks");
+    //syncRegion(&dbs[block], sizeof(struct block));
+    //printf("Syncing SB");
+    //syncRegion(&SB, sizeof(struct SuperBlock));
+    syncFS();
     return inode;
 }
 
@@ -128,7 +182,7 @@ void shortenFile(int begNum) {
     if(nextNum >= 0) {
         shortenFile(nextNum);
     }
-    dbs[begNum].nextBlockNum;
+    dbs[begNum].nextBlockNum = -1;
 }
 
 void setFileSize(int fileNum, int size) {
@@ -279,33 +333,55 @@ int makeFolder(char * foldName) {
     dirs[folder-1].index = folder;
     dirs[folder-1].prevDir = SB.currDir;
     strcpy(dirs[folder-1].name, foldName);
+
+    //syncRegion(&dirs[folder-1], sizeof(struct folder));
+    //syncRegion(&SB, sizeof(struct SuperBlock));
+    syncFS();
     return folder-1;
 }
 
-int findDirNum(char * foldName) {
-    int i;
-    for (i=0;i<SB.numDirs; i++) {
-        if (strcmp(dirs[i].name, foldName) == 0) {
+int findDirNum(char *name) {
+    for (int i = 0; i < SB.numDirs; i++) {
+        if (dirs[i].prevDir == SB.currDir &&
+            strcmp(dirs[i].name, name) == 0)
             return i;
-        }
     }
+
     return -1;
 }
-
 // enter into any directory inside of current directory
 
-int cd(char * foldName) {
-    int toFold = findDirNum(foldName);
-    if (strcmp(foldName, "root") == 0 || strcmp(foldName, ".") == 0 || strcmp(foldName, "\0") == 0) {
-        SB.currDir = 0;   // take it back to root
+int cd(char *name) {
+    //printf("entered cd\n");
+    //printf("ptr=%x\n", name);
+    //printf("0=%x\n", name[0]);
+    //printf("1=%x\n", name[1]);
+    //printf("2=%x\n", name[2]);
+    if (name == NULL || name[0] == '\0') {
+        SB.currDir = 0;
         return 0;
     }
 
-    if (toFold == -1 || dirs[toFold].prevDir != SB.currDir) {
-        return -1;
+    if (strcmp(name, ".") == 0)
+        return 0;
+
+    if (strcmp(name, "..") == 0) {
+        if (SB.currDir != 0)
+            SB.currDir = dirs[SB.currDir - 1].prevDir;
+        return 0;
     }
 
-    SB.currDir = toFold+1;
+    if (strcmp(name, "root") == 0) {
+        SB.currDir = 0;
+        return 0;
+    }
+
+    int dir = findDirNum(name);
+
+    if (dir == -1)
+        return -1;
+
+    SB.currDir = dirs[dir].index;
     return 0;
 }
 
@@ -332,9 +408,9 @@ int ls(void) {
 }
 
 void addMoreInodes(int num) {
-    for (int i = 0; num > i; i++) {
-        SB.numInodes = SB.numInodes+1;
-        int j = SB.numInodes-1;
+    for (int i = 0; num > i && SB.numInodes < MAX_INODES; i++) {
+        SB.numInodes++;
+        int j = SB.numInodes - 1;
         inodes[j].size = -1;
         inodes[j].firstBlock = -1;
         inodes[j].directory = -1;
@@ -343,7 +419,7 @@ void addMoreInodes(int num) {
 }
 
 void addMoreDirs(int num) {
-    for (int i = 0; num > i; i++) {
+    for (int i = 0; num > i && SB.numDirs < MAX_DIRS; i++) {
         SB.numDirs = SB.numDirs + 1;
         int j = SB.numDirs-1;
         dirs[j].index = -1;

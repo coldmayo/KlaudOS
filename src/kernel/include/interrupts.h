@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+extern volatile int line_ready;
+extern char shell_line[256];
+
 struct IDT 
 {
 	unsigned short size;
@@ -27,6 +30,7 @@ void load_idt(unsigned int idt_address);
 void interrupt_handler_33();
 void interrupt_handler_14();
 void interrupt_handler_32();
+void interrupt_handler_38();
 
 struct cpu_state {
 	unsigned int eax;
@@ -53,4 +57,5 @@ double get_update_seconds();
 
 uint64_t get_ticks();
 
+void user_input(char * input);
 #endif /* INCLUDE_INTERRUPTS */

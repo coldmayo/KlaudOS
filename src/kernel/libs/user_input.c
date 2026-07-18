@@ -498,7 +498,13 @@ void user_input(char * input) {
             makeFolder(name);
             newLine(0);
         } else if (strcmp(slice_str(input,buffer,0,7),"klaud cd") == 0) {
-            char * inst = slice_str(input, buffer, 9, len+1);
+            char *inst;
+
+            if (strlen(input) <= 8)
+                inst = "";
+            else
+                inst = input + 9;
+
             err = cd(inst);
             if (err == -1) {
                 printf("%s is not the name of any folder in your current directory\nUse the 'klaud' ls command to see what folders are in your current directory\n", inst);
@@ -535,6 +541,10 @@ void user_input(char * input) {
                 printf("%s is not the name of a folder on this system\n");
                 scroll(1);
             }
+            newLine(0);
+        } else if (strcmp(slice_str(input,buffer,0,9),"klaud sync") == 0) {
+            syncFS();
+            scroll(1);
             newLine(0);
         } else if (strcmp(slice_str(input, buffer, 0, 13), "klaud uptime") == 0) {
 			unsigned int time = get_update_seconds();

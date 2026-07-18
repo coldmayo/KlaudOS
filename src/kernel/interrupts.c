@@ -11,17 +11,25 @@
 #include "include/serial_port.h"
 #include "include/keyboard.h"
 #include "include/disp.h"
+#include "include/fdc.h"
 
 #define INTERRUPTS_DESCRIPTOR_COUNT 256
 #define INTERRUPTS_KEYBOARD 33
 #define INTERRUPTS_TIMER 32
+#define INTERRUPTS_FLOPPY 38
 #define PIT_FREQ 1193182
 #define PIT_COMMAND 0x43
 #define PIT_CHANNEL0 0x40
+#define PIC1_DATA_PORT 0x21
+#define PIC2_DATA_PORT 0xA1
+
 unsigned int BUFFER_COUNT;
 int lim = 0;
 int cursPos = 0;
 volatile uint64_t ticks = 0;
+volatile int line_ready = 0;
+char shell_line[256];
+
 struct IDTDescriptor idt_descriptors[INTERRUPTS_DESCRIPTOR_COUNT];
 struct IDT idt;
 
@@ -53,15 +61,25 @@ void pit_init(uint32_t frequency) {
 	i686_outb(PIT_CHANNEL0, (divisor >> 8) & 0xFF);
 }
 
+static void pic_unmask_irq(uint8_t irq) {
+	uint16_t port = (irq < 8) ? PIC1_DATA_PORT : PIC2_DATA_PORT;
+	uint8_t irq_line = (irq < 8) ? irq : (irq - 8);
+	uint8_t mask = i686_inb(port);
+	mask &= ~(1 << irq_line);
+	i686_outb(port, mask);
+}
+
 void interrupts_install_idt() {
 	interrupts_init_descriptor(INTERRUPTS_TIMER,(unsigned int) interrupt_handler_32);
 	interrupts_init_descriptor(INTERRUPTS_KEYBOARD, (unsigned int) interrupt_handler_33);
+	interrupts_init_descriptor(INTERRUPTS_FLOPPY, (unsigned int) interrupt_handler_38);
 
 	idt.address = (int) &idt_descriptors;
 	idt.size = sizeof(struct IDTDescriptor) * INTERRUPTS_DESCRIPTOR_COUNT;
 	i686_IDT_Load((void *) &idt);
 
 	pic_remap(PIC_1_OFFSET, PIC_2_OFFSET);
+	pic_unmask_irq(6);
 
 	pit_init(100);
 }
@@ -101,7 +119,10 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 			if (scan_code == 28) {
 				printf("\n");
 				fb_write('\n',BUFFER_COUNT);
-				user_input(key_buffer);
+
+				strcpy(shell_line, key_buffer);
+				line_ready = 1;
+
 				memcpy(prevComm,key_buffer,lim+1);
 				// clearing input
 				int i;
@@ -130,6 +151,7 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 				shift = 0;
 				lim++;
 				cursPos++;
+				key_buffer[cursPos] = '\0';
 			} else if (scan_code == 14) {
 				if (lim > 0) {
 					BUFFER_COUNT--;
@@ -174,6 +196,10 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 			break;
     	case INTERRUPTS_TIMER:
         	ticks++;
+			pic_acknowledge(interrupt);
+			break;
+		case INTERRUPTS_FLOPPY:
+			fdc_irq_handler();
 			pic_acknowledge(interrupt);
 			break;
 		default:

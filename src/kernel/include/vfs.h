@@ -1,6 +1,12 @@
 #include "include/stdio.h"
 
-#define BLOCKSIZE 416
+#define BLOCKSIZE   508     // + 4 bytes nextBlockNum = 512 = exactly one sector
+#define MAX_INODES  64
+#define MAX_BLOCKS  100
+#define MAX_DIRS    32
+
+#define FS_DISK_ID   0x81   // second disk in your QEMU setup — adjust to match
+#define FS_START_LBA 50   // first 49 used for
 
 struct SuperBlock {
     int numInodes;
@@ -29,8 +35,11 @@ struct block {
     char data[BLOCKSIZE];
 };
 
-struct Disk {
-    char data[500];
+struct FSImage {
+    struct SuperBlock sb;
+    struct inode  inodes[MAX_INODES];
+    struct block  blocks[MAX_BLOCKS];
+    struct folder dirs[MAX_DIRS];
 };
 
 int initFS(void);

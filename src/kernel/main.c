@@ -9,6 +9,7 @@
 #include "include/io.h"
 #include "include/disp.h"
 #include "include/fs.h"
+#include "include/fdc.h"
 
 extern uint8_t __bss_start;
 extern uint8_t __end;
@@ -31,10 +32,21 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     enable_fpu();
     memInit();
     interrupts_install_idt();
-    initFS();
+    int mount_result = mountFS();
+    printf("mountFS: %d\n", mount_result);
+    if (mount_result != 0) {
+        int init_result = initFS();
+        printf("initFS: %d\n", init_result);
+    }
     startUp();
     scroll(3);
     newLine(0);
-    end:
-    for (;;);
+
+    while (1) {
+        if (line_ready) {
+            line_ready = 0;
+            user_input(shell_line);
+        }
+        asm volatile("hlt");
+    }
 }

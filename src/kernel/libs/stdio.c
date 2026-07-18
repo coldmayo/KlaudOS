@@ -422,8 +422,8 @@ void removeChar(char *str, char garbage) {
 }
 
 char * lower(char * str) {
-    char * low= "0abcdefghijklmnopqrstuvwxyz(){}[]:;,!@#$%^&*/<>+-=_|\\\'";
-    char * up = "0ABCDEFGHIJKLMNOPQRSTUVWXYZ(){}[]:;,!@#$%^&*/<>+-=_|\\\'";
+    char * low= "0abcdefghijklmnopqrstuvwxyz(){}[]:;,.!@#$%^&*/<>+-=_|\\\'";
+    char * up = "0ABCDEFGHIJKLMNOPQRSTUVWXYZ(){}[]:;,.!@#$%^&*/<>+-=_|\\\'";
     int i = 0;
     int j;
     while (strlen(str) > i) {
@@ -445,8 +445,8 @@ char * lower(char * str) {
 }
 
 char * upper(char * str) {
-    char * low= "0abcdefghijklmnopqrstuvwxyz(){}[]:;,!@#$%^&*/<>+-=_|\\\'";
-    char * up = "0ABCDEFGHIJKLMNOPQRSTUVWXYZ(){}[]:;,!@#$%^&*/<>+-=_|\\\'";
+    char * low= "0abcdefghijklmnopqrstuvwxyz(){}[]:;,.!@#$%^&*/<>+-=_|\\\'";
+    char * up = "0ABCDEFGHIJKLMNOPQRSTUVWXYZ(){}[]:;,.!@#$%^&*/<>+-=_|\\\'";
     int i = 0;
     int j;
     while (strlen(str) > i) {
