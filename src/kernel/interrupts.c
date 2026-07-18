@@ -12,11 +12,13 @@
 #include "include/keyboard.h"
 #include "include/disp.h"
 #include "include/fdc.h"
+#include "include/rtc.h"
 
 #define INTERRUPTS_DESCRIPTOR_COUNT 256
 #define INTERRUPTS_KEYBOARD 33
 #define INTERRUPTS_TIMER 32
 #define INTERRUPTS_FLOPPY 38
+#define INTERRUPTS_RTC 40
 #define PIT_FREQ 1193182
 #define PIT_COMMAND 0x43
 #define PIT_CHANNEL0 0x40
@@ -201,6 +203,14 @@ void interrupt_handler(__attribute__((unused)) struct cpu_state cpu, unsigned in
 		case INTERRUPTS_FLOPPY:
 			fdc_irq_handler();
 			pic_acknowledge(interrupt);
+			break;
+		case INTERRUPTS_RTC:
+			rtc_get_datetime();
+
+			i686_outb(0xA0, 0x20);
+			i686_outb(0x20, 0x20);
+
+			from_CMOS_reg(0x0C);
 			break;
 		default:
 			break;

@@ -2,6 +2,7 @@
 #include "include/disp.h"
 #include "include/fs.h"
 #include "include/interrupts.h"
+#include "include/rtc.h"
 
 void klaud_ascii() {
     puts(                                                                               
@@ -77,9 +78,13 @@ void newLine(int newLines) {
 }
 
 void startUp() {
+    char time_str[32];
+    rtc_get_datetime();
+    datetime_to_string(&current_datetime, time_str); 
+    
     clrscr();
     klaud_ascii();
-    printf("\n                         Version -- 0.0.6: Oct 2023\n");
+    printf("\n                  Version -- 0.0.6: %s\n", time_str);
     printf("                             Welcome to KlaudOS\n");
 	unsigned int time = get_update_seconds();
 	int * uptime = better_time(time);

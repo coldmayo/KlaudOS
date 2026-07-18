@@ -48,3 +48,4 @@ common_interrupt_handler:               ; the common parts of the generic interr
 no_error_code_interrupt_handler	33	; create handler for interrupt 1 (keyboard)
 no_error_code_interrupt_handler 32   ; for timer
 no_error_code_interrupt_handler 38   ; for DMA
+no_error_code_interrupt_handler 40   ; RTC

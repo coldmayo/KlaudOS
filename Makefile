@@ -17,25 +17,23 @@ TOTAL_SECTORS   := 2880
 KLAUD_SECTORS   := 880
 
 $(BUILD_DIR)/klaudOSv0.0.5.img: bootloader kernel
-	# 1. Create a full standard 1.44MB floppy image (2880 sectors)
+	# Create a full 1.44MB floppy image (2880 sectors)
 	@dd if=/dev/zero of=$@ bs=512 count=$(TOTAL_SECTORS) >/dev/null
 
-	# 2. Format the entire file as a completely standard floppy disk
+	# Format the entire file as a completely standard floppy disk
 	@mkfs.fat -F 12 -n "NBOS" $@ >/dev/null
 
-	# 3. Patch stage1 back into the FAT12 boot sector
+	# Patch stage1 into the FAT12 boot sector
 	@dd if=$(BUILD_DIR)/stage1.bin of=$@ conv=notrunc >/dev/null
 
-	# 4. Copy your binaries into the FAT12 file space (mcopy handles it cleanly now)
+	# Copy the binaries into the FAT12 file system
 	@mcopy -i $@ $(BUILD_DIR)/stage2.bin "::stage2.bin"
 	@mcopy -i $@ $(BUILD_DIR)/kernel.bin "::kernel.bin"
 
-	# 5. Enforce your custom partition split:
+	# Enforce the partition split:
 	# Manually clear the 880 sectors allocated to KlaudFS starting at sector 2000.
-	# This protects your custom FS logic from reading random residual FAT12 clusters.
 	@dd if=/dev/zero of=$@ bs=512 seek=$(FAT_SECTORS) count=$(KLAUD_SECTORS) conv=notrunc >/dev/null
 	@echo "--> Conjured: " $@
-
 
 # Bootloader
 

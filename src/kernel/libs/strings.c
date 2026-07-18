@@ -59,26 +59,32 @@ int convert(char s[]) {
 }
 
 char *itoa(int nbr) {
-    static char rep[] = "0123456789";
-    static char buff[65];
-    char *ptr;
-    int neg;
+	static char rep[] = "0123456789";
+	static char buff[65];
+	char *ptr;
 
-    ptr = &buff[64];
-    *ptr = '\0';
-    neg = nbr;
-    if (nbr < 0)
-        nbr *= -1;
-    if (nbr == 0)
-        *--ptr = rep[nbr % 10];
-    while (nbr != 0)
-    {
-        *--ptr = rep[nbr % 10];
-        nbr /= 10;
-    }
-    if (neg < 0)
-        *--ptr = '-';
-    return (ptr);
+	ptr = &buff[64];
+	*ptr = '\0';
+
+	// Handle 0 explicitly
+	if (nbr == 0) {
+		*--ptr = '0';
+		return ptr;
+	}
+
+	int is_neg = (nbr < 0);
+	unsigned int abs_nbr = is_neg ? -((unsigned int)nbr) : (unsigned int)nbr;
+
+	while (abs_nbr != 0) {
+		*--ptr = rep[abs_nbr % 10];
+		abs_nbr /= 10;
+	}
+
+	if (is_neg) {
+		*--ptr = '-';
+	}
+
+	return ptr;
 }
 
 char * strcat(char *dst, const char *src) {
