@@ -1,6 +1,7 @@
 #include "include/stdio.h"
 #include "include/strings.h"
 #include "include/math.h"
+#include "include/interrupts.h"
 
 // did i spell haiku wrong? yes. will i change it? no
 
@@ -109,7 +110,7 @@ void makeLine(int numSyl,int * struc, unsigned int start_seed) {
 
 void haikuu(void) {
     int struc[7];
-    unsigned int seed = 100;
+    unsigned int seed = get_ticks();
     makeLine(5,struc, seed);
     makeLine(7,struc, seed+100);
     makeLine(5,struc, seed+200);
